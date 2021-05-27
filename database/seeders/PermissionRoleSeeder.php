@@ -22,6 +22,7 @@ class PermissionRoleSeeder extends Seeder
         // create permissions
 
         Permission::create(['name' => 'modify admin']);
+        Permission::create(['name' => 'modify viewer']);
         Permission::create(['name' => 'modify projects']);
         Permission::create(['name' => 'edit projects']);
         Permission::create(['name' => 'view projects']);
@@ -29,6 +30,7 @@ class PermissionRoleSeeder extends Seeder
         // create roles and assign existing permissions
         $role1 = Role::create(['name' => 'admin']);
         $role1->givePermissionTo('modify admin');
+        $role1->givePermissionTo('modify viewer');
         $role1->givePermissionTo('modify projects');
         $role1->givePermissionTo('view projects');
 

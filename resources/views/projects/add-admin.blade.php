@@ -18,6 +18,7 @@
 
 <div class="col-12">
 
+    @can('modify admin')
     <div class="py-6">
     <h2 class="big-title">Admins list</h2>
     <div class="inside">
@@ -57,7 +58,9 @@
                         <td class="td">
                             <form action="{{ route('addadmin.removeAdmin',$user) }}" method="post">
                                 @csrf
-                                <button type="submit" onclick="return alert('Cannot remove yourself, get other admin to remove you!') ? false : false" class="remove ">remove</button>
+                                <button type="submit" onclick="return alert('Cannot remove yourself, get other admin to remove you!') ? false : false" class="btn btn-xs btn-default text-danger mx-1 shadow">
+                                    <i class="fa fa-lg fa-fw fa-trash"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>
@@ -96,7 +99,9 @@
         @livewire('add-admin')
     </div>
     </div>
+    @endcan
 
+    @can('modify viewer')
     <div class="py-6">
     <h2 class="big-title">Viewers list</h2>
     <div class="inside">
@@ -175,6 +180,7 @@
         @livewire('add-viewer')
     </div>
     </div>
+    @endcan
 
 </div>
 

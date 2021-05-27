@@ -23,9 +23,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 //Admin only
-Route::get('/add_admin', [AddAdminController::class, 'index'])->middleware('permission:modify admin')->name('addadmin');
+Route::get('/add_admin', [AddAdminController::class, 'index'])->middleware('permission:modify admin|modify viewer')->name('addadmin');
 Route::post('/add_admin/a/{admin}/remove', [AddAdminController::class, 'destroyAdmin'])->middleware('permission:modify admin')->name('addadmin.removeAdmin');
-Route::post('/add_admin/v/{admin}/remove', [AddAdminController::class, 'destroyViewer'])->middleware('permission:modify admin')->name('addadmin.removeViewer');
+Route::post('/add_admin/v/{admin}/remove', [AddAdminController::class, 'destroyViewer'])->middleware('permission:modify viewer')->name('addadmin.removeViewer');
 
 Route::view('/admin', 'projects.admin')->middleware('permission:modify projects')->name('admin');
 

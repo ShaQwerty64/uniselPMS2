@@ -239,7 +239,7 @@ return [
         [
             'text' => 'Add Admin',
             'url'  => 'add_admin',
-            'can'  => 'modify admin',
+            'can'  => ['modify admin','modify viewer'],
         ],
         [
             'text' => 'Add Projects',

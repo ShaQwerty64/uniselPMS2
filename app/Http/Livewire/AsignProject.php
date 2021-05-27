@@ -176,10 +176,11 @@ class AsignProject extends Component
                     $bigProject = BigProject::where('default',true)->where('PTJ',$this->PTJ)->get();
                     if (count($bigProject) == 0)
                     {
-                        $project = new BigProject;
-                        $project->name = $this->PTJ . ' default';
-                        $project->default = true;
-                        $project->save();
+                        $project0 = new BigProject;
+                        $project0->name = $this->PTJ . ' default';
+                        $project0->PTJ = $this->PTJ;
+                        $project0->default = true;
+                        $project0->save();
                         $bigProject = BigProject::where('default',true)->where('PTJ',$this->PTJ)->get();
                     }
                     $bigProject[0]->sub_projects()->save($project);
@@ -201,6 +202,7 @@ class AsignProject extends Component
                     {
                         $project = new BigProject;
                         $project->name = $this->PTJ . ' default';
+                        $project->PTJ = $this->PTJ;
                         $project->default = true;
                         $project->save();
                     }
@@ -233,6 +235,9 @@ class AsignProject extends Component
                     $request->session()->flash('flash.banner', '"' . $this->searchP . '" project added to "' . $bigProject->name . '" and assigned to "' . $this->theUser->name . '"!');
                 }
             }
+
+            $this->reAllUsersManager();
+
             $request->session()->flash('flash.bannerStyle', 'success');//danger
             $this->search = '';
             $this->searchP = '';
@@ -240,6 +245,25 @@ class AsignProject extends Component
         }
         $request->session()->flash('flash.banner', 'Something is missing?');
         $request->session()->flash('flash.bannerStyle', 'danger');
+    }
+
+    public function reAllUsersManager(){
+        foreach (User::role('projMan')->get() as $user){
+            // if ($user->hasPermissionTo('edit projects')){
+                // $user->revokePermissionTo('edit projects');
+            // }$user->hasRole('projMan');
+            $user->removeRole('projMan');
+        }
+        foreach (BigProject::all() as $bigProject){
+            foreach ($bigProject->users as $user){
+                $user->assignRole('projMan');
+            }
+            foreach ($bigProject->sub_projects as $subProject){
+                foreach ($subProject->users as $user){
+                    $user->assignRole('projMan');
+                }
+            }
+        }
     }
 
     public function render()

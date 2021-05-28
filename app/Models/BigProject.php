@@ -16,4 +16,11 @@ class BigProject extends Model
     public function users(){
         return $this->belongsToMany(User::class,'user_big_project_relationships');
     }
+
+    public function notHaveBig(){
+        if ($this->default){
+            return BigProject::where('default',false)->where('PTJ',$this->PTJ)->count() == 0;
+        }
+        return true;
+    }
 }

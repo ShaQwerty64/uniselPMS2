@@ -10,15 +10,30 @@
         @elseif ($bigProject->name == 'JPP default')
             <div class="ptj-big jpp-big">JPP</div>
         @else
+            @php
+            $v = 'purple';
+            $vc = '';
+            if ($bigProject->PTJ == 'CICT'){
+                $v = 'yellow';
+                $vc = 'cict-sm';
+            }
+            elseif ($bigProject->PTJ == 'Aset') {
+                $v = 'blue';
+                $vc = 'aset-sm';
+            }
+            else {
+                $v = 'green';
+                $vc = 'jpp-sm';
+            }
+            @endphp
+            <x-adminlte-modal id="modalbigproj{{ $bigProject->id }}" title="{{$bigProject->name}}" theme="{{ $v }}"
+            icon="fas fa-info-circle" size='lg'>
+            This is a something but bigger.
+            </x-adminlte-modal>
             <div class="ptj-outside">
-                <div class="bigprojname">{{$bigProject->name}}</div>
-                @if ($bigProject->PTJ == 'CICT')
-                    <div class="ptj-sm cict-sm">(CICT)</div>
-                @elseif ($bigProject->PTJ == 'Aset')
-                    <div class="ptj-sm aset-sm">(Aset)</div>
-                @else
-                    <div class="ptj-sm jpp-sm">(JPP)</div>
-                @endif
+                {{-- button to open modal --}}
+                <x-adminlte-button label="{{ $bigProject->name }}  ({{ $bigProject->PTJ }})"
+                    data-toggle="modal" data-target="#modalbigproj{{ $bigProject->id }}" class="projbutton ptj-sm {{ $vc }}"/>
             </div>
         @endif
 
@@ -40,7 +55,26 @@
                         <div class="subprojuser">{{ $project->users[0]->name }}</div>
                         <div>{{ $project->users[0]->email }}</div>
                     </td>
-                    <td class="subprojname">{{ $project->name }}</td>
+                    @php
+                        $w = 'purple';
+                        if ($bigProject->PTJ == 'CICT'){
+                            $w = 'yellow';
+                        }
+                        elseif ($bigProject->PTJ == 'Aset') {
+                            $w = 'blue';
+                        }
+                        else {
+                            $w = 'green';
+                        }
+                    @endphp
+                    <td class="subprojname">
+                        <x-adminlte-modal id="modalsubproj{{ $project->id }}" title="{{$project->name}}" theme="{{ $w }}"
+                        icon="fas fa-info-circle" size='lg'>
+                        This is a something.
+                        </x-adminlte-modal>
+                        {{-- button to open modal --}}
+                        <x-adminlte-button label="{{ $project->name }}" data-toggle="modal" data-target="#modalsubproj{{ $project->id }}" class="projbutton"/>
+                    </td>
                     <td class="td">
                         @php
                             $x = $project->progress;
@@ -60,7 +94,9 @@
             </table>
             @endif
         @empty
-            <div class="empty"> No project yet</div>
+        @if ($bigProject->notHaveBig())
+            <div class="empty"> No project yet.</div>
+        @endif
         @endforelse
     @empty
         <div class="empty"> No project yet</div>

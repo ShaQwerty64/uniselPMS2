@@ -236,15 +236,14 @@ class AsignProject extends Component
                 }
             }
 
-            $this->reAllUsersManager();
+            // $this->reAllUsersManager();
+            $this->theUser->assignRole('projMan');
 
             $request->session()->flash('flash.bannerStyle', 'success');//danger
             $this->search = '';
             $this->searchP = '';
             return redirect()->route('admin');
         }
-        $request->session()->flash('flash.banner', 'Something is missing?');
-        $request->session()->flash('flash.bannerStyle', 'danger');
     }
 
     public function reAllUsersManager(){

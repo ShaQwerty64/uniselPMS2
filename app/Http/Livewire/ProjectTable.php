@@ -12,9 +12,7 @@ class ProjectTable extends Component
 
     public function render()
     {
-        //things to remember: startup database PTJ defaults
         $this->bigProjects = BigProject::with(['sub_projects', 'users'])->orderBy('PTJ', 'asc')->get();
-
         return view('livewire.project-table');
     }
 }

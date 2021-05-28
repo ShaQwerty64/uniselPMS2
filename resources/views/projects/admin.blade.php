@@ -35,6 +35,18 @@
     padding-top: 1.5rem/* 24px */;
     padding-bottom: 1.5rem/* 24px */;
 }
+.projbutton{
+    --tw-bg-opacity: 0;
+    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+    --tw-divide-opacity: 0;
+    border-color: rgba(255, 255, 255, var(--tw-divide-opacity));
+    height: 100%;
+    width: 100%;
+    /* font-bold */
+    font-weight: 700;
+    /* text-center */
+    text-align: center;
+}
 .respon-2grid{
     /* grid */
     display: grid;
@@ -207,10 +219,6 @@
 .subprojname{
     /* p-3 */
     padding: 0.75rem/* 12px */;
-    /* font-bold */
-    font-weight: 700;
-    /* text-center */
-    text-align: center;
 }
 .ptj-sm{
     /* p-1 */

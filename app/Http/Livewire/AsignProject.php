@@ -162,12 +162,13 @@ class AsignProject extends Component
     {
         if ($this->ifRegistered && $this->searchP != '')
         {
+            $message = '';
             if ($this->theBigProject == '[None]')
             {
                 if ($this->ifReal)
                 {
                     $this->theUser->sub_projects()->save($this->theProject);
-                    $request->session()->flash('flash.banner', '"' . $this->searchP . '" project assigned to "' . $this->theUser->name . '"!');
+                    $message = '"' . $this->searchP . '" project assigned to "' . $this->theUser->name . '"!';
                 }
                 else
                 {
@@ -186,7 +187,7 @@ class AsignProject extends Component
                     $bigProject[0]->sub_projects()->save($project);
                     $this->theUser->sub_projects()->save($project);
 
-                    $request->session()->flash('flash.banner', '"' . $this->searchP . '" project added and assigned to "' . $this->theUser->name . '"!');
+                    $message = '"' . $this->searchP . '" project added and assigned to "' . $this->theUser->name . '"!';
                 }
             }
             elseif ($this->theBigProject == '[Make New Big Project]')
@@ -194,7 +195,7 @@ class AsignProject extends Component
                 if ($this->ifReal)
                 {
                     $this->theUser->big_projects()->save($this->theProject);
-                    $request->session()->flash('flash.banner', '"' . $this->searchP . '" big project assigned to "' . $this->theUser->name . '"!');
+                    $message = '"' . $this->searchP . '" big project assigned to "' . $this->theUser->name . '"!';
                 }
                 else
                 {
@@ -213,7 +214,7 @@ class AsignProject extends Component
                     $project->save();
                     $this->theUser->big_projects()->save($project);
 
-                    $request->session()->flash('flash.banner', '"' . $this->searchP . '" big project added and assigned to "' . $this->theUser->name . '"!');
+                    $message = '"' . $this->searchP . '" big project added and assigned to "' . $this->theUser->name . '"!';
                 }
             }
             else
@@ -221,7 +222,7 @@ class AsignProject extends Component
                 if ($this->ifReal)
                 {
                     $this->theUser->sub_projects()->save($this->theProject);
-                    $request->session()->flash('flash.banner', '"' . $this->searchP . '" project assigned to "' . $this->theUser->name . '"!');
+                    $message = '"' . $this->searchP . '" project assigned to "' . $this->theUser->name . '"!';
                 }
                 else
                 {
@@ -232,14 +233,15 @@ class AsignProject extends Component
                     $project->save();
                     $this->theUser->sub_projects()->save($project);
 
-                    $request->session()->flash('flash.banner', '"' . $this->searchP . '" project added to "' . $bigProject->name . '" and assigned to "' . $this->theUser->name . '"!');
+                    $message = '"' . $this->searchP . '" project added to "' . $bigProject->name . '" and assigned to "' . $this->theUser->name . '"!';
                 }
             }
 
+            $request->session()->flash('banner.m', $message);
+            $request->session()->flash('banner.t', 's');
             // $this->reAllUsersManager();
             $this->theUser->assignRole('projMan');
 
-            $request->session()->flash('flash.bannerStyle', 'success');//danger
             $this->search = '';
             $this->searchP = '';
             return redirect()->route('admin');
@@ -265,7 +267,7 @@ class AsignProject extends Component
         }
     }
 
-    public function render()
+    public function render(Request $request)
     {
         if ($this->search != '' && $this->active)
         {

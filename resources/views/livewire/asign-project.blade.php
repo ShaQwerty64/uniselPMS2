@@ -1,4 +1,5 @@
-<div class="outside02">
+    <div class="outside02">
+
     <div class="d-flex">
         <p>For asigning user to project.</p>
         <div wire:loading class="loading">

@@ -15,7 +15,7 @@ class CreateMilestonesTable extends Migration
     {
         Schema::create('milestones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sub_project_id')->constrained();
+            $table->foreignId('sub_project_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->text('details')->nullable();
             $table->date('start_date')->nullable();

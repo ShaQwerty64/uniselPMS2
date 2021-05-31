@@ -21,4 +21,30 @@
 // Custom
 @import "custom";
 
-//Somethings
+// @import "bootstrap/scss/functions";
+// @import "bootstrap/scss/variables";
+// @import "bootstrap/scss/utilities";
+
+// $utilities: map-merge(
+//     $utilities,
+//     (
+//         "cursor": (
+//         property: cursor,
+//         class: cursor,
+//         responsive: true,
+//         values: auto pointer grab,
+//         )
+//     )
+// );
+
+// $spacer: 1rem;
+// $spacers: (
+// 0: 0,
+// 1: $spacer / 4,
+// 2: $spacer / 2,
+// 3: $spacer,
+// 4: $spacer * 1.5,
+// 5: $spacer * 3,
+// );
+
+// $negative-spacers: if($enable-negative-margins, negativify-map($spacers), null);

@@ -20,7 +20,6 @@ class PermissionRoleSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create permissions
-
         Permission::create(['name' => 'modify admin']);
         Permission::create(['name' => 'modify viewer']);
         Permission::create(['name' => 'modify projects']);

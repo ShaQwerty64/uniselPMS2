@@ -8,10 +8,20 @@
 
 @section('content')
 
+@livewire('banner')
+{{--
+    $request->session()->flash('banner.m', $message);
+    $request->session()->flash('banner.s', 's');
+    s = success
+    w = warning
+    d = danger
+    '' = message
+ --}}
+
 <div class="col-12">
 <div class="respon-2grid">
 
-    <div class="py-6">
+    <div class="py-4">
     <div class="outside outside1">
     <div class="inside inside1">
         @livewire('asign-project')
@@ -19,7 +29,7 @@
     </div>
     </div>
 
-    <div class="py-6">
+    <div class="py-4">
     <div class="outside outside2">
     <div class="inside inside2">
         @livewire('project-table')
@@ -31,10 +41,6 @@
 </div>
 
 <style>
-.py-6 {
-    padding-top: 1.5rem/* 24px */;
-    padding-bottom: 1.5rem/* 24px */;
-}
 .projbutton{
     --tw-bg-opacity: 0;
     background-color: rgba(255, 255, 255, var(--tw-bg-opacity));

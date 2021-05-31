@@ -15,7 +15,7 @@ class CreateSubProjectsTable extends Migration
     {
         Schema::create('sub_projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('big_project_id')->constrained();
+            $table->foreignId('big_project_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->text('details')->nullable();
             $table->date('start_date')->nullable();

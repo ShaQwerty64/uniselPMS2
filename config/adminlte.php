@@ -240,21 +240,29 @@ return [
             'text' => 'Add Admin',
             'url'  => 'add_admin',
             'can'  => ['modify admin','modify viewer'],
+            'icon'       => 'fas fa-fw fa-user',
+            'icon_color' => 'red',
         ],
         [
             'text' => 'Add Projects',
             'url'  => 'admin',
             'can'  => 'modify projects',
+            'icon'       => 'fas fa-plus',
+            'icon_color' => 'light',
         ],
         [
             'text' => 'Your Projects',
             'url'  => 'projects',
             'can'  => 'edit projects',
+            'icon'       => 'fas fa-bookmark',
+            'icon_color' => 'indigo',
         ],
         [
             'text' => 'View Projects',
             'url'  => 'view',
             'can'  => 'view projects',
+            'icon'       => 'fas fa-eye',
+            'icon_color' => 'lime',
         ],
         // Sidebar items:
         // [

@@ -19,7 +19,7 @@
 <div class="col-12">
 
     @can('modify admin')
-    <div class="py-6">
+    <div class="py-4">
     <h2 class="big-title">Admins list</h2>
     <div class="inside">
 
@@ -82,7 +82,7 @@
                                 @elseif ($role == 'topMan')
                                     <div class="viewer">Viewer</div>
                                 @elseif ($role == 'projMan')
-                                    <div class="manager ">Admin</div>
+                                    <div class="manager ">Project Manager</div>
                                 @endif
                             @endforeach
                         </td>
@@ -102,7 +102,7 @@
     @endcan
 
     @can('modify viewer')
-    <div class="py-6">
+    <div class="py-4">
     <h2 class="big-title">Viewers list</h2>
     <div class="inside">
 
@@ -134,7 +134,7 @@
                                 @elseif ($role == 'topMan')
                                     <div class="viewer">Viewer</div>
                                 @elseif ($role == 'projMan')
-                                    <div class="manager ">Admin</div>
+                                    <div class="manager ">Project Manager</div>
                                 @endif
                             @endforeach
                         </td>
@@ -163,7 +163,7 @@
                             @elseif ($role == 'topMan')
                                 <div class="viewer">Viewer</div>
                             @elseif ($role == 'projMan')
-                                <div class="manager ">Admin</div>
+                                <div class="manager ">Project Manager</div>
                             @endif
                             @endforeach
                         </td>
@@ -185,10 +185,6 @@
 </div>
 
 <style>
-.py-6 {
-    padding-top: 1.5rem/* 24px */;
-    padding-bottom: 1.5rem/* 24px */;
-}
 .w-4\/12{
     width: 33.333333%;
 }

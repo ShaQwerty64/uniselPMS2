@@ -15,8 +15,8 @@ class CreateUserSubProjectRelationshipsTable extends Migration
     {
         Schema::create('user_sub_project_relationships', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('sub_project_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('sub_project_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -301,9 +301,9 @@ class AsignProject extends Component
                 }
             }
 
-            $project = BigProject::where('name', $this->searchP)->first();
+            $project = SubProject::where('name', $this->searchP)->first();
             if ($project != null){
-                $this->usersCount = $project->users->count();
+                $this->usersCount = $project->users()->count();
             }
         }
 

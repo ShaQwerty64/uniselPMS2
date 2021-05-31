@@ -41,6 +41,18 @@
 </div>
 
 <style>
+.remove{
+    /* font-bold */
+    font-weight: 700;
+    /* text-red-500 */
+    --tw-text-opacity: 1;
+    color: rgba(239, 68, 68, var(--tw-text-opacity));
+    /* other */
+    --tw-bg-opacity: 0;
+    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+    --tw-divide-opacity: 0;
+    border-color: rgba(255, 255, 255, var(--tw-divide-opacity));
+}
 .projbutton{
     --tw-bg-opacity: 0;
     background-color: rgba(255, 255, 255, var(--tw-bg-opacity));

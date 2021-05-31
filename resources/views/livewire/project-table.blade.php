@@ -44,8 +44,19 @@
                 @endforelse
             </div>
             <x-slot name="footerSlot">
-                <x-adminlte-button class="mr-auto" theme="danger" label="Delete" wire:click="bigDelete('{{ $bigProject->id }}')"/>
-                <x-adminlte-button class="mr-auto" theme="info" label="Remove a user" wire:click="dd"/>
+
+                <x-adminlte-modal id="modalbigprojdelete{{ $bigProject->id }}" title="Delete {{ $bigName }}?" theme="danger"
+                    icon="fa fa-lg fa-fw fa-trash" size='lg'>
+                    <x-slot name="footerSlot">
+                        <x-adminlte-button class="mr-auto" theme="danger" label="Delete Project" wire:click="bigDelete('{{ $bigProject->id }}')"/>
+                        <x-adminlte-button label="Close All" data-dismiss="modal"/>
+                    </x-slot>
+                </x-adminlte-modal>
+                <x-adminlte-button class="mr-auto" theme="danger" label="Delete" data-toggle="modal"
+                data-target="#modalbigprojdelete{{ $bigProject->id }}" />
+
+                <livewire:user-remove :big="true" :pId="$bigProject->id" :name="$bigName">
+
                 <x-adminlte-button label="Close" data-dismiss="modal"/>
             </x-slot>
         @endif
@@ -71,8 +82,12 @@
 
                 <tr>
                     <td class="td">
-                        <div class="subprojuser">{{ $project->users[0]->name }}</div>
-                        <div>{{ $project->users[0]->email }}</div>
+                        @forelse ( $project->users as $user)
+                            <div class="subprojuser">{{ $user->name }}</div>
+                            <div>{{ $user->email }}</div>
+                        @empty
+                            [NONE]
+                        @endforelse
                     </td>
                     @php
                         $w = 'purple';
@@ -99,10 +114,18 @@
                             @endforelse
                         </div>
                         <x-slot name="footerSlot">
-                            <x-adminlte-button class="mr-auto" theme="danger" label="Delete" wire:click="subDelete('{{ $project->id }}')"/>
+                            <x-adminlte-modal id="modalsubprojdelete{{ $project->id }}" title="Delete {{ $project->name }}?" theme="danger"
+                                icon="fa fa-lg fa-fw fa-trash" size='lg'>
+                                <x-slot name="footerSlot">
+                                    <x-adminlte-button class="mr-auto" theme="danger" label="Delete" wire:click="subDelete('{{ $project->id }}')"/>
+                                    <x-adminlte-button label="Close All" data-dismiss="modal"/>
+                                </x-slot>
+                            </x-adminlte-modal>
+                            <x-adminlte-button class="mr-auto" theme="danger" label="Delete" data-toggle="modal"
+                            data-target="#modalsubprojdelete{{ $project->id }}" />
                             <x-adminlte-button class="mr-auto" theme="info" label="Move to Other Project" wire:click="dd"/>
                             <x-adminlte-button class="mr-auto" theme="warning" label="Upgrade Project" wire:click="dd"/>
-                            <x-adminlte-button class="mr-auto" theme="secondary" label="Remove a User" wire:click="dd"/>
+                            <livewire:user-remove :big="false" :pId="$project->id" :name="$project->name">
                             <x-adminlte-button label="Close" data-dismiss="modal"/>
                         </x-slot>
                         </x-adminlte-modal>

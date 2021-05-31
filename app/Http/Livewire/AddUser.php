@@ -2,11 +2,16 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\BigProject;
+use App\Models\SubProject;
 use App\Models\User;
 use Livewire\Component;
+use phpDocumentor\Reflection\Types\This;
 
-class AddViewer extends Component
+class AddUser extends Component
 {
+    public $is;
+
     public $search = '';
     public $users = [];
     public $highlightIndex = 0;
@@ -14,15 +19,52 @@ class AddViewer extends Component
 
     public $ifRegistered = false;
     public $theUser;
+    public $areUsers = [];
 
-    public $areViewers = [];
+    public $roleName;
+    public $word;
+
+    public $big;
+    public $pId;
+    public $name;
+
+    public $proj;
+    public $data;
 
     public function mount()
     {
-        foreach (User::role('topMan')->get() as $topMan)
-        {
-            $this->areViewers[] = $topMan->email;
+        $this->areUsers = [];
+        $con = true;
+        if ($this->is == 'admin'){
+            $this->roleName = 'admin';
+            $this->word = 'Admin';
         }
+        elseif ($this->is == 'viewer'){
+            $this->roleName = 'topMan';
+            $this->word = 'Viewer';
+        }
+        elseif($this->is == 'manager'){
+            $this->roleName = 'projMan';
+            if ($this->big){
+                $this->proj = BigProject::where('id',$this->pId)->first();
+            }
+            else{
+                $this->proj = SubProject::where('id',$this->pId)->first();
+            }
+            foreach ($this->proj->users as $user){
+                $this->areUsers[] = $user->email;
+            }
+            $this->word = 'Manager';
+            $con = false;
+        }
+
+        if ($con){
+            foreach (User::role($this->roleName)->get() as $user)
+            {
+                $this->areUsers[] = $user->email;
+            }
+        }
+
     }
 
     public function click()
@@ -89,21 +131,35 @@ class AddViewer extends Component
         }
     }
 
-    public function madeViewer()
+    public function madeRole()
     {
-        $this->theUser->assignRole('topMan');
+        if ($this->is == 'manager'){
+            $this->theUser->assignRole($this->roleName);
+            if ($this->big){
+                $this->theUser->big_projects()->save($this->proj);
+            }
+            else{
+                $this->theUser->sub_projects()->save($this->proj);
+            }
+            $this->search = '';
+            return;// redirect()->route('admin')
+        }
+        $this->theUser->assignRole($this->roleName);
         return redirect()->route('addadmin');
     }
 
     public function render()
     {
+        if ($this->is == 'manager'){
+            $this->mount();
+        }
         if ($this->search != '' && $this->active)
         {
             $this->users = User::
-            whereNotIn('email', $this->areViewers)
+            whereNotIn('email', $this->areUsers)
             ->where('name', 'like', '%'.$this->search.'%')
             ->orWhere('email', 'like', '%'.$this->search.'%')
-            ->whereNotIn('email', $this->areViewers)
+            ->whereNotIn('email', $this->areUsers)
             ->take(10)
             ->get();
         }
@@ -114,6 +170,6 @@ class AddViewer extends Component
         }
 
         $this->ifRegistered();
-        return view('livewire.add-viewer');
+        return view('livewire.add-user');
     }
 }

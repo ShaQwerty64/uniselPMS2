@@ -23,4 +23,18 @@ class BigProject extends Model
         }
         return true;
     }
+
+    public function PTJbigProjects(){
+        if ($this->default){
+            return BigProject::with(['sub_projects', 'users'])->where('default',false)->where('PTJ',$this->PTJ)->get();
+        }
+        return false;
+    }
+
+    public function PTJsubProjects(){
+        if ($this->default){
+            return SubProject::with(['users'])->where('default',false)->where('PTJ',$this->PTJ)->get();
+        }
+        return false;
+    }
 }

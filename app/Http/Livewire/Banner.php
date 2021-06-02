@@ -2,13 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Livewire\Component;
 
 class Banner extends Component
 {
-    public $message = '';
-    public $theme = '';
+    public $message;
+    public $theme;
 
     public function render(Request $request)
     {

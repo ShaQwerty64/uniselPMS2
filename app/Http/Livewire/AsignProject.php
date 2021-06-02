@@ -228,7 +228,7 @@ class AsignProject extends Component
                 {
                     $project = new SubProject;
                     $project->name = $this->searchP;
-                    $bigProject = BigProject::where('default',false)->where('name',$this->theBigProject)->get()[0];
+                    $bigProject = BigProject::where('default',false)->where('name',$this->theBigProject)->first();
                     $bigProject->sub_projects()->save($project);
                     $project->save();
                     $this->theUser->sub_projects()->save($project);
@@ -237,8 +237,8 @@ class AsignProject extends Component
                 }
             }
 
-            $request->session()->flash('banner.m', $message);
-            $request->session()->flash('banner.t', 's');
+            $request->session()->put('banner.m', $message);
+            $request->session()->put('banner.t', 's');
             // $this->reAllUsersManager();
             $this->theUser->assignRole('projMan');
 
@@ -267,12 +267,34 @@ class AsignProject extends Component
         }
     }
 
-    public function render(Request $request)
+    // public $allUsers;
+    // public function mount(){
+    //     $this->allUsers = User::all();
+    // }
+    // private function usersLike(string $search): array{
+    //     $array = [];
+    //     $pattern = '/' . $search . '/i';
+    //     $count = 0;
+    //     foreach ($this->allUsers as $user){
+    //         if (preg_match($pattern,$user->name) || preg_match($pattern,$user->email)){
+    //             $array[] = $user;
+    //             $count++;
+    //         }
+    //         if ($count == 10){
+    //             break;
+    //         }
+    //     }
+    //     return $array;
+    // }
+
+    public function render()
     {
         if ($this->search != '' && $this->active)
         {
-            $this->users = User::where('name', 'like', '%'.$this->search.'%')
+            $this->users =
+            User::where('name', 'like', '%'.$this->search.'%')
             ->orWhere('email', 'like', '%'.$this->search.'%')->take(10)->get();
+            // $this->usersLike($this->search);
         }
 
         if (!$this->users === [] && $this->users[0]->name == $this->search)

@@ -15,67 +15,78 @@
                     <div class="py-12">
                         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                                <x-adminlte-card title="A card without body"/>
-                                <i class="fab fa-500px"></i>
-                                <x-adminlte-card title="Purple Card" theme="purple" icon="fab fa-500px" removable collapsible>
-                                    A removable and collapsible card with purple theme...
-                                </x-adminlte-card>
-                                <x-adminlte-card title="Info Card" theme="info" icon="fas fa-lg fa-bell" collapsible removable maximizable>
-                                    An info theme card with all the tool buttons...
-                                </x-adminlte-card>
 
-                                <x-adminlte-button class="btn-flat" type="submit" label="Submit" theme="success" icon="fas fa-lg fa-save"/>
-                                    <x-adminlte-button class="btn-lg" type="reset" label="Reset" theme="outline-danger" icon="fas fa-lg fa-trash"/>
-                                <x-adminlte-button class="btn-sm bg-gradient-info" type="button" label="Help" icon="fas fa-lg fa-question"/>
+                                <html lang="en">
+                                    <head>
+                                      <title>Bootstrap Example</title>
+                                      <meta charset="utf-8">
+                                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                                      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+                                      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                                      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+                                    </head>
+                                    <body>
+
+                                    <div class="container">
 
 
-                                <x-adminlte-input-slider name="isMin"/>
+                                      <form>
+                                        <div class="form-group">
+                                          <label for="sel1">Select Project:</label>
+                                          <select class="form-control" id="sel1">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                          </select>
+                                          <br>
+                                          <div class="row">
+                                            <x-adminlte-input name="iLabel" label="Completion" placeholder="%"
+                                                fgroup-class="col-md-6" disable-feedback/>
 
-                                {{-- Disabled --}}
-                                <x-adminlte-input-slider name="isDisabled" disabled/>
-
-                                {{-- With min, max, step and value --}}
-                                <x-adminlte-input-slider name="isMinMax" min=5 max=15 step=0.5 value=11.5 color="purple"/>
-
-                                {{-- Label, prepend icon and sm size --}}
-                                <x-adminlte-input-slider name="isSizeSm" label="Slider" igroup-size="sm"
-                                    color="#3c8dbc" data-slider-handle="square">
-                                    <x-slot name="prependSlot">
-                                        <div class="input-group-text bg-lightblue">
-                                            <i class="fas fa-sliders-h"></i>
                                         </div>
-                                    </x-slot>
-                                </x-adminlte-input-slider>
 
-                                {{-- With slots, range mode and lg size --}}
-                                @php
-                                $config = [
-                                    'handle' => 'square',
-                                    'range' => true,
-                                    'value' => [3, 8],
-                                ];
-                                @endphp
-                                <x-adminlte-input-slider name="isSizeLg" label="Range" size="lg"
-                                    color="orange" label-class="text-orange" :config="$config">
-                                    <x-slot name="prependSlot">
-                                        <x-adminlte-button theme="warning" icon="fas fa-minus" title="Decrement"/>
-                                    </x-slot>
-                                    <x-slot name="appendSlot">
-                                        <x-adminlte-button theme="warning" icon="fas fa-plus" title="Increment"/>
-                                    </x-slot>
-                                </x-adminlte-input-slider>
 
-                                {{-- Vertical slider with ticks --}}
-                                @php
-                                $config = [
-                                    'value' => 150,
-                                    'orientation' => 'vertical',
-                                    'ticks' => [0, 100, 200, 300],
-                                    'ticks_labels' => ['$0', '$100', '$200', '$300'],
-                                ];
-                                @endphp
-                                <x-adminlte-input-slider name="isVertical" label="Vertical" color="#77dd77"
-                                    label-class="text-olive" :config="$config"/>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Milestone</span>
+
+                                                <input id="msg" type="text" class="form-control" name="msg" placeholder="Something">
+                                              </div>
+                                             <div>
+                                              <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    Task 1
+                                                  <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                                </li>
+                                                <li class="list-group-item">
+                                                  Task 2
+                                                  <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                                </li>
+                                                <li class="list-group-item">
+                                                    Task 3
+                                                  <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                                  <li class="list-group-item">
+                                                  <x-adminlte-input name="iLabel" label="" placeholder="Add Task"
+                                                  fgroup-class="col-md-6" disable-feedback/>
+                                              </ul>
+                                        </div>
+                                                   <span class="input-group-addon"> Add Milestone</span>
+                                                   <input id="msg" type="text" class="form-control" name="msg" placeholder="Something">
+                                             </div>
+                                        </div>
+                                    </div>
+                                      </form>
+                                      <x-adminlte-button class="btn-flat" type="submit" label="Submit" theme="success" icon="fas fa-lg fa-save"/>
+                                    <x-adminlte-button class="btn-lg" type="reset" label="Reset" theme="outline-danger" icon="fas fa-lg fa-trash"/>
+
+
+
+                                    </body>
+                                    </html>
+
+
+
+
 
 
 

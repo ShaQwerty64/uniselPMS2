@@ -79,7 +79,7 @@
 
         @if ($searchP !== '' && $activeP)
 
-            <div class="search-lw2-lists2">
+            <div class="search-lw2-lists1">
 
                 @foreach ($projects as $i => $project)
                     <div class=" search-lw2-list2

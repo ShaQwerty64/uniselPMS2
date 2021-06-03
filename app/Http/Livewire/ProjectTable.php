@@ -6,25 +6,45 @@ use App\Models\BigProject;
 use App\Models\SubProject;
 use Illuminate\Http\Request;
 use Livewire\Component;
+use PhpParser\Node\Stmt\Else_;
 
 class ProjectTable extends Component
 {
     public $PTJs;
 
     public function mount(){
-        $this->PTJs = BigProject::with(['sub_projects', 'users'])->where('default',true)->get();
-        $this->modalProj = SubProject::first();
+        $this->PTJs = BigProject::with(['sub_projects'])->where('default',true)->get();
+        foreach ($this->PTJs as $PTJ){
+            $PTJ->PTJactive();
+        }
     }
 
     public function dd(){
-        return view('livewire.project-table');
-        dd('Success!');
+        dd($this);
     }
 
-    public function bigDelete(int $id, Request $request){
-        $bigProject = BigProject::where('id',$id)->first();
-        $bigProject->delete();
-        $request->session()->put('banner.m', $bigProject->name . ' (big) project deleted.');
+    private function findPTJ(string $PTJPTJ): BigProject{
+        foreach ($this->PTJs as $PTJ) {
+            if ($PTJ->PTJ == $PTJPTJ){
+                return $PTJ;
+            }
+        }
+    }
+
+    public function bigDelete(BigProject $big, bool $deleteAll, Request $request){
+        if ($deleteAll){
+            $big->delete();
+            $request->session()->put('banner.m', $big->name . ' (big) project and all its sub projects deleted.');
+        }
+        else{
+            $PTJ = $this->findPTJ($big->PTJ)->id;
+            foreach ($big->sub_projects as $sub) {
+                $sub->big_project_id = $PTJ;
+                $sub->save();
+            }
+            $big->delete();
+            $request->session()->put('banner.m', $big->name . ' (big) project deleted and all its sub projects move to ' . $big->PTJ . ' Default.');
+        }
         $request->session()->put('banner.t', '');
         return redirect()->route('admin');
     }

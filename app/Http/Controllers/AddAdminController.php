@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 
 class AddAdminController extends Controller
 {
@@ -14,17 +13,19 @@ class AddAdminController extends Controller
         $userEmail = [];
         $userEmail[] = auth()->user()->email;
 
-        $admins = User::role('admin')
+        $admins = User::role('admin')->with(['roles'])
         ->whereNotIn('email', $userEmail)
         ->get();
 
-        $viewers = User::role('topMan')
+        $viewers = User::role('topMan')->with(['roles'])
         ->whereNotIn('email', $userEmail)
         ->get();
 
         $user = auth()->user();
         $userIsAdmin = $user->hasRole('admin');
+        //$admins->contains($user);
         $userIsViewer = $user->hasRole('topMan');
+        //$viewers->contains($user);
 
         return view('projects.add-admin',[
             'admins' => $admins,

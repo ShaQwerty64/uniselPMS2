@@ -6,14 +6,14 @@ use App\Models\BigProject;
 use App\Models\SubProject;
 use Illuminate\Http\Request;
 use Livewire\Component;
-use PhpParser\Node\Stmt\Else_;
 
 class ProjectTable extends Component
 {
     public $PTJs;
 
     public function mount(){
-        $this->PTJs = BigProject::with(['sub_projects'])->where('default',true)->get();
+        $this->PTJs = BigProject::with(['sub_projects', 'sub_projects.users', 'users'])->where('default',true)->get();
+        //,'sub_projects.milestones','sub_projects.tasks'
         foreach ($this->PTJs as $PTJ){
             $PTJ->PTJactive();
         }
@@ -49,17 +49,15 @@ class ProjectTable extends Component
         return redirect()->route('admin');
     }
 
-    public function subDelete(int $id, Request $request){
-        $subProj = SubProject::where('id',$id)->first();
-        $subProj->delete();
-        $request->session()->put('banner.m', $subProj->name . ' (sub) project deleted.');
+    public function subDelete(SubProject $sub, Request $request){
+        $sub->delete();
+        $request->session()->put('banner.m', $sub->name . ' (sub) project deleted.');
         $request->session()->put('banner.t', '');
         return redirect()->route('admin');
     }
 
     public function render()
     {
-        $this->bigProjects = BigProject::with(['sub_projects', 'users'])->orderBy('PTJ', 'asc')->get();
         return view('livewire.project-table');
     }
 }

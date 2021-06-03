@@ -92,10 +92,11 @@
         @endif
 
         <div class="search-lw2-text">
-            @if ($ifReal && $searchP !== '')
+            @if ($searchP == '')
+            @elseif ($ifReal)
                 "{{ $searchP }}" @if ($theBigProject == '[Make New Big Project]') big @endif project has {{ $usersCount }} users asign to it already.
-            @elseif ($searchP == '')
-
+            @elseif (!$bigSameName)
+                "{{ $searchP }}" big project already exist in other PTJ.
             @else
                 Will make new "{{ $searchP }}" @if ($theBigProject == '[Make New Big Project]') big @endif project.
                 @if ($closestLike !== '')
@@ -108,7 +109,7 @@
     <hr class="hr">
 
     <button type="button" wire:click="makeBigProject" class="search-lw2-button"
-    @if (!($ifRegistered && $searchP != '')) disabled @endif>
+    @if (!($ifRegistered && $searchP != '' && $bigSameName)) disabled @endif>
         Asign Project
     </button>
 </div>

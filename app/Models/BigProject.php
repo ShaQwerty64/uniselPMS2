@@ -9,25 +9,33 @@ class BigProject extends Model
 {
     use HasFactory;
 
+    public function users(){
+        return $this->belongsToMany(User::class,'user_big_project_relationships');
+    }
+    public function sub_projects(){
+        return $this->hasMany(SubProject::class);
+    }
+
+    public function milestones(){
+        return $this->hasManyThrough(Milestone::class, SubProject::class);
+    }
+
+    public function tasksCount(): int{
+        $count = 0;
+        foreach($this->milestones as $milestone){
+            $count += $milestone->tasks()->count();
+        }
+        return $count;
+    }
+
+    //PTJ things
     public $PTJbigProjects;
     public $notHaveBig;
     public $projectsCount;
     public $projectsCount2;
 
     private $subCount;
-    private $bigCount;
-
-    public function sub_projects(){
-        return $this->hasMany(SubProject::class);
-    }
-
-    public function users(){
-        return $this->belongsToMany(User::class,'user_big_project_relationships');
-    }
-
-    public function milestones(){
-        return $this->hasManyThrough(Milestone::class, SubProject::class);
-    }
+    public $bigCount;
 
     public function PTJactive(){
         if ($this->default){
@@ -42,8 +50,25 @@ class BigProject extends Model
         }
     }
 
+    public function PTJmilestonesCount(): int{
+        $count = 0;
+        foreach ($this->PTJbigProjects as $big){
+            $count += $big->milestones->count();
+        }
+        return $count;
+    }
+
+    public function PTJtasksCount(): int{
+        $count = 0;
+        foreach ($this->PTJbigProjects as $big){
+            $count += $big->tasksCount();
+        }
+        return $count;
+    }
+
     private function PTJbigProjects(){
-        return BigProject::with(['sub_projects', 'users'])->where('default',false)->where('PTJ',$this->PTJ)->get();
+        return BigProject::with(['sub_projects', 'sub_projects.users' , 'users'])->where('default',false)->where('PTJ',$this->PTJ)->get();
+        //->withCount(['milestones','sub_projects'])
     }
 
     private function projectsCount(): int{

@@ -20,4 +20,8 @@ class SubProject extends Model
     public function users(){
         return $this->belongsToMany(User::class,'user_sub_project_relationships');
     }
+
+    public function tasks(){
+        return $this->hasManyThrough(Task::class, Milestone::class);
+    }
 }

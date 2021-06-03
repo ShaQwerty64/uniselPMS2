@@ -6,7 +6,6 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\BigProject;
 use App\Models\SubProject;
-use Exception;
 use Illuminate\Http\Request;
 
 class AsignProject extends Component
@@ -91,6 +90,7 @@ class AsignProject extends Component
     public $closestLike = '';
     public $theBigProject = '[None]';
     public $theProject;
+    public $bigSameName;
 
     public function clickP(){
         $this->activeP = true;
@@ -141,8 +141,8 @@ class AsignProject extends Component
 
     private function ifReal()
     {
-        if (!$this->projects === []){
-
+        if (!$this->projects === [])
+        {
             $this->closestLike = $this->projects[0]->name;
         }
 
@@ -306,9 +306,11 @@ class AsignProject extends Component
 
         if ($this->searchP != '' && $this->activeP)
         {
+            $this->bigSameName = true;
             if ($this->theBigProject == '[Make New Big Project]')
             {
                 $this->projects = BigProject::where('name', 'like', '%'.$this->searchP.'%')->where('default',false)->where('PTJ',$this->PTJ)->take(15)->get();
+                $this->bigSameName = BigProject::select('name')->where('name', $this->searchP)->where('default' ,false)->where('PTJ' , '!=', $this->PTJ)->first() === null;
             }
             else
             {

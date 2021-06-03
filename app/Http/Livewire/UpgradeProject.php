@@ -16,7 +16,7 @@ class UpgradeProject extends Component
     public string $oldName;
 
     protected $rules = [
-        'bigProjectName' => 'required',
+        'bigProjectName' => 'required|unique:App\Models\BigProject,name',
         'subProjectName' => 'required',
     ];
 

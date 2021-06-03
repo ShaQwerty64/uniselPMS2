@@ -29,7 +29,6 @@ class AddUser extends Component
 
     public $data;
     public $big;// bool / BigProject if ($this->is == 'project')
-    public $pId;
     public $proj;
     public $name;
 
@@ -184,12 +183,12 @@ class AddUser extends Component
     }
 
     public function managerTableMount(){
-        if ($this->big){// as bool
-            $this->proj = BigProject::where('id',$this->pId)->first();
-        }
-        else{
-            $this->proj = SubProject::where('id',$this->pId)->first();
-        }
+        // if ($this->big){// as bool
+        //     $this->proj = BigProject::where('id',$this->pId)->first();
+        // }
+        // else{
+        //     $this->proj = SubProject::where('id',$this->pId)->first();//Use Lot
+        // }
     }
 
     public function managerTableRender(){
@@ -210,10 +209,10 @@ class AddUser extends Component
 
     public function managerTableRemove(int $id){//remove manager from project
         if ($this->big){
-            DB::delete('delete from user_big_project_relationships where user_id = ? and big_project_id = ?', [$id,$this->pId]);
+            DB::delete('delete from user_big_project_relationships where user_id = ? and big_project_id = ?', [$id,$this->proj->id]);
         }
         else{
-            DB::delete('delete from user_sub_project_relationships where user_id = ? and sub_project_id = ?', [$id,$this->pId]);
+            DB::delete('delete from user_sub_project_relationships where user_id = ? and sub_project_id = ?', [$id,$this->proj->id]);
         }
         $user = User::where('id',$id)->first();
         if ($user->sub_projects()->count() + $user->big_projects()->count() == 0){

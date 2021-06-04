@@ -12,10 +12,14 @@ class ProjectTable extends Component
     public $PTJs;
 
     public function mount(){
-        $this->PTJs = BigProject::with(['sub_projects', 'sub_projects.users', 'users'])->where('default',true)->get();
-        //,'sub_projects.milestones','sub_projects.tasks'
+        $this->PTJs = BigProject::
+        with(['sub_projects', 'sub_projects.users'])
+        ->withCount(['milestones'])
+        ->where('default',true)
+        ->get();
         foreach ($this->PTJs as $PTJ){
             $PTJ->PTJactive();
+            // dd($PTJ);
         }
     }
 

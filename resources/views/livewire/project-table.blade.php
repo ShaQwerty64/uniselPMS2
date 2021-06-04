@@ -24,20 +24,30 @@
             <div>Big Projects Count: {{ $PTJ->bigCount }}</div>
             <div>Sub Projects Count: {{ $PTJ->projectsCount }}</div>
             <div>Milestones Count: {{ $PTJ->PTJmilestonesCount() }}</div>
-            <div>Tasks Count: {{ $PTJ->PTJtasksCount() }}</div>
-            <div>Details: {{ $PTJ->details }}</div>
-            <div>
+            <div>Tasks Count: {{ $PTJ->done_tasks_count . '/' . $PTJ->tasks_count }}</div>
+            @php
+                $x = 0;
+                if ($PTJ->tasks_count != 0){
+                    $x = $PTJ->done_tasks_count / $PTJ->tasks_count * 100;
+                }
+            @endphp
+            <div class="progress">
+                <div class="progress-done" style="width: {{ $x }}%"></div>
+                <div class="progress-text">{{ $x }}%</div>
+            </div>
+            {{-- <div>Details: {{ $PTJ->details }}</div> --}}
+            {{-- <div>
                 Project Manager:
                 @forelse ($PTJ->users as $user)
                     {{$user->name}} ({{$user->email}}),
                 @empty
                     [None]
                 @endforelse
-            </div>
+            </div> --}}
         </x-adminlte-modal>
             {{-- button to open modal --}}
         <x-adminlte-button icon="fas fa-external-link-alt" data-toggle="modal" data-target="#modalptj{{ $PTJ->PTJ }}" class="ptj-butt"/>
-        <x-adminlte-card title="{{ $PTJ->PTJ }} [{{$PTJ->projectsCount}}]" theme="{{$bigModalColor}}" class="" collapsible="{{$PTJ->projectsCount2 >= 5 ? 'collapsed' : ''}}">
+        <x-adminlte-card title="{{ $PTJ->PTJ }} [{{$PTJ->projectsCount}}]" theme="{{$bigModalColor}}" class="z2" collapsible="{{$PTJ->projectsCount2 >= 5 ? 'collapsed' : ''}}">
 
             @forelse ($PTJ->sub_projects as $sub)
                 @if ($loop->first)
@@ -75,16 +85,26 @@
                         <td class="subprojname">
                             <x-adminlte-modal id="modalsub{{ $sub->id }}" title="{{$sub->name}}" theme="{{ $bigModalColor }}"
                             icon="fas fa-info-circle" size='lg'>
-                            <div>Milestones Count: {{ $sub->milestones->count() }}</div>
-                            <div>Tasks Count: {{ $sub->tasks->count() }}</div>
-                            <div>Details: {{ $sub->details }}</div>
+                            <div>Details: {{ $sub->details != null ? $sub->details : '[None]' }}</div>
                             <div>
                                 Project Manager:
                                 @forelse ($sub->users as $user)
-                                    {{$user->name}} ({{$user->email}}),
+                                    {{$user->name}} ({{$user->email}}) @if (!$loop->last) , @endif
                                 @empty
-                                    None...
+                                    [None]
                                 @endforelse
+                            </div>
+                            <div>Milestones Count: {{ $sub->milestones_count }}</div>
+                            <div>Tasks Count: {{ $sub->done_tasks_count . '/' . $sub->tasks_count }}</div>
+                            @php
+                                $x = 0;
+                                if ($sub->tasks_count != 0){
+                                    $x = $sub->done_tasks_count / $sub->tasks_count * 100;
+                                }
+                            @endphp
+                            <div class="progress">
+                                <div class="progress-done" style="width: {{ $x }}%"></div>
+                                <div class="progress-text">{{ $x }}%</div>
                             </div>
                             <x-slot name="footerSlot">
                                 <x-adminlte-modal id="modalsubdelete{{ $sub->id }}" title="Delete {{ $sub->name }}?" theme="danger"
@@ -125,12 +145,6 @@
                             <x-adminlte-button label="{{ $sub->name }}" data-toggle="modal" data-target="#modalsub{{ $sub->id }}" class="projbutton"/>
                         </td>
                         <td class="td">
-                            @php
-                                $x = $sub->progress;
-                                if ($x == null){
-                                    $x = 0;
-                                }
-                            @endphp
                             <div class="progress">
                                 <div class="progress-done" style="width: {{ $x }}%"></div>
                                 <div class="progress-text">{{ $x }}%</div>
@@ -152,17 +166,27 @@
                 @endphp
                 <x-adminlte-modal id="modalbig{{ $big->id }}" title="{{$bigName}}" theme="{{ $bigModalColor }}"
                 icon="fas fa-info-circle" size='lg'>
-                    <div>Projects count: {{$big->sub_projects->count()}}</div>
-                    <div>Milestones Count: {{ $big->milestones->count() }}</div>
-                    <div>Tasks Count: {{ $big->tasksCount() }}</div>
-                    <div>Details: {{ $big->details }}</div>
+                    <div>Details: {{ $big->details != null ? $big->details : '[None]' }}</div>
                     <div>
                         Project Manager:
                         @forelse ($big->users as $user)
-                            {{$user->name}} ({{$user->email}}),
+                            {{$user->name}} ({{$user->email}}) @if (!$loop->last) , @endif
                         @empty
                             [None]
                         @endforelse
+                    </div>
+                    <div>Projects count: {{$big->sub_projects->count()}}</div>
+                    <div>Milestones Count: {{ $big->milestones_count }}</div>
+                    <div>Tasks Count: {{ $big->done_tasks_count . '/' . $big->tasks_count }}</div>
+                    @php
+                        $x = 0;
+                        if ($big->tasks_count != 0){
+                            $x = $big->done_tasks_count / $big->tasks_count * 100;
+                        }
+                    @endphp
+                    <div class="progress">
+                        <div class="progress-done" style="width: {{ $x }}%"></div>
+                        <div class="progress-text">{{ $x }}%</div>
                     </div>
                     <x-slot name="footerSlot">
                         <x-adminlte-modal id="modalbigdelete{{ $big->id }}" title="Delete {{ $bigName }}?" theme="danger"
@@ -223,16 +247,26 @@
                                 <td class="subprojname">
                                     <x-adminlte-modal id="modalsub{{ $sub->id }}" title="{{$sub->name}}" theme="{{ $bigModalColor }}"
                                     icon="fas fa-info-circle" size='lg'>
-                                    <div>Details: {{ $sub->details }}</div>
-                                    <div>Milestones Count: {{ $sub->milestones->count() }}</div>
-                                    <div>Tasks Count: {{ $sub->tasks->count() }}</div>
+                                    <div>Details: {{ $sub->details != null ? $sub->details : '[None]' }}</div>
                                     <div>
                                         Project Manager:
                                         @forelse ($sub->users as $user)
-                                            {{$user->name}} ({{$user->email}}),
+                                            {{$user->name}} ({{$user->email}}) @if (!$loop->last) , @endif
                                         @empty
-                                            None...
+                                            [None]
                                         @endforelse
+                                    </div>
+                                    <div>Milestones Count: {{ $sub->milestones_count }}</div>
+                                    <div>Tasks Count: {{ $sub->done_tasks_count . '/' . $sub->tasks_count }}</div>
+                                    @php
+                                        $x = 0;
+                                        if ($sub->tasks_count != 0){
+                                            $x = $sub->done_tasks_count / $sub->tasks_count * 100;
+                                        }
+                                    @endphp
+                                    <div class="progress">
+                                        <div class="progress-done" style="width: {{ $x }}%"></div>
+                                        <div class="progress-text">{{ $x }}%</div>
                                     </div>
                                     <x-slot name="footerSlot">
                                         <x-adminlte-modal id="modalsubdelete{{ $sub->id }}" title="Delete {{ $sub->name }}?" theme="danger"
@@ -273,12 +307,6 @@
                                     <x-adminlte-button label="{{ $sub->name }}" data-toggle="modal" data-target="#modalsub{{ $sub->id }}" class="projbutton"/>
                                 </td>
                                 <td class="td">
-                                    @php
-                                        $x = $sub->progress;
-                                        if ($x == null){
-                                            $x = 0;
-                                        }
-                                    @endphp
                                     <div class="progress">
                                         <div class="progress-done" style="width: {{ $x }}%"></div>
                                         <div class="progress-text">{{ $x }}%</div>

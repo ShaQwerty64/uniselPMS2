@@ -41,5 +41,8 @@
 </div>
 </div>
 
+@stop
 
+@section('right-sidebar')
+    Hi
 @stop

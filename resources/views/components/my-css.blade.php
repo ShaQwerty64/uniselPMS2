@@ -198,10 +198,10 @@ border-color: rgba(255, 255, 255, var(--tw-divide-opacity));
     background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
 }
 .ptj-outside{
-    margin-left: 12%;
+    margin-left: 15%;
     position: absolute;
-    z-index: 3;
-    width: 76%;
+    z-index: 1;
+    width: 70%;
     height: 3rem;
     /* flex */
     display: flex;
@@ -390,6 +390,7 @@ border-color: rgba(255, 255, 255, var(--tw-divide-opacity));
     border-radius: 0.5rem/* 8px */;
 }
 .progress{
+    height: 1.5rem;
     /* relative */
     position: relative;
     /* flex-grow */
@@ -431,6 +432,8 @@ border-color: rgba(255, 255, 255, var(--tw-divide-opacity));
     --tw-gradient-to: #34d399;
 }
 .progress-text{
+    font-size: 1.1rem;
+    line-height: .45rem;
     /* relative */
     position: relative;
     /* font-sans */

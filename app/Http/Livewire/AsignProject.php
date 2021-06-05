@@ -6,20 +6,22 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\BigProject;
 use App\Models\SubProject;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class AsignProject extends Component
 {
-    public $PTJ = 'CICT';
+    public string $PTJ = 'CICT';
 
     // from FindUser
-    public $search = '';
-    public $users = [];
-    public $highlightIndex = 0;
-    public $active = false;
+    public string $search = '';
+    public array|Collection $users = [];
+    public int $highlightIndex = 0;
+    public bool $active = false;
 
-    public $ifRegistered = false;
-    public $theUser;
+    public bool $ifRegistered = false;
+    public User $theUser;
+    // more in middle
 
     public function click(){
         $this->active = true;
@@ -79,18 +81,18 @@ class AsignProject extends Component
     }
 
     //from FindOrMakeProject
-    public $searchP = '';
-    public $bigProjects = [];
-    public $projects = [];
-    public $highlightIndexP = 0;
-    public $activeP = false;
-    public $ifReal = false;
+    public string $searchP = '';
+    public Collection $bigProjects;
+    public array|Collection $projects = [];
+    public int $highlightIndexP = 0;
+    public bool $activeP = false;
+    public bool $ifReal = false;
 
-    public $usersCount = 0;
-    public $closestLike = '';
-    public $theBigProject = '[None]';
-    public $theProject;
-    public $bigSameName;
+    public int $usersCount = 0;
+    public string $closestLike = '';
+    public string $theBigProject = '[None]';
+    public SubProject|BigProject $theProject;
+    public bool $bigSameName;
 
     public function clickP(){
         $this->activeP = true;
@@ -237,8 +239,7 @@ class AsignProject extends Component
                 }
             }
 
-            $request->session()->put('banner.m', $message);
-            $request->session()->put('banner.t', 's');
+            $request->banner($message, 's');
             // $this->reAllUsersManager();
             $this->theUser->assignRole('projMan');
 

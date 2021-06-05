@@ -8,8 +8,8 @@ use Livewire\Component;
 
 class Banner extends Component
 {
-    public $message;
-    public $theme;
+    public string $message;
+    public string $theme;
 
     public function render(Request $request)
     {

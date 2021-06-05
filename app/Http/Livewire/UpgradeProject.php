@@ -40,10 +40,11 @@ class UpgradeProject extends Component
         $this->subProj->name            = $this->subProjectName;
         $this->subProj->big_project_id  = $bigProj->id;
         $this->subProj->save();
-        $request->session()->put('banner.m', $this->oldName . ' (sub) project upgraded to '
+        $request->banner($this->oldName . ' (sub) project upgraded to '
             . $this->bigProjectName . ' (big) project and old (sub) project rename to '
-            . $this->subProjectName . '.');
-        $request->session()->put('banner.t', 's');
+            . $this->subProjectName . '.'
+            ,'s'
+        );
         return redirect()->route('admin');
     }
     public function render()

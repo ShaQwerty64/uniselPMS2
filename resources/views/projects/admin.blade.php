@@ -11,8 +11,7 @@
 <x-my-css/>
 @livewire('banner')
 {{--
-    $request->session()->put('banner.m', $message);
-    $request->session()->put('banner.t', 's');
+    $request->banner($message, 's');
     s = success
     w = warning
     d = danger

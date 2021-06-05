@@ -4,12 +4,13 @@ namespace App\Http\Livewire;
 
 use App\Models\BigProject;
 use App\Models\SubProject;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Livewire\Component;
 
 class ProjectTable extends Component
 {
-    public $PTJs;
+    public Collection $PTJs;
 
     public function mount(){
         $this->PTJs = BigProject::
@@ -38,7 +39,7 @@ class ProjectTable extends Component
     public function bigDelete(BigProject $big, bool $deleteAll, Request $request){
         if ($deleteAll){
             $big->delete();
-            $request->session()->put('banner.m', $big->name . ' (big) project and all its sub projects deleted.');
+            $request->banner($big->name . ' (big) project and all its sub projects deleted.');
         }
         else{
             $PTJ = $this->findPTJ($big->PTJ)->id;
@@ -47,16 +48,14 @@ class ProjectTable extends Component
                 $sub->save();
             }
             $big->delete();
-            $request->session()->put('banner.m', $big->name . ' (big) project deleted and all its sub projects move to ' . $big->PTJ . ' Default.');
+            $request->banner($big->name . ' (big) project deleted and all its sub projects move to ' . $big->PTJ . ' Default.');
         }
-        $request->session()->put('banner.t', '');
         return redirect()->route('admin');
     }
 
     public function subDelete(SubProject $sub, Request $request){
         $sub->delete();
-        $request->session()->put('banner.m', $sub->name . ' (sub) project deleted.');
-        $request->session()->put('banner.t', '');
+        $request->banner($sub->name . ' (sub) project deleted.');
         return redirect()->route('admin');
     }
 
@@ -75,7 +74,7 @@ class ProjectTable extends Component
     //     $this->modalProj->delete();
     //     $bigOrSub = 'sub';
     //     if ($this->isBig){ $bigOrSub = 'big'; }
-    //     $request->session()->put('banner.m', $this->modalProj->name . ' (' . $bigOrSub . ') project deleted.');
+    //     $request->banner($this->modalProj->name . ' (' . $bigOrSub . ') project deleted.');
     //     $request->session()->put('banner.t', '');
     //     return redirect()->route('admin');
     // }

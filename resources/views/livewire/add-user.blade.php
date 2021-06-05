@@ -1,22 +1,7 @@
 <div>
-    @if ($is == 'manager')
+    @if ($isManager)
     <div>
-        {{-- Setup data for datatables --}}
-        @php
-        $heads = [
-            'Name',
-            ['label' => 'Email', 'width' => 40],
-            ['label' => 'Actions', 'no-export' => true, 'width' => 5],
-        ];
-
-        $config = [
-            'data' => $data,
-            'order' => [[1, 'asc']],
-            'columns' => [null, null, null, ['orderable' => false]],
-        ];
-        @endphp
-
-        {{-- Minimal example / fill data using the component slot --}}
+        {{-- Setup data for datatables in AddUser.php --}}
         <x-adminlte-datatable id="table1" :heads="$heads">
             @foreach($config['data'] as $row)
                 <tr>
@@ -40,7 +25,7 @@
                     @forelse ($users as $i => $user)
                         <div class=" search-lw-list {{ $highlightIndex == $i ? 'search-lw-list-h' : '' }}"
                         wire:click="select({{ $i }})">
-                            @if ($this->is == 'project')
+                            @if ($this->isProject)
                                 <div class="search-lw-list-proj">{{ $user->name }}</div>
                             @else
                                 <div class="search-lw-list-name">{{ $user->name }}</div>

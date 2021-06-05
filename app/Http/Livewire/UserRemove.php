@@ -2,31 +2,23 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\BigProject;
+use App\Models\SubProject;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class UserRemove extends Component
 {
-    public $big;
-    public $proj;
-    public $name;
-    public $htmlid;
+    public BigProject|SubProject $proj;
+    public string $name;
+    public string $htmlid;
 
     public function mount(){
-        if ($this->big){
+        if ($this->proj instanceof BigProject){
             $this->htmlid = 'modalbigprojremove' . $this->proj->id;
         }
         else{
             $this->htmlid = 'modalsubprojremove' . $this->proj->id;
-        }
-    }
-
-    public function removeUser(int $id){
-        if ($this->big){
-            DB::delete('delete from user_big_project_relationships where user_id = ? and big_project_id = ?', [$id,$this->proj->id]);
-        }
-        else{
-            DB::delete('delete from user_sub_project_relationships where user_id = ? and sub_project_id = ?', [$id,$this->proj->id]);
         }
     }
 

@@ -9,7 +9,6 @@ class AddAdminController extends Controller
 {
     public function index()
     {
-        //auth()->user()->assignRole('admin');
         $userEmail = [];
         $userEmail[] = auth()->user()->email;
 
@@ -41,13 +40,11 @@ class AddAdminController extends Controller
         if (auth()->user()->email != $admin->email)
         {
             $admin->removeRole('admin');
-            $request->session()->put('banner.m', '"' . $admin->name . '" not an admin now.');
-            $request->session()->put('banner.t', '');
+            $request->banner('"' . $admin->name . '" not an admin now.');
         }
-        else
-        { //Not accessable
-            $request->session()->put('banner.m', 'Cannot remove yourself, get other to admin remove you!');
-            $request->session()->put('banner.t', 'w');
+        else //Not accessable
+        {
+            $request->banner('Cannot remove yourself, get other to admin remove you!','w');
         }
         return redirect()->route('addadmin');
     }
@@ -55,8 +52,7 @@ class AddAdminController extends Controller
     public function destroyViewer(User $admin, Request $request)
     {
         $admin->removeRole('topMan');
-        $request->session()->put('banner.m', '"' . $admin->name . '" not a viewer now.');
-        $request->session()->put('banner.t', '');
+        $request->banner('"' . $admin->name . '" not a viewer now.');
         return redirect()->route('addadmin');
     }
 }

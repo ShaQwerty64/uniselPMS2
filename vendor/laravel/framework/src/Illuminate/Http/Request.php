@@ -699,4 +699,20 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
             return $this->route($key);
         });
     }
+
+    /**
+     * By Shamim, Use @livewire('banner')
+     * $theme =
+     * s:success,
+     * w:warning,
+     * d:danger,
+     *  :message
+     * @param  string  $message
+     * @param  string  $theme
+     */
+    public function banner(string $message, string $theme = '')
+    {
+        $this->session()->put('banner.m', $message);
+        $this->session()->put('banner.t', $theme);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,8 +21,8 @@ class BigProject extends Model
         return $this->hasManyThrough(Milestone::class, SubProject::class);
     }
 
-    public $tasks_count;
-    public $done_tasks_count;
+    public int $tasks_count = 0;
+    public int $done_tasks_count = 0;
 
     public function tasksCount(){
         $this->tasks_count = 0;
@@ -39,10 +40,10 @@ class BigProject extends Model
     }
 
     //PTJ things
-    public $PTJbigProjects;
-    public $notHaveBig;
-    public $projectsCount;
-    public $projectsCount2;
+    public null|Collection $PTJbigProjects;
+    public null|bool $notHaveBig;
+    public null|int $projectsCount;
+    public null|int $projectsCount2;
 
     private $subCount;
     public $bigCount;

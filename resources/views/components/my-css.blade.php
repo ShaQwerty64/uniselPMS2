@@ -781,10 +781,10 @@ border-color: rgba(255, 255, 255, var(--tw-divide-opacity));
     opacity: 0.5;
 }
 
-.h-scroll{
-    display: flex;
-    overflow-x: scroll;
-}
+/* .l-scroll{
+    height: 1rem;
+    overflow-y: scroll;
+} */
 
 /* adminLTE */
 .card{

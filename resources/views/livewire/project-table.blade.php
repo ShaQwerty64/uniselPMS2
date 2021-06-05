@@ -35,15 +35,6 @@
                 <div class="progress-done" style="width: {{ $x }}%"></div>
                 <div class="progress-text">{{ $x }}%</div>
             </div>
-            {{-- <div>Details: {{ $PTJ->details }}</div> --}}
-            {{-- <div>
-                Project Manager:
-                @forelse ($PTJ->users as $user)
-                    {{$user->name}} ({{$user->email}}),
-                @empty
-                    [None]
-                @endforelse
-            </div> --}}
         </x-adminlte-modal>
             {{-- button to open modal --}}
         <x-adminlte-button icon="fas fa-external-link-alt" data-toggle="modal" data-target="#modalptj{{ $PTJ->PTJ }}" class="ptj-butt"/>
@@ -72,7 +63,7 @@
                         @elseif ($sub->users->count() == 0)
                             <td class="td">[NONE]</td>
                         @else
-                        <td class="td h-scroll">
+                        <td class="td l-scroll">
                             @foreach ($sub->users as $user)
                             <div class="mx-3">
                                 <div class="subprojuser">{{ $user->name }}</div>
@@ -110,7 +101,7 @@
                                 <x-adminlte-modal id="modalsubdelete{{ $sub->id }}" title="Delete {{ $sub->name }}?" theme="danger"
                                     icon="fa fa-lg fa-fw fa-trash" size='lg'>
                                     <x-slot name="footerSlot">
-                                        <x-adminlte-button class="mr-auto" theme="danger" label="Delete" wire:click="subDelete('{{ $sub }}')"/>
+                                        <x-adminlte-button class="mr-auto" theme="danger" label="Delete" wire:click="subDelete({{ $sub }})"/>
                                         <x-adminlte-button label="Close All" data-dismiss="modal"/>
                                     </x-slot>
                                 </x-adminlte-modal>
@@ -137,7 +128,7 @@
                                 </x-adminlte-modal>
                                 <x-adminlte-button class="mr-auto" theme="warning" label="Upgrade Project" data-toggle="modal" data-target="#modalsubup{{ $sub->id }}" />
 
-                                @livewire('user-remove', ['big'=> false, 'proj'=>$sub, 'name'=> $sub->name], key('subremove'.$sub->id))
+                                @livewire('user-remove', ['proj'=>$sub, 'name'=> $sub->name], key('subremove'.$sub->id))
                                 <x-adminlte-button label="Close" data-dismiss="modal"/>
                             </x-slot>
                             </x-adminlte-modal>
@@ -200,7 +191,7 @@
                         <x-adminlte-button class="mr-auto" theme="danger" label="Delete" data-toggle="modal"
                         data-target="#modalbigdelete{{ $big->id }}" />
 
-                        @livewire('user-remove', ['big'=> true, 'proj'=>$big, 'name'=> $bigName], key('subremove'.$sub->id))
+                        @livewire('user-remove', ['proj'=>$big, 'name'=> $bigName], key('subremove'.$sub->id))
 
                         <x-adminlte-button label="Close" data-dismiss="modal"/>
                     </x-slot>
@@ -235,7 +226,7 @@
                                 @elseif ($sub->users->count() == 0)
                                     <td class="td">[NONE]</td>
                                 @else
-                                <td class="td h-scroll">
+                                <td class="td l-scroll">
                                     @foreach ($sub->users as $user)
                                     <div class="mx-3">
                                         <div class="subprojuser">{{ $user->name }}</div>
@@ -272,7 +263,7 @@
                                         <x-adminlte-modal id="modalsubdelete{{ $sub->id }}" title="Delete {{ $sub->name }}?" theme="danger"
                                             icon="fa fa-lg fa-fw fa-trash" size='lg'>
                                             <x-slot name="footerSlot">
-                                                <x-adminlte-button class="mr-auto" theme="danger" label="Delete" wire:click="subDelete('{{ $sub }}')"/>
+                                                <x-adminlte-button class="mr-auto" theme="danger" label="Delete" wire:click="subDelete({{ $sub }})"/>
                                                 <x-adminlte-button label="Close All" data-dismiss="modal"/>
                                             </x-slot>
                                         </x-adminlte-modal>
@@ -299,7 +290,7 @@
                                         </x-adminlte-modal>
                                         <x-adminlte-button class="mr-auto" theme="warning" label="Upgrade Project" data-toggle="modal" data-target="#modalsubup{{ $sub->id }}" />
 
-                                        @livewire('user-remove', ['big'=> false, 'proj'=>$sub, 'name'=> $sub->name], key('subremove'.$sub->id))
+                                        @livewire('user-remove', ['proj'=>$sub, 'name'=> $sub->name], key('subremove'.$sub->id))
                                         <x-adminlte-button label="Close" data-dismiss="modal"/>
                                     </x-slot>
                                     </x-adminlte-modal>

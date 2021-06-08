@@ -48,6 +48,18 @@ class BigProject extends Model
     private $subCount;
     public $bigCount;
 
+    // public function PTJs(){
+    //     $PTJs = BigProject::
+    //     with(['sub_projects', 'sub_projects.users'])
+    //     ->withCount(['milestones'])
+    //     ->where('default',true)
+    //     ->get();
+    //     foreach ($this->PTJs as $PTJ){
+    //         $PTJ->PTJactive();
+    //     }
+    //     return $PTJs;
+    // }
+
     public function PTJactive(){
         if ($this->default){
             $this->PTJbigProjects();
@@ -70,11 +82,11 @@ class BigProject extends Model
 
     private function PTJbigProjects(){
         $this->PTJbigProjects = BigProject::
-        with(['sub_projects', 'sub_projects.users' , 'users'])
+        with(['sub_projects', 'sub_projects.users:id,name,email' , 'users:id,name,email'])
         ->withCount(['milestones'])
         ->where('default',false)
         ->where('PTJ',$this->PTJ)
-        ->get();
+        ->get(['id','name','PTJ','details']);
 
         $this->sub_projects->loadCount([
             'tasks',

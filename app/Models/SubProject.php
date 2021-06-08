@@ -10,7 +10,7 @@ class SubProject extends Model
     use HasFactory;
 
     public function big_project(){
-        return $this->belongsTo(BigProject::class);
+        return $this->belongsTo(BigProject::class,'big_project_id','id');
     }
 
     public function milestones(){

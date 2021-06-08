@@ -9,27 +9,39 @@ class AddAdminController extends Controller
 {
     public function index()
     {
-        $userEmail = [];
-        $userEmail[] = auth()->user()->email;
+        $user = auth()->user();// $userEmail[] = $user->email;
 
-        $admins = User::role('admin')->with(['roles'])
-        ->whereNotIn('email', $userEmail)
-        ->get();
-
-        $viewers = User::role('topMan')->with(['roles'])
-        ->whereNotIn('email', $userEmail)
-        ->get();
-
-        $user = auth()->user();
-        $userIsAdmin = $user->hasRole('admin');
-        //$admins->contains($user);
-        $userIsViewer = $user->hasRole('topMan');
-        //$viewers->contains($user);
+        $users = User::role(['admin','topMan','projMan'])
+        ->with(['roles', 'big_projects:id,name,PTJ', 'sub_projects:id,big_project_id,name','sub_projects.big_project:id,PTJ'])// ->whereNotIn('email', $userEmail)
+        ->get(['id','name','email']);
+        // dd($users);
+        $managers = []; $admins = []; $viewers = [];
+        $userIsManager = false; $userIsAdmin = false; $userIsViewer = false;
+        //$admins->contains($user);$user->hasRole('admin');
+        foreach ($users as $usr){
+            $isUser = $usr->id == $user->id;
+            foreach ($usr->roles as $role){
+                if ($role->name == 'projMan'){
+                    if ($isUser) { $userIsManager = true; }
+                    else { $managers[] = $usr; }
+                }
+                if ($role->name == 'admin'){
+                    if ($isUser) { $userIsAdmin = true; }
+                    else { $admins[] = $usr; }
+                }
+                if ($role->name == 'topMan'){
+                    if ($isUser) { $userIsViewer = true; }
+                    else { $viewers[] = $usr; }
+                }
+            }
+        }
 
         return view('projects.add-admin',[
+            'user' => $user,
+            'managers' => $managers,
             'admins' => $admins,
             'viewers' => $viewers,
-            'user' => $user,
+            'userIsManager' => $userIsManager,
             'userIsAdmin' => $userIsAdmin,
             'userIsViewer' => $userIsViewer,
         ]);

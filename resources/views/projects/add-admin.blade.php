@@ -21,6 +21,65 @@
 
 <div class="col-12">
 
+    <div class="py-4">
+    <h2 class="big-title">Project Managers list</h2>
+    <div class="inside">
+
+        <table class="mytable">
+            <thead class="thead">
+                <tr>
+                    <th class="w-4/12 text-center">Name</th>
+                    <th class="w-3/12 text-center">Email</th>
+                    <th class="w-1/12 text-center">Projects</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                @if ($userIsManager)
+                    <tr>
+                        <td class="td td1">
+                            {{$user->name}}
+                            <div class="you">(You)</div>
+                        </td>
+                        <td class="email">
+                            {{$user->email}}
+                        </td>
+                        <td class="td">
+                            @foreach ($user->big_projects as $big)
+                                {{ $big->name }}
+                            @if (!$loop->last) , @endif
+                            @endforeach
+                            @foreach ($user->sub_projects as $sub)
+                                ({{ $sub->big_project->PTJ }}) {{ $sub->name }}
+                            @if (!$loop->last) , @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                @endif
+                @foreach ($managers as $manager)
+                    <tr>
+                        <td class="td">
+                            {{$manager->name}}
+                        </td>
+                        <td class="email">
+                            {{$manager->email}}
+                        </td>
+                        <td class="td">
+                            @foreach ($manager->big_projects as $big)
+                                (Big-{{ $big->PTJ }}) {{ $big->name }}
+                            @if (!$loop->last) , @endif
+                            @endforeach
+                            @foreach ($manager->sub_projects as $sub)
+                                ({{ $sub->big_project->PTJ }}) {{ $sub->name }}
+                            @if (!$loop->last) , @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    </div>
+
     @can('modify admin')
     <div class="py-4">
     <h2 class="big-title">Admins list</h2>

@@ -12,19 +12,8 @@
             <div class="card">
                 <div class="card-body">
 
-                    <div class="py-12">
-                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
 
-                                <html lang="en">
-                                    <head>
-                                      <title>Bootstrap Example</title>
-                                      <meta charset="utf-8">
-                                      <meta name="viewport" content="width=device-width, initial-scale=1">
-                                      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-                                      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                                      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-                                    </head>
+
                                     <body>
 
                                     <div class="container">
@@ -40,38 +29,58 @@
                                             <option>4</option>
                                           </select>
                                           <br>
-                                          <div class="row">
-                                            <x-adminlte-input name="iLabel" label="Completion" placeholder="%"
-                                                fgroup-class="col-md-6" disable-feedback/>
+
+                                          <label for="sel1">Completion:</label>
+                                          <x-adminlte-progress id="pbDinamic" value="5" theme="lighblue" animated with-label/>
+
+                                        @push('js')
+                                            <script>
+                                            $(document).ready(function() {
+
+                                             let pBar = new _AdminLTE_Progress('pbDinamic');
+
+                                            let inc = (val) => {
+                                            let v = pBar.getValue() + val;
+                                            return v > 100 ? 0 : v;
+                                            };
+
+                                            setInterval(() => pBar.setValue(inc(10)), 2000);
+                                             })
+                                            </script>
+                                        @endpush
+
 
                                         </div>
 
 
                                             <div class="input-group">
-                                                <span class="input-group-addon">Milestone</span>
+                                                <span class="input-group-addon">Milestone </span>
 
                                                 <input id="msg" type="text" class="form-control" name="msg" placeholder="Something">
                                               </div>
                                              <div>
                                               <ul class="list-group">
                                                 <li class="list-group-item">
-                                                    Task 1
+
                                                   <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                                  Task 1
                                                 </li>
                                                 <li class="list-group-item">
+
+                                                  <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
                                                   Task 2
-                                                  <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
                                                 </li>
                                                 <li class="list-group-item">
-                                                    Task 3
+
                                                   <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                                  Task 3
                                                   <li class="list-group-item">
                                                   <x-adminlte-input name="iLabel" label="" placeholder="Add Task"
                                                   fgroup-class="col-md-6" disable-feedback/>
                                               </ul>
                                         </div>
                                                    <span class="input-group-addon"> Add Milestone</span>
-                                                   <input id="msg" type="text" class="form-control" name="msg" placeholder="Something">
+                                                   <input id="msg" type="text" class="form-control" name="msg" placeholder="">
                                              </div>
                                         </div>
                                     </div>

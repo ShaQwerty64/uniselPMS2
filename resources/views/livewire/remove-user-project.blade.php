@@ -13,4 +13,12 @@
         </x-adminlte-datatable>
     </div>
     <x-adminlte-button label="Confirm Remove" theme="danger" icon="fas fa-lg fa-trash" wire:click="confirm"/>
+
+    <div x-data="{ tab: 'foo' }">
+        <button :class="{ 'active': tab === 'foo' }" @click="tab = 'foo'">Foo</button>
+        <button :class="{ 'active': tab === 'bar' }" @click="tab = 'bar'">Bar</button>
+
+        <div x-show="tab === 'foo'">Tab Foo</div>
+        <div x-show="tab === 'bar'">Tab Bar</div>
+    </div>
 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 

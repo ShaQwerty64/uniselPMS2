@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\BigProject;
 use App\Models\SubProject;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -61,7 +62,7 @@ class AsignProject extends Component
         $this->resetX();
     }
 
-    public function select($name)
+    public function select(string $name)
     {
         $this->search = $name;
         $this->resetX();
@@ -135,7 +136,7 @@ class AsignProject extends Component
         $this->resetP();
     }
 
-    public function selectP($name)
+    public function selectP(string $name)
     {
         $this->searchP = $name;
         $this->resetP();
@@ -267,26 +268,6 @@ class AsignProject extends Component
             }
         }
     }
-
-    // public $allUsers;
-    // public function mount(){
-    //     $this->allUsers = User::all();
-    // }
-    // private function usersLike(string $search): array{
-    //     $array = [];
-    //     $pattern = '/' . $search . '/i';
-    //     $count = 0;
-    //     foreach ($this->allUsers as $user){
-    //         if (preg_match($pattern,$user->name) || preg_match($pattern,$user->email)){
-    //             $array[] = $user;
-    //             $count++;
-    //         }
-    //         if ($count == 10){
-    //             break;
-    //         }
-    //     }
-    //     return $array;
-    // }
 
     public function render()
     {

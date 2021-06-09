@@ -1,7 +1,4 @@
-<div class="inside">
-    <div class="tablediv1">
-    <div class="tablediv2">
-    <div class="tablediv3">
+<div class="inside"> <div class="tablediv1"> <div class="tablediv2"> <div class="tablediv3">
 
     @php
         function toMyDate(null|string $date): string{
@@ -24,6 +21,7 @@
     @endphp
 
     @foreach ($PTJs as $PTJ)
+
         @php
         $bigModalColor = 'purple';
         $bigBtnClass = '';
@@ -40,6 +38,7 @@
             $bigBtnClass = 'jpp-';
         }
         @endphp
+
         <x-adminlte-modal id="modalptj{{ $PTJ->PTJ }}" title="{{$PTJ->PTJ}}" theme="{{ $bigModalColor }}" icon="fas fa-info-circle" size='lg'>
             <div>Big Projects Count: {{ $PTJ->bigCount }}</div>
             <div>Sub Projects Count: {{ $PTJ->projectsCount }}</div>
@@ -53,16 +52,17 @@
                 <div class="progress-text">{{ $GLOBALS['toProgS'] }}%</div>
             </div>
         </x-adminlte-modal>
-            {{-- button to open modal --}}
+
+        {{-- button to open modal --}}
         <x-adminlte-button icon="fas fa-external-link-alt" data-toggle="modal" data-target="#modalptj{{ $PTJ->PTJ }}" class="ptj-butt"/>
         <x-adminlte-card title="{{ $PTJ->PTJ }} [{{$PTJ->projectsCount}}]" theme="{{$bigModalColor}}" class="z2" collapsible="{{$PTJ->projectsCount2 >= 5 ? 'collapsed' : ''}}">
 
         <x-sub-project-row :big="$PTJ" :bigModalColor="$bigModalColor" :isPTJ="'PTJ'"/>
 
             @foreach ($PTJ->PTJbigProjects as $big)
-                @php
-                $bigName = $big->name . ' (' . $big->PTJ . ')';
-                @endphp
+
+                @php $bigName = $big->name . ' (' . $big->PTJ . ')'; @endphp
+
                 <x-adminlte-modal id="modalbig{{ $big->id }}" title="{{$bigName}}" theme="{{ $bigModalColor }}" icon="fas fa-info-circle" size='lg'>
                     <div>Details: {{ $big->details != null ? $big->details : '[None]' }}</div>
                     <div>
@@ -78,9 +78,7 @@
                     <div>Tasks Count: {{ $big->done_tasks_count . '/' . $big->tasks_count }}</div>
                     <div>Start Date: {{toMyDate($big->start_date)}}</div>
                     <div>End Date: {{toMyDate($big->end_date)}}</div>
-                    @php
-                        $x = toProg($big->done_tasks_count,$big->tasks_count);
-                    @endphp
+                    @php $x = toProg($big->done_tasks_count,$big->tasks_count);  @endphp
                     <div class="progress">
                         <div class="progress-done" style="width: {{ $x }}%"></div>
                         <div class="progress-text">{{ $GLOBALS['toProgS'] }}%</div>
@@ -110,6 +108,7 @@
                         <x-adminlte-button label="Close" data-dismiss="modal"/>
                     </x-slot>
                 </x-adminlte-modal>
+
                 @php $subCount = $big->sub_projects->count();@endphp
                 <div class="ptj-outside">
                     {{-- button to open modal --}}
@@ -119,10 +118,11 @@
                 <x-adminlte-card title="" theme="" class="" collapsible="{{$subCount >= 3 ? 'collapsed' : ''}}">
                     <x-sub-project-row :big="$big" :bigModalColor="$bigModalColor" :isPTJ="'big project'"/>
                 </x-adminlte-card>
+
             @endforeach
+
         </x-adminlte-card>
+
     @endforeach
-    </div>
-    </div>
-    </div>
-</div>
+
+</div> </div> </div> </div>

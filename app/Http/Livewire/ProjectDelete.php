@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Contracts\View\Factory;
 use Livewire\Component;
 
 class ProjectDelete extends Component

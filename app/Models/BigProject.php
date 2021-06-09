@@ -86,7 +86,7 @@ class BigProject extends Model
         ->withCount(['milestones'])
         ->where('default',false)
         ->where('PTJ',$this->PTJ)
-        ->get(['id','name','PTJ','details']);
+        ->get();
 
         $this->sub_projects->loadCount([
             'tasks',
@@ -120,10 +120,6 @@ class BigProject extends Model
             $this->tasks_count += $big->tasks_count;
             $this->done_tasks_count += $big->done_tasks_count;
         }
-        // To do
-        // ->with(['milestones' => function($query){
-        //     $query->withCount('tasks');
-        // }])
     }
 
     private function projectsCount(): int{

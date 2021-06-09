@@ -250,7 +250,7 @@ class AsignProject extends Component
     }
 
     public function reAllUsersManager(){
-        foreach (User::role('projMan')->get() as $user){
+        foreach (User::role('projMan')->get(['id','name','email']) as $user){
             // if ($user->hasPermissionTo('edit projects')){
                 // $user->revokePermissionTo('edit projects');
             // }$user->hasRole('projMan');
@@ -294,7 +294,9 @@ class AsignProject extends Component
         {
             $this->users =
             User::where('name', 'like', '%'.$this->search.'%')
-            ->orWhere('email', 'like', '%'.$this->search.'%')->take(10)->get();
+            ->orWhere('email', 'like', '%'.$this->search.'%')
+            ->take(10)
+            ->get(['id','name','email']);
             // $this->usersLike($this->search);
         }
 

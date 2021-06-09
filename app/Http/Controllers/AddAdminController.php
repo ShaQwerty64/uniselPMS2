@@ -14,7 +14,7 @@ class AddAdminController extends Controller
         $users = User::role(['admin','topMan','projMan'])
         ->with(['roles', 'big_projects:id,name,PTJ', 'sub_projects:id,big_project_id,name','sub_projects.big_project:id,PTJ'])// ->whereNotIn('email', $userEmail)
         ->get(['id','name','email']);
-        // dd($users);
+        
         $managers = []; $admins = []; $viewers = [];
         $userIsManager = false; $userIsAdmin = false; $userIsViewer = false;
         //$admins->contains($user);$user->hasRole('admin');

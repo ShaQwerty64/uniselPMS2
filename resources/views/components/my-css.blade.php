@@ -109,17 +109,6 @@ border-color: rgba(255, 255, 255, var(--tw-divide-opacity));
         border-radius: 1rem/* 16px */;
     }
 }
-.mytable{
-    /* min-w-full */
-    min-width: 100%;
-    /* divide-y */
-    --tw-divide-y-reverse: 0;
-    border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
-    border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
-    /* divide-gray-200 */
-    --tw-divide-opacity: 1;
-    border-color: rgba(229, 231, 235, var(--tw-divide-opacity));
-}
 .tablediv1{
     /* flex */
     display: flex;
@@ -271,12 +260,12 @@ border-color: rgba(255, 255, 255, var(--tw-divide-opacity));
     /* min-w-full */
     min-width: 100%;
     /* divide-y */
-    --tw-divide-y-reverse: 0;
+    /* --tw-divide-y-reverse: 0;
     border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
-    border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
+    border-bottom-width: calc(1px * var(--tw-divide-y-reverse)); */
     /* divide-gray-200 */
-    --tw-divide-opacity: 1;
-    border-color: rgba(229, 231, 235, var(--tw-divide-opacity));
+    /* --tw-divide-opacity: 1;
+    border-color: rgba(229, 231, 235, var(--tw-divide-opacity)); */
 }
 .thead{
     /* bg-gray-200 */
@@ -288,12 +277,12 @@ border-color: rgba(255, 255, 255, var(--tw-divide-opacity));
     --tw-bg-opacity: 1;
     background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
     /* divide-y */
-    --tw-divide-y-reverse: 0;
+    /* --tw-divide-y-reverse: 0;
     border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
-    border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
+    border-bottom-width: calc(1px * var(--tw-divide-y-reverse)); */
     /* divide-gray-200 */
-    --tw-divide-opacity: 1;
-    border-color: rgba(229, 231, 235, var(--tw-divide-opacity));
+    /* --tw-divide-opacity: 1;
+    border-color: rgba(229, 231, 235, var(--tw-divide-opacity)); */
 }
 .td{
     /* p-3 */
@@ -459,7 +448,7 @@ border-color: rgba(255, 255, 255, var(--tw-divide-opacity));
     /* flex-grow */
     flex-grow: 1;
     /* text-center */
-    text-align: center;
+    text-align: right;
 }
 .hr{
     /* mb-3 */

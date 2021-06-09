@@ -4,7 +4,6 @@ namespace App\Http\Livewire;
 
 use App\Models\BigProject;
 use App\Models\SubProject;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class UserRemove extends Component

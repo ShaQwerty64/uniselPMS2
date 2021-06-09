@@ -20,12 +20,7 @@ class ProjectTable extends Component
         ->get(['id','name','PTJ','details']);
         foreach ($this->PTJs as $PTJ){
             $PTJ->PTJactive();
-            // dd($PTJ);
         }
-    }
-
-    public function dd(){
-        dd($this);
     }
 
     private function findPTJ(string $PTJPTJ): BigProject{
@@ -59,39 +54,12 @@ class ProjectTable extends Component
         return redirect()->route('admin');
     }
 
+    public function reloadPage(){
+        return redirect()->route('admin');
+    }
+
     public function render()
     {
         return view('livewire.project-table');
     }
 }
-    // public $modalProj;
-    // public $isBig;
-    // public $modalName = 'Loding . . .';
-    // public $modalColor = '';
-    // public $modalBigProj;
-    // public $modalActive = false;
-    // public function projDelete(Request $request){
-    //     $this->modalProj->delete();
-    //     $bigOrSub = 'sub';
-    //     if ($this->isBig){ $bigOrSub = 'big'; }
-    //     $request->banner($this->modalProj->name . ' (' . $bigOrSub . ') project deleted.');
-    //     $request->session()->put('banner.t', '');
-    //     return redirect()->route('admin');
-    // }
-
-    // public function setModal(bool $isBig, $projId, string $name, string $color, $bigProjId){
-    //     $this->modalActive = true;
-    //     $this->isBig = $isBig;
-    //     $this->modalName = $name;
-    //     $this->modalColor = $color;
-    //     if ($isBig){
-    //         $this->modalProj = BigProject::where('id',$projId)->first();
-    //         return;
-    //     }
-    //     $this->modalProj = SubProject::where('id',$projId)->first();
-    //     $this->modalBigProj = BigProject::where('id',$bigProjId)->first();
-    // }
-
-    // public function offModal(){
-    //     $this->modalActive = false;
-    // }

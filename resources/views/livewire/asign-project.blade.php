@@ -3,7 +3,9 @@
     <div class="d-flex">
         <p>For asigning user to project.</p>
         <div wire:loading class="loading">
-            Loading...
+            <div class="spinner-border text-success" role="status">
+                <span class="visually-hidden"></span>
+            </div>
         </div>
     </div>
     <hr class="hr">

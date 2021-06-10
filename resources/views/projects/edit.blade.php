@@ -98,6 +98,7 @@
                                     <div class="form-group">
                                       <label class="control-label" for="date">End Date</label>
                                       <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                    
                                     </div>
                                   </form>
                                   </div>

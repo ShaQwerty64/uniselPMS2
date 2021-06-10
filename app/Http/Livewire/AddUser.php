@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\BigProject;
 use App\Models\SubProject;
 use App\Models\User;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +13,7 @@ use Livewire\Component;
 
 class AddUser extends Component
 {
-    public string $is; public bool $isAdmin = false; public bool $isViewer = false; public bool $isManager = false; public bool $isProject = false;
+    public bool $isAdmin = false; public bool $isViewer = false; public bool $isManager = false; public bool $isProject = false;
     public null|BigProject|SubProject $proj;
     public null|bool|BigProject $big;// if ($this->isProject) BigProject
     public null|string $name;
@@ -36,7 +37,6 @@ class AddUser extends Component
 
     public function mount()
     {
-        $this->isWhat();
         //search user to become admin
         if ($this->isAdmin){
             $this->roleName = 'admin';
@@ -125,18 +125,7 @@ class AddUser extends Component
     }
 
     private function btnRemove(string $confirm, int $id): string{
-        return ' <button class="remove" title="Remove" wire:click="managerTableRemove(' . $id . ')" onclick="return alert(' . $confirm . ')">Remove</button>';
-    }
-
-    private function isWhat(){
-        if ($this->is == 'admin'){
-        $this->isAdmin = true;}
-        elseif ($this->is == 'viewer'){
-        $this->isViewer = true;}
-        elseif($this->is == 'manager'){
-        $this->isManager = true;}
-        elseif ($this->is == 'project'){
-        $this->isProject = true;}
+        return '<button class="remove" title="Remove" wire:click="managerTableRemove(' . $id . ')" onclick="return alert(' . $confirm . ')">Remove</button>';
     }
 
     private function getIdOfRedundantUser(){

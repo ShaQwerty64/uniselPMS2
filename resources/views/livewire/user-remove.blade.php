@@ -1,7 +1,6 @@
-<x-adminlte-modal id="{{ $htmlid }}" title="Remove or add user from {{ $name }}" theme="info"
-    icon="fas fa-users" size='lg'>
+<x-adminlte-modal id="{{ $htmlid }}" title="Remove or add user from {{ $name }}" theme="info" icon="fas fa-users" size='lg'>
 
-    @livewire('add-user', ['is' => 'manager', 'proj' => $proj, 'name' => $name])
+    @livewire('add-user', ['isManager' => true, 'proj' => $proj, 'name' => $name])
 
     Press the user input (not the button) if users list not refresh. Please reload the page after removing user.
     <x-slot name="footerSlot">

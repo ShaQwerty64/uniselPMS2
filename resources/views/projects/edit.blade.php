@@ -82,9 +82,29 @@
                                                    <span class="input-group-addon"> Add Milestone</span>
                                                    <input id="msg" type="text" class="form-control" name="msg" placeholder="">
                                              </div>
+
                                         </div>
+
                                     </div>
-                                      </form>
+
+                              <div class="container-fluid">
+                                <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <form method="post">
+                                    <div class="form-group">
+                                      <label class="control-label" for="date">Start Date</label>
+                                      <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                    </div>
+                                    <div class="form-group">
+                                      <label class="control-label" for="date">End Date</label>
+                                      <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                    </div>
+                                  </form>
+                                  </div>
+                                </div>
+                              </div>
+                             </div>
+                            </form>
                                       <x-adminlte-button class="btn-flat" type="submit" label="Submit" theme="success" icon="fas fa-lg fa-save"/>
                                     <x-adminlte-button class="btn-lg" type="reset" label="Reset" theme="outline-danger" icon="fas fa-lg fa-trash"/>
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddAdminController;
+use App\Http\Controllers\ViewProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,7 +31,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::view('/projects','projects.edit')->middleware('permission:edit projects')->name('edit');
 
     //Top-management only
-    Route::view('/view', 'projects.view')->middleware('permission:view projects')->name('view');
+    
+    //same as
+    Route::get('/view', [ViewProjectController::class,'index'])->middleware('permission:view projects')->name('view');
 });
 
 

@@ -40,10 +40,10 @@ class BigProject extends Model
     }
 
     //PTJ things
-    public null|Collection $PTJbigProjects;
-    public null|bool $notHaveBig;
-    public null|int $projectsCount;
-    public null|int $projectsCount2;
+    public Collection $PTJbigProjects;
+    public bool $notHaveBig;
+    public int $projectsCount;
+    public int $projectsCount2;
 
     private $subCount;
     public $bigCount;

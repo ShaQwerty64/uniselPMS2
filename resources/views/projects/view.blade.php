@@ -13,8 +13,27 @@
                 <div class="card-body">
 
                     @foreach ($SubProjects as $sub)
-                        {{$sub->name}}
-                    @endforeach
+                        <div>{{$sub->name}}</div>
+                        <div>{{$sub->details}}</div>
+                        <div>{{$sub->big_project->PTJ}}</div>
+                        <div>{{$sub->start_date}}</div>
+                        <div>{{$sub->end_date}}</div>
+                        @endforeach
+
+
+                        {{-- <div> {{$bigProject->name}} </div>
+		<div> {{$bigProject->details}} </div>
+		<div> {{$bigProject->PTJ}} </div>
+		<div> {{$bigProject->start_date}} </div>
+		<div> {{$bigProject->end_date}} </div>
+
+
+		<div> {{$subProject->details}} </div>
+		<div> {{$subProject->PTJ}} </div>
+		<div> {{$subProject->start_date}} </div>
+		<div> {{$subProject->end_date}} </div>
+
+                    @endforeach --}}
 
                     {{-- <div class="py-12">
                         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

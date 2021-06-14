@@ -24,17 +24,11 @@ class ViewProjectController extends Controller
         // $users_count = $users->count();
 
         // $users= User::get();
-        $bigProjects = BigProject::get();
+        // $bigProjects = BigProject::get();
         $SubProjects = SubProject::get();
         return view('projects.view',[
-        'user' => $user,
-        'managers' => $managers,
-        'admins' => $admins,
-        'viewers' => $viewers,
-        'userIsManager' => $userIsManager,
-        'userIsAdmin' => $userIsAdmin,
-        'userIsViewer' => $userIsViewer,
-    ]);
+        'SubProjects' => $SubProjects,
+        ]);
     }
 
     public function something()

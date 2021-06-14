@@ -1,7 +1,7 @@
 import ApplicationLogo from '../Components/ApplicationLogo';
 import Dropdown from '../Components/Dropdown';
 import NavLink from '../Components/NavLink';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ResponsiveNavLink from '../Components/ResponsiveNavLink';
 import { InertiaLink } from '@inertiajs/inertia-react';
 
@@ -101,14 +101,13 @@ export default function Authenticated({ auth, header, children }) {
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="flex flex-col items-start px-4">
+                        <div className="px-4">
                             <div className="font-medium text-base text-gray-800">{auth.user.name}</div>
-
                             <div className="font-medium text-sm text-gray-500">{auth.user.email}</div>
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink method="post" href={route('logout')}>
+                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                 Log Out
                             </ResponsiveNavLink>
                         </div>

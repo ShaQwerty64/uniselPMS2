@@ -9,6 +9,7 @@ class SubProjectRow extends Component
 {
     public BigProject $big;
     public string $bigModalColor;
+    public string $isPTJ;
     /**
      * Create a new component instance.
      *

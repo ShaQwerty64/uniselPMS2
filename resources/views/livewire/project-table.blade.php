@@ -85,9 +85,18 @@
                     </div>
                     <x-slot name="footerSlot">
                         <x-adminlte-modal id="modalbigdelete{{ $big->id }}" title="Delete {{ $bigName }}?" theme="danger" icon="fa fa-lg fa-fw fa-trash" size='lg'>
-                            <x-adminlte-button class="mr-auto" theme="danger" label="Delete with ALL the Projects Under this Project" wire:click="bigDelete({{ $big }}, true)"/>
+
+                            <form action="{{ route('admin.delAll',$big) }}" method="post">
+                                @csrf           {{-- <x-adminlte-button class="mr-auto" theme="danger" label="Delete with ALL the Projects Under this Project" wire:click="bigDelete({{ $big }}, true)"/> --}}
+                                <x-adminlte-button class="mr-auto my-2" theme="danger" label="Delete with ALL the Projects Under this Project"
+                                type="submit" onclick="return confirm('Delete with ALL {{$big->name}} s sub projects?')"/>
+                            </form>
+                            <form action="{{ route('admin.del',$big) }}" method="post">
+                                @csrf           {{-- <x-adminlte-button class="mr-auto" theme="danger" label="Delete Project and Move All Project Under this Project to Default PTJ" wire:click="bigDelete({{ $big }}, false)"/> --}}
+                                <x-adminlte-button class="mr-auto my-2" theme="danger" label="Delete Project and Move All Project Under this Project to Default PTJ"
+                                type="submit" onclick="return confirm('Delete {{$big->name}} and move all sub projects under this project to Default {{$big->PTJ}}?')"/>
+                            </form>
                             <x-slot name="footerSlot">
-                                <x-adminlte-button class="mr-auto" theme="danger" label="Delete Project and Move All Project Under this Project to Default PTJ" wire:click="bigDelete({{ $big }}, false)"/>
                                 <x-adminlte-button label="Close All" data-dismiss="modal"/>
                             </x-slot>
                         </x-adminlte-modal>
@@ -99,7 +108,7 @@
                             @livewire('add-user', ['isManager' => true, 'proj' => $big, 'name' => $bigName])
                             Press the user input (not the button) if users list not refresh. Please reload the page after removing user.
                             <x-slot name="footerSlot">
-                                <x-adminlte-button class="mr-auto" label="Reload Page" wire:click="reloadPage" theme="warning"/>
+                                <form action="{{route('admin')}}"><x-adminlte-button class="mr-auto" label="Reload Page" type="submit" theme="warning"/></form>
                                 <x-adminlte-button label="Close All" data-dismiss="modal"/>
                             </x-slot>
                         </x-adminlte-modal>

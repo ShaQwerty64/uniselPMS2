@@ -68,7 +68,8 @@ class AddAdminController extends Controller
         return redirect()->route('addadmin');
     }
 
-    public function reAllUsersManager(){
+    //remove project managers who do not have projects under them
+    public function reRole(){
         foreach (User::role('projMan')->get(['id','name','email']) as $user){
             // if ($user->hasPermissionTo('edit projects')){
                 // $user->revokePermissionTo('edit projects');
@@ -85,5 +86,6 @@ class AddAdminController extends Controller
                 }
             }
         }
+        return redirect()->route('addadmin');
     }
 }

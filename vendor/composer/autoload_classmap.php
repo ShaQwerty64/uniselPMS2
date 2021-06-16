@@ -50,6 +50,7 @@ return array(
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\View\\Components\\AppLayout' => $baseDir . '/app/View/Components/AppLayout.php',
     'App\\View\\Components\\GuestLayout' => $baseDir . '/app/View/Components/GuestLayout.php',
+    'App\\View\\Components\\ProjectTable' => $baseDir . '/app/View/Components/ProjectTable.php',
     'App\\View\\Components\\SubProjectRow' => $baseDir . '/app/View/Components/SubProjectRow.php',
     'App\\View\\Components\\myCss' => $baseDir . '/app/View/Components/myCss.php',
     'Asm89\\Stack\\Cors' => $vendorDir . '/asm89/stack-cors/src/Cors.php',

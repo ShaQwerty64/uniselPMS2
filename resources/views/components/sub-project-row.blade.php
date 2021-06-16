@@ -57,7 +57,10 @@
                 <x-slot name="footerSlot">
                     <x-adminlte-modal id="modalsubdelete{{ $sub->id }}" title="Delete {{ $sub->name }}?" theme="danger" icon="fa fa-lg fa-fw fa-trash" size='lg'>
                         <x-slot name="footerSlot">
-                            <x-adminlte-button class="mr-auto" theme="danger" label="Delete" wire:click="subDelete({{ $sub }})"/>
+                            <form action="{{ route('admin.delSub',$sub) }}" method="post">
+                                @csrf           {{-- <x-adminlte-button class="mr-auto" theme="danger" label="Delete" wire:click="subDelete({{ $sub }})"/> --}}
+                                <x-adminlte-button class="mr-auto" theme="danger" label="Delete" type="submit" onclick="return confirm('Delete {{$sub->name}}?')"/>
+                            </form>
                             <x-adminlte-button label="Close All" data-dismiss="modal"/>
                         </x-slot>
                     </x-adminlte-modal>
@@ -87,7 +90,7 @@
                         @livewire('add-user', ['isManager' => true, 'proj' => $sub, 'name' => $sub->name])
                         Press the user input (not the button) if users list not refresh. Please reload the page after removing user.
                         <x-slot name="footerSlot">
-                            <x-adminlte-button class="mr-auto" label="Reload Page" wire:click="reloadPage" theme="warning"/>
+                            <form action="{{route('admin')}}"><x-adminlte-button class="mr-auto" label="Reload Page" type="submit" theme="warning"/></form>
                             <x-adminlte-button label="Close All" data-dismiss="modal"/>
                         </x-slot>
                     </x-adminlte-modal>

@@ -67,4 +67,25 @@ class AddAdminController extends Controller
         $request->banner('"' . $admin->name . '" not a viewer now.');
         return redirect()->route('addadmin');
     }
+
+    //remove project managers who do not have projects under them
+    public function reRole(){
+        foreach (User::role('projMan')->get(['id','name','email']) as $user){
+            // if ($user->hasPermissionTo('edit projects')){
+                // $user->revokePermissionTo('edit projects');
+            // }$user->hasRole('projMan');
+            $user->removeRole('projMan');
+        }
+        foreach (BigProject::all() as $bigProject){
+            foreach ($bigProject->users as $user){
+                $user->assignRole('projMan');
+            }
+            foreach ($bigProject->sub_projects as $subProject){
+                foreach ($subProject->users as $user){
+                    $user->assignRole('projMan');
+                }
+            }
+        }
+        return redirect()->route('addadmin');
+    }
 }

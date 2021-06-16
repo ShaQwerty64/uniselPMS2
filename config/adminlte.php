@@ -237,9 +237,9 @@ return [
         ],
 
         [
-            'text' => 'Add Admin',
-            'url'  => 'add_admin',
-            'can'  => ['modify admin','modify viewer'],
+            'text' => 'Roles Manager',
+            'url'  => 'roles_manager',
+            'can'  => ['modify projects','modify admin','modify viewer'],
             'icon'       => 'fas fa-fw fa-user',
             'icon_color' => 'red',
         ],

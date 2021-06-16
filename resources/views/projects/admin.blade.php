@@ -32,7 +32,7 @@
     <div class="py-4">
     <div class="outside outside2">
     <div class="inside inside2">
-        @livewire('project-table')
+        <x-livewire.project-table :ptjs="$PTJs"/>{{-- @livewire('project-table') --}}
     </div>
     </div>
     </div>

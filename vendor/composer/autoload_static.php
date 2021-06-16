@@ -613,6 +613,7 @@ class ComposerStaticInit1b9819fe87afc9bd3ada4191c7235125
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AddAdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/AddAdminController.php',
+        'App\\Http\\Controllers\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdminController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\ViewProjectController' => __DIR__ . '/../..' . '/app/Http/Controllers/ViewProjectController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',

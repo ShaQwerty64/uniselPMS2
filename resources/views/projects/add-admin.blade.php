@@ -8,10 +8,10 @@
     <div class="py-12"> --}}
 @extends('adminlte::page')
 
-@section('title', 'Add Admin')
+@section('title', 'Roles Manager')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Add, Remove Admin, Viewer</h1>
+    <h1 class="m-0 text-dark">Roles Manager</h1>
 @stop
 
 @section('content')
@@ -21,8 +21,18 @@
 
 <div class="col-12">
 
+    @can('modify projects')
     <div class="py-4">
-    <h2 class="big-title">Project Managers list</h2>
+    <div class="d-flex">
+        <h2 class="big-title">Project Managers list</h2>
+        <div class="flex-grow-1"></div>
+        <form action="{{ route('addadmin.rerole') }}" method="post">
+            @csrf
+            <button onclick="return confirm('Remove users with project manager roles that do not have project under them if exist. The system should prevent this...')"
+            type="submit" class="remove">Role check?</button>
+        </form>
+    </div>
+
     <div class="inside">
 
         <table class="mytable">
@@ -107,6 +117,7 @@
         </table>
     </div>
     </div>
+    @endcan
 
     @can('modify admin')
     <div class="py-4">

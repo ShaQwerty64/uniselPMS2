@@ -25,7 +25,10 @@ class ViewProjectController extends Controller
 
         // $users= User::get();
         // $bigProjects = BigProject::get();
-        $SubProjects = SubProject::get();
+        $SubProjects = SubProject::withCount(['tasks',
+        'tasks as done_tasks_count' => function ($query){
+            $query->where('done', true);
+        }])->get();
         return view('projects.view',[
         'SubProjects' => $SubProjects,
         ]);

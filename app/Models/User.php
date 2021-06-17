@@ -80,4 +80,12 @@ class User extends Authenticatable
     public function big_projects(){
         return $this->belongsToMany(BigProject::class,'user_big_project_relationships');
     }
+
+    public function admin_historys(){
+        return $this->hasMany(ProjectsHistory::class,'admin_id');
+    }
+
+    public function user_historys(){
+        return $this->hasMany(ProjectsHistory::class,'user_id');
+    }
 }

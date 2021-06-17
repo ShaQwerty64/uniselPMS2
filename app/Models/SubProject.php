@@ -24,4 +24,8 @@ class SubProject extends Model
     public function tasks(){
         return $this->hasManyThrough(Task::class, Milestone::class);
     }
+
+    public function historys(){
+        return $this->hasMany(ProjectsHistory::class);
+    }
 }

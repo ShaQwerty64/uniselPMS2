@@ -648,6 +648,7 @@ class ComposerStaticInit1b9819fe87afc9bd3ada4191c7235125
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\View\\Components\\AppLayout' => __DIR__ . '/../..' . '/app/View/Components/AppLayout.php',
         'App\\View\\Components\\GuestLayout' => __DIR__ . '/../..' . '/app/View/Components/GuestLayout.php',
+        'App\\View\\Components\\ProjectTable' => __DIR__ . '/../..' . '/app/View/Components/ProjectTable.php',
         'App\\View\\Components\\SubProjectRow' => __DIR__ . '/../..' . '/app/View/Components/SubProjectRow.php',
         'App\\View\\Components\\myCss' => __DIR__ . '/../..' . '/app/View/Components/myCss.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',

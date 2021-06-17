@@ -21,6 +21,10 @@ class BigProject extends Model
         return $this->hasManyThrough(Milestone::class, SubProject::class);
     }
 
+    public function historys(){
+        return $this->hasMany(ProjectsHistory::class);
+    }
+
     public int $tasks_count = 0;
     public int $done_tasks_count = 0;
 

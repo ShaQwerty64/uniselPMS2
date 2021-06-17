@@ -58,6 +58,18 @@ function toProg(null|int $progressDone, null|int $progress): int{
                         {{$sub->Count}}
                     </div>
 
+                    <label for="sel9">Task Count:</label>
+                    <div class="form-control">
+                        {{$sub->Task_Count}}
+                    </div>
+
+                    <label for="sel9">Milestone Count:</label>
+                    <div class="form-control">
+                        {{$sub->Milestone_Count}}
+                    </div>
+
+
+
                     <label for="sel5">Start date:</label>
                     <div class="form-control">
                         {{$sub->start_date}}

@@ -42,14 +42,14 @@ class AddUser extends Component
             $this->roleName = 'admin';
             $this->word = 'Become Admin';
             $this->word2 = 'Enter Registered User to Become Admin';
-            $this->anAdminOrAviewer = 'an admin';
+            $this->anAdminOrAviewer = 'admin';
         }
         //search user to become viewer
         elseif ($this->isViewer){
             $this->roleName = 'topMan';
             $this->word = 'Become Viewer';
             $this->word2 = 'Enter Registered User to Become Viewer';
-            $this->anAdminOrAviewer = 'a viewer';
+            $this->anAdminOrAviewer = 'viewer';
         }
         //search user to become project manager
         elseif($this->isManager){
@@ -231,21 +231,27 @@ class AddUser extends Component
             $this->theUser->assignRole($this->roleName);
             if ($this->big){
                 $this->theUser->big_projects()->save($this->proj);
+                $request->banner("Admin '" . auth()->user()->name .  "' add user '" . $this->theUser->name . "' to big project '" . $this->proj->name . "' (" . $this->proj->PTJ . ")");
             }
             else{
                 $this->theUser->sub_projects()->save($this->proj);
+                $request->banner("Admin '" . auth()->user()->name .  "' add user '" . $this->theUser->name . "' to sub project '" . $this->proj->name . "' (" . $this->proj->big_project()->PTJ . ")");
             }
             $this->search = '';
             return;// redirect()->route('admin')
         }
         else if ($this->isProject){
+            $old = $this->proj->big_project();
+
             $this->proj->big_project_id = $this->theUser->id;
             $this->proj->save();
-            $request->banner('"' . $this->proj->name . '" is now under ' . $this->theUser->name . '.','s');
+            $message = "Admin '" . auth()->user()->name .  "' move sub project '" . $this->proj->name . "' from big project '" . $old->name . "' (" . $old->PTJ . ") into big project '" . $this->theUser->name . "' (" . $this->theUser->PTJ . ")";
+            $request->banner($message);
+            $request->banner($message);
             return redirect()->route('admin');
         }
         $this->theUser->assignRole($this->roleName);
-        $request->banner('"' . $this->theUser->name . '" is now ' . $this->anAdminOrAviewer . '.', 's');
+        $request->banner("Admin '" . auth()->user()->name .  "' give user '" . $this->theUser->name . "' " . $this->anAdminOrAviewer . " role");
         return redirect()->route('addadmin');
     }
 

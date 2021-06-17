@@ -165,13 +165,14 @@ class AsignProject extends Component
     {
         if ($this->ifRegistered && $this->searchP != '')
         {
-            $message = '';
+            $message = "Admin '" . auth()->user()->name .  "' ";
             if ($this->theBigProject == '[None]')
             {
                 if ($this->ifReal)
                 {
                     $this->theUser->sub_projects()->save($this->theProject);
-                    $message = '"' . $this->searchP . '" project assigned to "' . $this->theUser->name . '"!';
+                    $message = "assigned sub project '" . $this->searchP . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
+
                 }
                 else
                 {
@@ -190,7 +191,7 @@ class AsignProject extends Component
                     $bigProject[0]->sub_projects()->save($project);
                     $this->theUser->sub_projects()->save($project);
 
-                    $message = '"' . $this->searchP . '" project added and assigned to "' . $this->theUser->name . '"!';
+                    $message = "add sub project '" . $this->searchP . "' (" . $this->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
                 }
             }
             elseif ($this->theBigProject == '[Make New Big Project]')
@@ -198,7 +199,7 @@ class AsignProject extends Component
                 if ($this->ifReal)
                 {
                     $this->theUser->big_projects()->save($this->theProject);
-                    $message = '"' . $this->searchP . '" big project assigned to "' . $this->theUser->name . '"!';
+                    $message = "assigned big project '" . $this->searchP . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
                 }
                 else
                 {
@@ -217,7 +218,7 @@ class AsignProject extends Component
                     $project->save();
                     $this->theUser->big_projects()->save($project);
 
-                    $message = '"' . $this->searchP . '" big project added and assigned to "' . $this->theUser->name . '"!';
+                    $message = "add big project '" . $this->searchP . "' (" . $this->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
                 }
             }
             else
@@ -225,7 +226,7 @@ class AsignProject extends Component
                 if ($this->ifReal)
                 {
                     $this->theUser->sub_projects()->save($this->theProject);
-                    $message = '"' . $this->searchP . '" project assigned to "' . $this->theUser->name . '"!';
+                    $message = "assigned sub project '" . $this->searchP . "' of big project '" . $bigProject->name . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
                 }
                 else
                 {
@@ -236,12 +237,15 @@ class AsignProject extends Component
                     $project->save();
                     $this->theUser->sub_projects()->save($project);
 
-                    $message = '"' . $this->searchP . '" project added to "' . $bigProject->name . '" and assigned to "' . $this->theUser->name . '"!';
+                    $message = "add sub project '" . $this->searchP . "' to big project '" . $bigProject->name . "' (" . $bigProject->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
                 }
             }
 
             $request->banner($message, 's');
-            $this->theUser->assignRole('projMan');
+            if (!$this->theUser->hasAnyRole('projMan')){
+                $this->theUser->assignRole('projMan');
+                $request->banner("User '" . $this->theUser . "' now a project manager!");
+            }
 
             $this->search = '';
             $this->searchP = '';

@@ -52,11 +52,7 @@ class AddAdminController extends Controller
         if (auth()->user()->email != $admin->email)
         {
             $admin->removeRole('admin');
-            $request->banner('"' . $admin->name . '" not an admin now.');
-        }
-        else //Not accessable
-        {
-            $request->banner('Cannot remove yourself, get other to admin remove you!','w');
+            $request->banner("Admin '" . auth()->user()->name .  "' remove user '" . $admin->name . "' admin role");
         }
         return redirect()->route('addadmin');
     }
@@ -64,7 +60,7 @@ class AddAdminController extends Controller
     public function destroyViewer(User $admin, Request $request)
     {
         $admin->removeRole('topMan');
-        $request->banner('"' . $admin->name . '" not a viewer now.');
+        $request->banner("Admin '" . auth()->user()->name .  "' remove user '" . $admin->name . "' viewer role");
         return redirect()->route('addadmin');
     }
 

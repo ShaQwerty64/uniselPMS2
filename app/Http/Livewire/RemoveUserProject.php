@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -86,11 +87,12 @@ class RemoveUserProject extends Component
         $this->toRemoveSub[$indexToRemove] = !$this->toRemoveSub[$indexToRemove];
     }
 
-    public function confirm(){
+    public function confirm(Request $request){
         $count = 0;
         foreach ($this->user->big_projects as $big){
             if ($this->toRemoveBig[$count]){
                 DB::delete('delete from user_big_project_relationships where user_id = ? and big_project_id = ?', [$this->user->id,$big->id]);
+                $request->banner("Admin '" . auth()->user()->name . "' remove user '" . $this->user->name . "' from big project '" . $big->name . "'");
             }
             $count++;
         }
@@ -98,11 +100,13 @@ class RemoveUserProject extends Component
         foreach ($this->user->sub_projects as $sub){
             if ($this->toRemoveSub[$count]){
                 DB::delete('delete from user_sub_project_relationships where user_id = ? and sub_project_id = ?', [$this->user->id,$sub->id]);
+                $request->banner("Admin '" . auth()->user()->name . "' remove user '" . $this->user->name . "' from sub project '" . $sub->name . "'");
             }
             $count++;
         }
         if ($this->user->sub_projects()->count() + $this->user->big_projects()->count() == 0){
             $this->user->removeRole('projMan');
+            $request->banner("User '" . $this->user->name . "' no longer a project manager . . .");
         }
         return redirect()->route('addadmin');
     }

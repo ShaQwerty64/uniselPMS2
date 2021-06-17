@@ -36,6 +36,7 @@ class AdminController extends Controller
         foreach ($big->sub_projects as $sub) {
             $sub->big_project_id = $PTJ;
             $sub->save();
+            $request->banner("Admin '" . auth()->user()->name .  "' move sub project '" . $sub->name . "' into " . $big->PTJ . " default");
         }
         $users = $big->users;
         $big->delete();
@@ -46,7 +47,7 @@ class AdminController extends Controller
             }
         }
 
-        $request->banner($big->name . ' (big) project deleted and all its sub projects move to ' . $big->PTJ . ' Default.');
+        $request->banner("Admin '" . auth()->user()->name .  "' delete big project '" . $big->name . "'");
 
         return redirect()->route('admin');
     }
@@ -70,7 +71,7 @@ class AdminController extends Controller
             }
         }
 
-        $request->banner($big->name . ' (big) project and all its sub projects deleted.');
+        $request->banner("Admin '" . auth()->user()->name .  "' delete big project '" . $big->name . "'");
 
         return redirect()->route('admin');
     }
@@ -86,7 +87,7 @@ class AdminController extends Controller
             }
         }
 
-        $request->banner($sub->name . ' (sub) project deleted.');
+        $request->banner("Admin '" . auth()->user()->name .  "' delete sub project '" . $sub->name . "'");
 
         return redirect()->route('admin');
     }

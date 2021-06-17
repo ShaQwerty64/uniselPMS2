@@ -19,7 +19,7 @@ class CreateProjectsHistoryTable extends Migration
             $table->foreignId('user_id')->constrained()->nullable();
             $table->foreignId('big_project_id')->constrained()->nullable();
             $table->foreignId('sub_project_id')->constrained()->nullable();
-            $table->enum('PTJ', ['CICT','Aset','JPP']);
+            $table->enum('PTJ', ['CICT','Aset','JPP'])->nullable();
             $table->boolean('all_admin');
             $table->text('details')->nullable();
             $table->timestamps();

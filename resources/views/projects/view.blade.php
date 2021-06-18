@@ -31,6 +31,7 @@ function toProg(null|int $progressDone, null|int $progress): int{
                         <div>{{$sub->start_date}}</div>
                         <div>{{$sub->end_date}}</div>
 
+
                 <div>
 
                     <h1> Project name:</h1>
@@ -43,6 +44,8 @@ function toProg(null|int $progressDone, null|int $progress): int{
                         <div class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3">{{$sub->details}}</div>
                     </div>
 
+
+
                     <label for="sel3">Big Project Name:</label>
                     <div class="form-control">
                         {{$sub->big_project->PTJ}}
@@ -53,6 +56,7 @@ function toProg(null|int $progressDone, null|int $progress): int{
                         {{$sub->Milestone}}
                     </div>
 
+
                     <label for="sel4">Count:</label>
                     <div class="form-control">
                         {{$sub->Count}}
@@ -62,13 +66,6 @@ function toProg(null|int $progressDone, null|int $progress): int{
                     <div class="form-control">
                         {{$sub->Task_Count}}
                     </div>
-
-                    <label for="sel9">Milestone Count:</label>
-                    <div class="form-control">
-                        {{$sub->Milestone_Count}}
-                    </div>
-
-
 
                     <label for="sel5">Start date:</label>
                     <div class="form-control">
@@ -87,6 +84,14 @@ function toProg(null|int $progressDone, null|int $progress): int{
 
                         @endforeach
 
+             @foreach ($SubProjects as $sub)
+                        @foreach($sub->milestones as $milestone)
+                         {{$milestone->name}}
+                         {{$milestone->details}}
+                         {{$milestone->start_date}}
+                         {{$milestone->end_date}}
+                         @endforeach
+            @endforeach
 
                         {{-- <div> {{$bigProject->name}} </div>
 		<div> {{$bigProject->details}} </div>
@@ -99,7 +104,6 @@ function toProg(null|int $progressDone, null|int $progress): int{
 		<div> {{$subProject->PTJ}} </div>
 		<div> {{$subProject->start_date}} </div>
 		<div> {{$subProject->end_date}} </div>
-
                     @endforeach --}}
 
                     {{-- <div class="py-12">

@@ -2,6 +2,7 @@
 
 namespace Illuminate\Http;
 
+use App\Models\ProjectsHistory;
 use ArrayAccess;
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
@@ -706,13 +707,30 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
      * s:success,
      * w:warning,
      * d:danger,
-     *  :message
+     *  :message,
+     * .:do not sent message
      * @param  string  $message
      * @param  string  $theme
      */
-    public function banner(string $message, string $theme = '')
+    public function banner(string $message, string $theme = '',int $admin,int $user,int $big, int $sub, string $PTJ, int $oldBig,string $oldPTJ)
     {
-        $this->session()->put('banner.m', $message);
-        $this->session()->put('banner.t', $theme);
+        $PH = new ProjectsHistory;
+        $PH->all_admin  = $admin == -96;
+        $PH->admin_id   = $admin == -96 ? null : $admin;
+        $PH->user_id    = $user;
+    $PH->big_project_id = $big;
+    $PH->sub_project_id = $sub;
+        $PH->PTJ        = $PTJ;
+        $PH->details    = $message;
+
+        $PH2 = new ProjectsHistory;
+        $PH2->big_project_id = $oldBig;
+        $PH2->PTJ        = $oldPTJ;
+        $PH2->details    = $message;
+
+        if ($theme != '.'){
+            $this->session()->put('banner.m', $message);
+            $this->session()->put('banner.t', $theme);
+        }
     }
 }

@@ -228,43 +228,95 @@ class AddUser extends Component
     public function madeRole(Request $request)
     {
         if ($this->isManager){
-            $this->theUser->assignRole($this->roleName);
+            if (!$this->theUser->hasAnyRole('projMan')){
+                $this->theUser->assignRole('projMan');
+                $request->banner("User '" . $this->theUser . "' now a project manager!", '.',auth()->user()->id,$this->theUser->id);
+            }
             if ($this->big){
                 $this->theUser->big_projects()->save($this->proj);
-                $request->banner("Admin '" . auth()->user()->name .  "' add user '" . $this->theUser->name . "' to big project '" . $this->proj->name . "' (" . $this->proj->PTJ . ")");
+                $request->banner("Admin '" . auth()->user()->name
+                .  "' add user '" . $this->theUser->name
+                . "' to big project '" . $this->proj->name
+                . "' (" . $this->proj->PTJ . ")"
+                , '.'
+                , auth()->user()->id
+                , $this->theUser->id
+                , $this->proj->id
+                , null
+                , $this->proj->PTJ
+                );
             }
             else{
                 $this->theUser->sub_projects()->save($this->proj);
-                $request->banner("Admin '" . auth()->user()->name .  "' add user '" . $this->theUser->name . "' to sub project '" . $this->proj->name . "' (" . $this->proj->big_project()->PTJ . ")");
+                $request->banner("Admin '" . auth()->user()->name
+                .  "' add user '" . $this->theUser->name
+                . "' to sub project '" . $this->proj->name
+                . "' (" . $this->proj->big_project()->PTJ . ")"
+                , '.'
+                , auth()->user()->id
+                , $this->theUser->id
+                , $this->theUser->big_project->id
+                , $this->proj->id
+                , $this->theUser->big_project->PTJ
+                );
             }
             $this->search = '';
             return;// redirect()->route('admin')
         }
         else if ($this->isProject){
             $old = $this->proj->big_project();
-
             $this->proj->big_project_id = $this->theUser->id;
             $this->proj->save();
-            $message = "Admin '" . auth()->user()->name .  "' move sub project '" . $this->proj->name . "' from big project '" . $old->name . "' (" . $old->PTJ . ") into big project '" . $this->theUser->name . "' (" . $this->theUser->PTJ . ")";
-            $request->banner($message);
-            $request->banner($message);
+            $message = "Admin '" . auth()->user()->name .  "' move sub project '" .$this->proj->name . "' from big project '" . $old->name . "' (" . $old->PTJ . ") into big project '" . $this->theUser->name . "' (" . $this->theUser->PTJ . ")";
+            $request->banner($message, '', auth()->user()->id,null,$this->theUser->id,$this->proj->id,$this->theUser->PTJ,$old->id,$old->PTJ);
             return redirect()->route('admin');
         }
         $this->theUser->assignRole($this->roleName);
-        $request->banner("Admin '" . auth()->user()->name .  "' give user '" . $this->theUser->name . "' " . $this->anAdminOrAviewer . " role");
+        $request->banner("Admin '" . auth()->user()->name .  "' give user '" . $this->theUser->name . "' " . $this->anAdminOrAviewer . " role",'',auth()->user()->id,$this->theUser->id);
         return redirect()->route('addadmin');
     }
 
-    public function managerTableRemove(int $id){//remove manager from project
+    public function managerTableRemove(int $id, Request $request){//remove manager from project
+        $user = User::where('id',$id)->first();
         if ($this->big){
             DB::delete('delete from user_big_project_relationships where user_id = ? and big_project_id = ?', [$id,$this->proj->id]);
+            $request->banner("Admin '"
+                . auth()->user()->name
+                . "' remove user '"
+                . $user->name
+                . "' from big project '"
+                . $this->proj->name . "'"
+                , '.'
+                , auth()->user()->id
+                , $user->id
+                , $this->proj->id
+                , null
+                , $this->proj->PTJ
+                );
         }
         else{
             DB::delete('delete from user_sub_project_relationships where user_id = ? and sub_project_id = ?', [$id,$this->proj->id]);
+            $request->banner("Admin '"
+            . auth()->user()->name
+            . "' remove user '"
+            . $user->name
+            . "' from sub project '"
+            . $this->proj->name . "'"
+            , '.'
+            , auth()->user()->id
+            , $user->id
+            , $this->proj->big_project->id
+            , $this->proj->id
+            , $this->proj->big_project->PTJ
+            );
         }
-        $user = User::where('id',$id)->first();
         if ($user->sub_projects()->count() + $user->big_projects()->count() == 0){
             $user->removeRole('projMan');
+            $request->banner("User '" . $user->name . "' no longer a project manager . . ."
+            , '.'
+            , auth()->user()->id
+            , $user->id
+            );
         }
     }
 }

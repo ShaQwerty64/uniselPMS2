@@ -92,7 +92,19 @@ class RemoveUserProject extends Component
         foreach ($this->user->big_projects as $big){
             if ($this->toRemoveBig[$count]){
                 DB::delete('delete from user_big_project_relationships where user_id = ? and big_project_id = ?', [$this->user->id,$big->id]);
-                $request->banner("Admin '" . auth()->user()->name . "' remove user '" . $this->user->name . "' from big project '" . $big->name . "'");
+                $request->banner("Admin '"
+                . auth()->user()->name
+                . "' remove user '"
+                . $this->user->name
+                . "' from big project '"
+                . $big->name . "'"
+                , ''
+                , auth()->user()->id
+                , $this->user->id
+                , $big->id
+                , null
+                , $big->PTJ
+                );
             }
             $count++;
         }
@@ -100,13 +112,29 @@ class RemoveUserProject extends Component
         foreach ($this->user->sub_projects as $sub){
             if ($this->toRemoveSub[$count]){
                 DB::delete('delete from user_sub_project_relationships where user_id = ? and sub_project_id = ?', [$this->user->id,$sub->id]);
-                $request->banner("Admin '" . auth()->user()->name . "' remove user '" . $this->user->name . "' from sub project '" . $sub->name . "'");
+                $request->banner("Admin '"
+                . auth()->user()->name
+                . "' remove user '"
+                . $this->user->name
+                . "' from sub project '"
+                . $sub->name . "'"
+                , ''
+                , auth()->user()->id
+                , $this->user->id
+                , $sub->big_project->id
+                , $sub->id
+                , $sub->big_project->PTJ
+                );
             }
             $count++;
         }
         if ($this->user->sub_projects()->count() + $this->user->big_projects()->count() == 0){
             $this->user->removeRole('projMan');
-            $request->banner("User '" . $this->user->name . "' no longer a project manager . . .");
+            $request->banner("User '" . $this->user->name . "' no longer a project manager . . ."
+            , '.'
+            , auth()->user()->id
+            , $this->user->id
+            );
         }
         return redirect()->route('addadmin');
     }

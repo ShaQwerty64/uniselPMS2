@@ -36,24 +36,59 @@ class AdminController extends Controller
         foreach ($big->sub_projects as $sub) {
             $sub->big_project_id = $PTJ;
             $sub->save();
-            $request->banner("Admin '" . auth()->user()->name .  "' move sub project '" . $sub->name . "' into " . $big->PTJ . " default");
+            $request->banner("Admin '"
+            . auth()->user()->name
+            .  "' move sub project '"
+            . $sub->name . "' into "
+            . $big->PTJ . " default"
+            , ''
+            , auth()->user()->id
+            , null
+            , $big->id
+            , $sub->id
+            , $big->PTJ
+            );
         }
+
+        $request->banner("Admin '" . auth()->user()->name
+        .  "' delete big project '"
+        . $big->name . "' ("
+        . $big->PTJ . ")"
+        , ''
+        , auth()->user()->id
+        , null
+        , $big->id
+        , null
+        , $big->PTJ
+        );
+
         $users = $big->users;
         $big->delete();
 
         foreach ($users as $user){
             if ($user->sub_projects()->count() + $user->big_projects()->count() == 0){
                 $user->removeRole('projMan');
+                //bannber
             }
         }
-
-        $request->banner("Admin '" . auth()->user()->name .  "' delete big project '" . $big->name . "'");
 
         return redirect()->route('admin');
     }
 
     public function destroyAll(BigProject $big, Request $request)
     {
+        $request->banner("Admin '" . auth()->user()->name
+        .  "' delete big project '"
+        . $big->name . "' ("
+        . $big->PTJ . ")"
+        , ''
+        , auth()->user()->id
+        , null
+        , $big->id
+        , null
+        , $big->PTJ
+        );
+
         $subs = $big->sub_projects;
         $users = $big->users;
         $big->delete();
@@ -62,32 +97,44 @@ class AdminController extends Controller
             foreach ($sub->users as $user){
                 if ($user->sub_projects()->count() + $user->big_projects()->count() == 0){
                     $user->removeRole('projMan');
+                    //bannber
                 }
             }
         }
         foreach ($users as $user){
             if ($user->sub_projects()->count() + $user->big_projects()->count() == 0){
                 $user->removeRole('projMan');
+                //bannber
             }
         }
-
-        $request->banner("Admin '" . auth()->user()->name .  "' delete big project '" . $big->name . "'");
 
         return redirect()->route('admin');
     }
 
     public function destroySub(SubProject $sub, Request $request)
     {
+        $request->banner("Admin '" . auth()->user()->name
+        .  "' delete sub project '"
+        . $sub->name . "' ("
+        . $sub->big_project->PTJ
+        . ")"
+        , ''
+        , auth()->user()->id
+        , null
+        , $sub->big_project->id
+        , $sub->id
+        , $sub->big_project->PTJ
+        );
+
         $users = $sub->users;
         $sub->delete();
 
         foreach ($users as $user){
             if ($user->sub_projects()->count() + $user->big_projects()->count() == 0){
                 $user->removeRole('projMan');
+                //bannber
             }
         }
-
-        $request->banner("Admin '" . auth()->user()->name .  "' delete sub project '" . $sub->name . "'");
 
         return redirect()->route('admin');
     }

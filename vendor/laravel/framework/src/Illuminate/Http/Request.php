@@ -702,7 +702,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
-     * By Shamim, Use @livewire('banner')
+     * By Shamim, for @livewire('banner')
      * $theme =
      * s:success,
      * w:warning,
@@ -712,22 +712,35 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
      * @param  string  $message
      * @param  string  $theme
      */
-    public function banner(string $message, string $theme = '',int $admin,int $user,int $big, int $sub, string $PTJ, int $oldBig,string $oldPTJ)
+    public function banner(
+        string $message,
+         string $theme = '',
+         int $admin = null,
+         int $user = null,
+         int $big = null,
+         int $sub = null,
+         string $PTJ = null,
+         int $oldBig = null,
+         string $oldPTJ = null)
     {
-        $PH = new ProjectsHistory;
-        $PH->all_admin  = $admin == -96;
-        $PH->admin_id   = $admin == -96 ? null : $admin;
-        $PH->user_id    = $user;
-    $PH->big_project_id = $big;
-    $PH->sub_project_id = $sub;
-        $PH->PTJ        = $PTJ;
-        $PH->details    = $message;
-
-        $PH2 = new ProjectsHistory;
-        $PH2->big_project_id = $oldBig;
-        $PH2->PTJ        = $oldPTJ;
-        $PH2->details    = $message;
-
+        if ($admin != null || $user != null || $big != null || $sub != null || $PTJ != null){
+            $PH = new ProjectsHistory;
+            $PH->all_admin  = $admin == -100;
+            $PH->admin_id   = $admin == -100 ? null : $admin;
+            $PH->user_id    = $user;
+        $PH->big_project_id = $big;
+        $PH->sub_project_id = $sub;
+            $PH->PTJ        = $PTJ;
+            $PH->details    = $message;
+            $PH->save();
+        }
+        if ($oldBig != null || $oldPTJ != null){
+            $PH2 = new ProjectsHistory;
+            $PH2->big_project_id= $oldBig;
+            $PH2->PTJ           = $oldPTJ;
+            $PH2->details       = $message;
+            $PH2->save();
+        }
         if ($theme != '.'){
             $this->session()->put('banner.m', $message);
             $this->session()->put('banner.t', $theme);

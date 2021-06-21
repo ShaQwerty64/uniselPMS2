@@ -47,6 +47,11 @@ class UpgradeProject extends Component
             . $this->bigProjectName . "' and sub project '"
             . $this->subProjectName
             ,'s'
+            ,auth()->user()->id
+            ,null
+            ,$bigProj->id
+            ,$this->subProj->id
+            ,$bigProj->PTJ
         );
         return redirect()->route('admin');
     }

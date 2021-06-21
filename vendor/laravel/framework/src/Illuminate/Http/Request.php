@@ -736,6 +736,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
         }
         if ($oldBig != null || $oldPTJ != null){
             $PH2 = new ProjectsHistory;
+            $PH->all_admin  = false;
             $PH2->big_project_id= $oldBig;
             $PH2->PTJ           = $oldPTJ;
             $PH2->details       = $message;

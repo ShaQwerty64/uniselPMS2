@@ -58,6 +58,7 @@ class AsignProject extends Component
 
     public function selectEnter()
     {
+        if ($this->users->count() == 0){return;}
         $this->search = $this->users[$this->highlightIndex]->name;
         $this->resetX();
     }
@@ -87,7 +88,7 @@ class AsignProject extends Component
     public array|Collection $projects = [];
     public int $highlightIndexP = 0;
     public bool $activeP = false;
-    public bool $ifReal = false;
+    public bool $ifExist = false;
 
     public int $usersCount = 0;
     public string $closestLike = '';
@@ -101,7 +102,7 @@ class AsignProject extends Component
 
     public function resetP()
     {
-        $this->ifReal();
+        $this->ifExist();
 
         $this->highlightIndexP = 0;
         $this->activeP = false;
@@ -142,75 +143,60 @@ class AsignProject extends Component
         $this->resetP();
     }
 
-    private function ifReal()
+    private function ifExist()
     {
         if (!$this->projects === [])
         {
             $this->closestLike = $this->projects[0]->name;
         }
 
-        $this->ifReal = false;
+        $this->ifExist = false;
         foreach ($this->projects as $project) {
             if ($project->name == $this->searchP)
             {
-                $this->ifReal = true;
+                $this->ifExist = true;
                 $this->theProject = $project;
                 break;
             }
         }
     }
 
-    //this
     public function makeBigProject(Request $request)
     {
         if ($this->ifRegistered && $this->searchP != '')
         {
             $message = "Admin '" . auth()->user()->name .  "' ";
+            $bigID = null; $subID = null;
             if ($this->theBigProject == '[None]')
             {
-                if ($this->ifReal)
+                if ($this->ifExist)
                 {
                     $this->theUser->sub_projects()->save($this->theProject);
                     $message = "assigned sub project '" . $this->searchP . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
-
+                    $subID = $this->theProject->id;
                 }
                 else
                 {
                     $project = new SubProject;
                     $project->name = $this->searchP;
-                    $bigProject = BigProject::where('default',true)->where('PTJ',$this->PTJ)->get();
-                    if (count($bigProject) == 0)
-                    {
-                        $project0 = new BigProject;
-                        $project0->name = $this->PTJ . ' default';
-                        $project0->PTJ = $this->PTJ;
-                        $project0->default = true;
-                        $project0->save();
-                        $bigProject = BigProject::where('default',true)->where('PTJ',$this->PTJ)->get();
-                    }
-                    $bigProject[0]->sub_projects()->save($project);
+                    $this->makePTJdefault()->sub_projects()->save($project);
                     $this->theUser->sub_projects()->save($project);
 
                     $message = "add sub project '" . $this->searchP . "' (" . $this->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
+                    $subID = $project->refresh()->id;
                 }
             }
             elseif ($this->theBigProject == '[Make New Big Project]')
             {
-                if ($this->ifReal)
+                if ($this->ifExist)
                 {
                     $this->theUser->big_projects()->save($this->theProject);
                     $message = "assigned big project '" . $this->searchP . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
+                    $bigID = $this->theProject->id;
                 }
                 else
                 {
-                    if (count(BigProject::where('default',true)->where('PTJ',$this->PTJ)->get()) == 0)
-                    {
-                        $project = new BigProject;
-                        $project->name = $this->PTJ . ' default';
-                        $project->PTJ = $this->PTJ;
-                        $project->default = true;
-                        $project->save();
-                    }
+                    $this->makePTJdefault();
                     $project = new BigProject;
                     $project->name = $this->searchP;
                     $project->default = false;
@@ -219,14 +205,17 @@ class AsignProject extends Component
                     $this->theUser->big_projects()->save($project);
 
                     $message = "add big project '" . $this->searchP . "' (" . $this->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
+                    $bigID = $project->refresh()->id;
                 }
             }
             else
             {
-                if ($this->ifReal)
+                if ($this->ifExist)
                 {
                     $this->theUser->sub_projects()->save($this->theProject);
-                    $message = "assigned sub project '" . $this->searchP . "' of big project '" . $bigProject->name . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
+                    $message = "assigned sub project '" . $this->searchP . "' of big project '" . $this->bigProject->name . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
+                    $bigID = $this->bigProject->id;
+                    $subID = $this->theProject->id;
                 }
                 else
                 {
@@ -237,20 +226,36 @@ class AsignProject extends Component
                     $project->save();
                     $this->theUser->sub_projects()->save($project);
 
-                    $message = "add sub project '" . $this->searchP . "' to big project '" . $bigProject->name . "' (" . $bigProject->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
+                    $message = "add sub project '" . $this->searchP . "' to big project '" . $bigProject->name . "' (" . $this->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
+                    $bigID = $bigProject->id;
+                    $subID = $project->refresh()->id;
                 }
             }
 
-            $request->banner($message, 's');
+            $request->banner($message, 's', auth()->user()->id,$this->theUser->id,$bigID,$subID,$this->PTJ);
             if (!$this->theUser->hasAnyRole('projMan')){
                 $this->theUser->assignRole('projMan');
-                $request->banner("User '" . $this->theUser . "' now a project manager!", '.',auth()->user()->id,$this->theUser->id);
+                $request->banner("User '" . $this->theUser->id . "' now a project manager!", '.',auth()->user()->id,$this->theUser->id);
             }
 
             $this->search = '';
             $this->searchP = '';
             return redirect()->route('admin');
         }
+    }
+
+    private function makePTJdefault(): BigProject{
+        $PTJ = BigProject::where('default',true)->where('PTJ',$this->PTJ)->get();
+        if (count($PTJ) == 0)
+        {
+            $project0 = new BigProject;
+            $project0->name = $this->PTJ . ' default';
+            $project0->PTJ = $this->PTJ;
+            $project0->default = true;
+            $project0->save();
+            $PTJ = BigProject::where('default',true)->where('PTJ',$this->PTJ)->get();
+        }
+        return $PTJ[0];
     }
 
     public function render()
@@ -306,7 +311,7 @@ class AsignProject extends Component
         }
 
         $this->bigProjects = BigProject::where('default',false)->where('PTJ',$this->PTJ)->get();
-        $this->ifReal();
+        $this->ifExist();
 
         return view('livewire.asign-project');
     }

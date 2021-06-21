@@ -95,7 +95,7 @@
 
         <div class="search-lw2-text">
             @if ($searchP == '')
-            @elseif ($ifReal)
+            @elseif ($ifExist)
                 "{{ $searchP }}" @if ($theBigProject == '[Make New Big Project]') big @endif project has {{ $usersCount }} users asign to it already.
             @elseif (!$bigSameName)
                 "{{ $searchP }}" big project already exist in other PTJ.

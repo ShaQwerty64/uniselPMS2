@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectsHistoryTable extends Migration
+class CreateProjectsHistorysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,10 +15,10 @@ class CreateProjectsHistoryTable extends Migration
     {
         Schema::create('projects_historys', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('admin_id')->constrained()->nullable();
-            $table->foreignId('user_id')->constrained()->nullable();
-            $table->foreignId('big_project_id')->constrained()->nullable();
-            $table->foreignId('sub_project_id')->constrained()->nullable();
+            $table->unsignedBigInteger('admin_id')->nullable();//->constrained('users')
+            $table->unsignedBigInteger('user_id')->nullable();//->constrained()
+            $table->unsignedBigInteger('big_project_id')->nullable();//->constrained()
+            $table->unsignedBigInteger('sub_project_id')->nullable();//->constrained()
             $table->enum('PTJ', ['CICT','Aset','JPP'])->nullable();
             $table->boolean('all_admin');
             $table->text('details')->nullable();

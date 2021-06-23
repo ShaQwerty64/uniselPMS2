@@ -172,7 +172,7 @@ class AsignProject extends Component
                 if ($this->ifExist)
                 {
                     $this->theUser->sub_projects()->save($this->theProject);
-                    $message = "assigned sub project '" . $this->searchP . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
+                    $message .= "assigned sub project '" . $this->searchP . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
                     $subID = $this->theProject->id;
                 }
                 else
@@ -182,7 +182,7 @@ class AsignProject extends Component
                     $this->makePTJdefault()->sub_projects()->save($project);
                     $this->theUser->sub_projects()->save($project);
 
-                    $message = "add sub project '" . $this->searchP . "' (" . $this->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
+                    $message .= "add sub project '" . $this->searchP . "' (" . $this->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
                     $subID = $project->refresh()->id;
                 }
             }
@@ -191,7 +191,7 @@ class AsignProject extends Component
                 if ($this->ifExist)
                 {
                     $this->theUser->big_projects()->save($this->theProject);
-                    $message = "assigned big project '" . $this->searchP . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
+                    $message .= "assigned big project '" . $this->searchP . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
                     $bigID = $this->theProject->id;
                 }
                 else
@@ -204,7 +204,7 @@ class AsignProject extends Component
                     $project->save();
                     $this->theUser->big_projects()->save($project);
 
-                    $message = "add big project '" . $this->searchP . "' (" . $this->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
+                    $message .= "add big project '" . $this->searchP . "' (" . $this->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
                     $bigID = $project->refresh()->id;
                 }
             }
@@ -213,7 +213,7 @@ class AsignProject extends Component
                 if ($this->ifExist)
                 {
                     $this->theUser->sub_projects()->save($this->theProject);
-                    $message = "assigned sub project '" . $this->searchP . "' of big project '" . $this->bigProject->name . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
+                    $message .= "assigned sub project '" . $this->searchP . "' of big project '" . $this->bigProject->name . "' (" . $this->PTJ . ") to user '" . $this->theUser->name . "'";
                     $bigID = $this->bigProject->id;
                     $subID = $this->theProject->id;
                 }
@@ -226,7 +226,7 @@ class AsignProject extends Component
                     $project->save();
                     $this->theUser->sub_projects()->save($project);
 
-                    $message = "add sub project '" . $this->searchP . "' to big project '" . $bigProject->name . "' (" . $this->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
+                    $message .= "add sub project '" . $this->searchP . "' to big project '" . $bigProject->name . "' (" . $this->PTJ . ") and assigned to user '" . $this->theUser->name . "'";
                     $bigID = $bigProject->id;
                     $subID = $project->refresh()->id;
                 }

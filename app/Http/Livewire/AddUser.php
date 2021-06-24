@@ -21,7 +21,8 @@ class AddUser extends Component
     public string $search = '';//
     public string $searchEmail = '';//
     public $users = [];// Collection
-    public array $redundant = [];//
+    public array $redundant = [];
+    public array $redundantE = [];
     public int $highlightIndex = 0;//
     public User|BigProject|SubProject $theUser;//
     public bool $ifRegistered = false;//
@@ -64,13 +65,10 @@ class AddUser extends Component
             ];
         }
         //search big project to move the sub project to
-        if ($this->isProject){
+        elseif ($this->isProject){
             $this->word = 'Move Project';
             $this->word2 = 'Enter Big Project Name or PTJ to Move To';
             $this->redundant[] = $this->big->id;
-        }
-        else{
-            $this->getIdOfRedundantUser();
         }
     }
 
@@ -89,11 +87,12 @@ class AddUser extends Component
                 ->get();
             }
             else{
+                $this->getIdOfRedundantUser();
                 $this->users = User::
                 whereNotIn('id', $this->redundant)
                 ->where('name', 'like', '%'.$this->search.'%')
                 ->orWhere('email', 'like', '%'.$this->search.'%')
-                ->whereNotIn('email', $this->redundant)
+                ->whereNotIn('email', $this->redundantE)
                 ->take(10)
                 ->get();
             }
@@ -129,15 +128,11 @@ class AddUser extends Component
     }
 
     private function getIdOfRedundantUser(){
-        $this->redundant = [];
-        if ($this->isManager){
-            foreach ($this->proj->users as $user){
-                $this->redundant[] = $user->id;
-            }
-            return;
-        }
-        foreach (User::role($this->roleName)->get() as $user){
+        $this->redundant = []; $this->redundantE = [];
+        foreach ($this->isManager ? $this->proj->users
+        : User::role($this->roleName)->get() as $user){
             $this->redundant[] = $user->id;
+            $this->redundantE[] = $user->id;
         }
     }
 
@@ -228,10 +223,6 @@ class AddUser extends Component
     public function madeRole(Request $request)
     {
         if ($this->isManager){
-            if (!$this->theUser->hasAnyRole('projMan')){
-                $this->theUser->assignRole('projMan');
-                $request->banner("User '" . $this->theUser . "' now a project manager!", '.',auth()->user()->id,$this->theUser->id);
-            }
             if ($this->big){
                 $this->theUser->big_projects()->save($this->proj);
                 $request->banner("Admin '" . auth()->user()->name
@@ -251,14 +242,18 @@ class AddUser extends Component
                 $request->banner("Admin '" . auth()->user()->name
                 .  "' add user '" . $this->theUser->name
                 . "' to sub project '" . $this->proj->name
-                . "' (" . $this->proj->big_project()->PTJ . ")"
+                . "' (" . $this->proj->big_project->PTJ . ")"
                 , '.'
                 , auth()->user()->id
                 , $this->theUser->id
-                , $this->theUser->big_project->id
+                , $this->proj->big_project->id
                 , $this->proj->id
-                , $this->theUser->big_project->PTJ
+                , $this->proj->big_project->PTJ
                 );
+            }
+            if (!$this->theUser->hasAnyRole('projMan')){
+                $this->theUser->assignRole('projMan');
+                $request->banner("User '" . $this->theUser->name . "' now a project manager!", '.',auth()->user()->id,$this->theUser->id);
             }
             $this->search = '';
             return;// redirect()->route('admin')

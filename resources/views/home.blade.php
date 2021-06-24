@@ -13,6 +13,8 @@
             <div class="card">
                 <div class="card-body">
                     @livewire('super-admin-access')
+
+                    @livewire('projects-history',['subject0'=>auth()->user()])
                 </div>
             </div>
         </div>

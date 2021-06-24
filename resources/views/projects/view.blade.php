@@ -152,6 +152,77 @@ function toProg(null|int $progressDone, null|int $progress): int{
                         </div>
                     </div> --}}
 
+
+
+
+                          <x-adminlte-card title="PTJ" theme="purple" icon="fas fa-lg fa-fan" removable collapsible>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                  <div class="card">
+                                    <a href="#" class="btn btn-primary">PTJ Details</a>
+                                    <div class="card-body">
+
+                                            <li class="list-group-item">Big Project Count :</li>
+                                            <li class="list-group-item">Sub Project Count:</li>
+                                            <li class="list-group-item">Milestone Count:</li>
+                                            <li class="list-group-item">Task Count:</li>
+
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+
+                                  <div class="card">
+                                    <a href="#" class="btn btn-primary">Big project Details</a>
+                                    <div class="card-body">
+
+                                        <li class="list-group-item">Big Project Details:</li>
+                                        <li class="list-group-item">Project Manager:</li>
+                                        <li class="list-group-item">Project count:</li>
+                                        <li class="list-group-item">Milestone Count:</li>
+                                        <li class="list-group-item">Task Count:</li>
+                                        <li class="list-group-item">Start Date:</li>
+                                        <li class="list-group-item">End Date:</li>
+
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="card">
+
+                                        <a href="#" class="btn btn-primary">Sub project Details</a>
+                                      <div class="card-body">
+
+                                        <li class="list-group-item">Big Project Details:</li>
+                                        <li class="list-group-item">Project Manager:</li>
+                                        <li class="list-group-item">Project count:</li>
+                                        <li class="list-group-item">Milestone Count:</li>
+                                        <li class="list-group-item">Task Count:</li>
+                                        <li class="list-group-item">Start Date:</li>
+                                        <li class="list-group-item">End Date:</li>
+
+
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-sm-6">
+                                    <div class="card">
+                                        <a href="#" class="btn btn-primary"> Others</a>
+                                      <div class="card-body">
+                                      </div>
+
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+                                    </div>
+                                  </div>
+                              </div>
+                        </x-adminlte-card>
+
+
+
                 </div>
             </div>
         </div>

@@ -16,9 +16,9 @@ class ProjectsHistory extends Component
 
     public User $user;
     public array $subjects;
-    public int $target = 0; public $tarOps = [];
-    public string $sort = 'desc';
-    public int $limit = 15;
+    public int $target = 0; public $tarOps  = [];
+    public int $sort   = 0; public $sortOps = ['desc','asc'];
+    public int $limit  = 0; public $limOps  = [15,50,100,250,1000];
 
     public Collection $histories;
 
@@ -28,9 +28,10 @@ class ProjectsHistory extends Component
             $this->user = $this->subject0;
             $this->tarOps[] = 'User';
             $this->subjects[] = $this->subject0;
-            // if ($this->subject0->big_projects()->count() > 1){
-            //     $this->tarOps[] = 'All projects';
-            // }
+            if ($this->subject0->big_projects()->count() + $this->subject0->sub_projects()->count() > 1){
+                $this->tarOps[] = 'All projects';
+                $this->subjects[] = 'All projects';
+            }
             foreach ($this->subject0->big_projects as $big){
                 $this->tarOps[] = $big->name . ' (Big Project)';
                 $this->subjects[] = $big;
@@ -57,13 +58,12 @@ class ProjectsHistory extends Component
 
     public function render()
     {
-        $this->histories = $this->queryX()->take($this->limit)->orderBy('created_at', $this->sort)->get();
+        $this->histories =
+        $this->query($this->subjects[$this->target])
+        ->take($this->limOps[$this->limit])
+        ->orderBy('created_at', $this->sortOps[$this->sort])
+        ->get();
         return view('livewire.projects-history');
-    }
-
-    private function queryX(): Builder
-    {
-        return $this->query($this->subjects[$this->target]);
     }
 
     private function query(User|BigProject|SubProject|string|array $subject): Builder
@@ -82,10 +82,13 @@ class ProjectsHistory extends Component
             return $q->orWhere('big_project_id',$subject->id);
         }
         elseif ($subject instanceof SubProject){
-            return $q->orWhere('big_project_id',$subject->id);
+            return $q->orWhere('sub_project_id',$subject->id);
         }
         elseif (is_array($subject)){
             return $this->query_array($subject);
+        }
+        elseif ($subject == 'All projects'){
+            return $this->query_allProject();
         }
         else{
             return $q->orWhere('PTJ',$subject);
@@ -108,7 +111,25 @@ class ProjectsHistory extends Component
             $q = $q->orWhere('big_project_id',$subject['id']);
         }
         elseif (array_key_exists("big_project_id",$subject)){
-            $q = $q->orWhere('big_project_id',$subject['id']);
+            $q = $q->orWhere('sub_project_id',$subject['id']);
+        }
+        return $q;
+    }
+
+    private function query_allProject(): Builder
+    {
+        $q = ModelsProjectsHistory::where('id',0);
+        foreach ($this->subjects as $subj)
+        {
+            if (is_array($subj))
+            {
+                if (array_key_exists("PTJ",$subj)){
+                    $q = $q->orWhere('big_project_id',$subj['id']);
+                }
+                elseif (array_key_exists("big_project_id",$subj)){
+                    $q = $q->orWhere('sub_project_id',$subj['id']);
+                }
+            }
         }
         return $q;
     }

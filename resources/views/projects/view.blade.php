@@ -154,18 +154,26 @@ function toProg(null|int $progressDone, null|int $progress): int{
 
 
 
+                    <x-adminlte-card title="Aset" theme="pink" icon="fas fa-lg fa-fan" removable collapsible>
+                      <x-adminlte-card title="first project" theme="dark" icon="fas fa-lg fa-fan" removable collapsible>
+                      </x-adminlte-card>
+                    </x-adminlte-card>
 
-                          <x-adminlte-card title="PTJ" theme="purple" icon="fas fa-lg fa-fan" removable collapsible>
+                    <x-adminlte-card title="JPP" theme="pink" icon="fas fa-lg fa-fan" removable collapsible>
+
+                      <x-adminlte-card title="first project" theme="dark" icon="fas fa-lg fa-fan" removable collapsible>
+                      </x-adminlte-card>
+                    </x-adminlte-card>
+
+
+                          <x-adminlte-card title="CICT" theme="pink" icon="fas fa-lg fa-fan" removable collapsible>
                             <div class="row">
                                 <div class="col-sm-6">
                                   <div class="card">
-                                    <a href="#" class="btn btn-primary">PTJ Details</a>
+                                    <a href="#" class="btn btn-primary">Total Projects Counts</a>
                                     <div class="card-body">
 
-                                            <li class="list-group-item">Big Project Count :</li>
-                                            <li class="list-group-item">Sub Project Count:</li>
-                                            <li class="list-group-item">Milestone Count:</li>
-                                            <li class="list-group-item">Task Count:</li>
+
 
                                     </div>
                                   </div>
@@ -173,57 +181,207 @@ function toProg(null|int $progressDone, null|int $progress): int{
                                 <div class="col-sm-6">
 
                                   <div class="card">
-                                    <a href="#" class="btn btn-primary">Big project Details</a>
+                                    <a href="#" class="btn btn-primary">Total Milestones & Tasks Counts</a>
                                     <div class="card-body">
 
-                                        <li class="list-group-item">Big Project Details:</li>
-                                        <li class="list-group-item">Project Manager:</li>
-                                        <li class="list-group-item">Project count:</li>
-                                        <li class="list-group-item">Milestone Count:</li>
-                                        <li class="list-group-item">Task Count:</li>
-                                        <li class="list-group-item">Start Date:</li>
-                                        <li class="list-group-item">End Date:</li>
 
                                     </div>
                                   </div>
                                 </div>
 
-                                <div class="col-sm-6">
-                                    <div class="card">
-
-                                        <a href="#" class="btn btn-primary">Sub project Details</a>
-                                      <div class="card-body">
-
-                                        <li class="list-group-item">Big Project Details:</li>
-                                        <li class="list-group-item">Project Manager:</li>
-                                        <li class="list-group-item">Project count:</li>
-                                        <li class="list-group-item">Milestone Count:</li>
-                                        <li class="list-group-item">Task Count:</li>
-                                        <li class="list-group-item">Start Date:</li>
-                                        <li class="list-group-item">End Date:</li>
 
 
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div class="col-sm-6">
-                                    <div class="card">
-                                        <a href="#" class="btn btn-primary"> Others</a>
-                                      <div class="card-body">
-                                      </div>
-
-                                        <h5 class="card-title">Special title treatment</h5>
-                                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
-                                    </div>
-                                  </div>
                               </div>
+                              <x-adminlte-card title="First Project A (sub)" theme="green" icon="fas fa-lg fa-fan" removable collapsible>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                      <div class="card">
+                                        <a href="#" class="btn btn-primary">Datails</a>
+                                        <div class="card-body">
+
+
+
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-6">
+
+                                      <div class="card">
+                                        <a href="#" class="btn btn-primary">Project Managers</a>
+                                        <div class="card-body">
+
+
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-6">
+
+                                        <div class="card">
+                                          <a href="#" class="btn btn-primary">Dates</a>
+                                          <div class="card-body">
+
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-6">
+
+                                        <div class="card">
+                                          <a href="#" class="btn btn-primary">Total Milestone & Task Count</a>
+                                          <div class="card-body">
+
+
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+                                  <br>
+                                 <p> Milestone x-xxxxxxxxxxx xxxxxxxxxx </p>
+                                 <br>
+                                 <ul class="list-group">
+                                    <li class="list-group-item">
+
+                                      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                     Task 1 -First Task
+                                    </li>
+                                    <li class="list-group-item">
+
+                                      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                      Task 2-xxxxxxxxxxxxx
+                                    </li>
+
+                               <br>
+
+                                 <p> Milestone x-xxxxxxxxxxx xxxxxxxxxx </p>
+                                 <br>
+                                 <ul class="list-group">
+                                    <li class="list-group-item">
+
+                                      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                     Task x-xxxxxxx
+                                    </li>
+                                    <li class="list-group-item">
+
+                                      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                      Task x-xxxxxx
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                        Task x-xxxxxx
+                                      </li>
+                                      <li class="list-group-item">
+
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                        Task xxx
+                                      </li>
+                                 </ul>
+
+                            </x-adminlte-card>
+                            <x-adminlte-card title="Other Big Project(Big)" theme="purple" icon="fas fa-lg fa-fan" removable collapsible>
+
+                            </x-adminlte-card>
+                            <x-adminlte-card title="A Super Big Project(Big)" theme="purple" icon="fas fa-lg fa-fan" removable collapsible>
+
+                            </x-adminlte-card>
+
+                            <x-adminlte-card title=" Second Project,but First Project (Big)" theme="green" icon="fas fa-lg fa-fan" removable collapsible>
+
+                                <div class="row-sm-6">
+                                    <div class="card">
+                                      <a href="#" class="btn btn-primary">Datails</a>
+                                      <div class="card-body">
+
+
+
+                                      </div>
+                                    </div>
+
+                                    <div class="row-sm-6">
+                                        <div class="card">
+                                          <a href="#" class="btn btn-primary">Project Manager</a>
+                                          <div class="card-body">
+
+                                          </div>
+                                        </div>
+                                        <div class="row-sm-6">
+                                            <div class="card">
+                                              <a href="#" class="btn btn-primary">Dates</a>
+                                              <div class="card-body">
+
+                                              </div>
+                                            </div>
+                                            <div class="row-sm-6">
+                                                <div class="card">
+                                                  <a href="#" class="btn btn-primary">Total Milestones & Tasks Counts</a>
+                                                  <div class="card-body">
+
+                                                  </div>
+                                                </div>
+
+
+
+                            <x-adminlte-card title=" First Project,but First Big Project (Sub)" theme="purple" icon="fas fa-lg fa-fan" removable collapsible>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                      <div class="card">
+                                        <a href="#" class="btn btn-primary">Datails</a>
+                                        <div class="card-body">
+
+
+
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-6">
+
+                                      <div class="card">
+                                        <a href="#" class="btn btn-primary">Project Managers</a>
+                                        <div class="card-body">
+
+
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-6">
+
+                                        <div class="card">
+                                          <a href="#" class="btn btn-primary">Dates</a>
+                                          <div class="card-body">
+
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-6">
+
+                                        <div class="card">
+                                          <a href="#" class="btn btn-primary">Total Milestone & Task Count</a>
+                                          <div class="card-body">
+
+
+                                          </div>
+                                        </div>
+                                    </div>
+
+                                </x-adminlte-card>
+
+
                         </x-adminlte-card>
 
 
 
+
+
+
+                </x-adminlte-card>
+
                 </div>
+
             </div>
         </div>
     </div>

@@ -64,9 +64,9 @@ class BigProject extends Model
     //     return $PTJs;
     // }
 
-    public function PTJactive(){
+    public function PTJactive(bool $full = false){
         if ($this->default){
-            $this->PTJbigProjects();
+            $this->PTJbigProjects($full);
             $this->subCount         = $this->sub_projects->count();
             $this->bigCount         = $this->PTJbigProjects->count();
 
@@ -84,9 +84,14 @@ class BigProject extends Model
         return $count;
     }
 
-    private function PTJbigProjects(){
+    private function PTJbigProjects(bool $full = false){
+        $with = ['sub_projects', 'sub_projects.users:id,name,email' , 'users:id,name,email'];
+        if ($full) {
+            $with[] = 'milestones';
+            $with[] = 'milestones.tasks';
+        }
         $this->PTJbigProjects = BigProject::
-        with(['sub_projects', 'sub_projects.users:id,name,email' , 'users:id,name,email'])
+        with($with)
         ->withCount(['milestones'])
         ->where('default',false)
         ->where('PTJ',$this->PTJ)
@@ -98,7 +103,7 @@ class BigProject extends Model
                 $query->where('done', false);
             },
             'milestones',
-        ]);
+        ]);//->with(['tasks']) ?
 
         $this->tasks_count = 0;
         $this->done_tasks_count = 0;

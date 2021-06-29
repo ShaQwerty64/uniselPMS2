@@ -172,7 +172,7 @@ function toProg(null|int $progressDone, null|int $progress): int{
                                   <div class="card">
                                     <a href="#" class="btn btn-primary">Total Projects Counts</a>
                                     <div class="card-body">
-
+                                   <p> 4(1+3) </p>
 
 
                                     </div>
@@ -183,7 +183,7 @@ function toProg(null|int $progressDone, null|int $progress): int{
                                   <div class="card">
                                     <a href="#" class="btn btn-primary">Total Milestones & Tasks Counts</a>
                                     <div class="card-body">
-
+                                       20 (Total Milestone) and     154(10 completed Task)
 
                                     </div>
                                   </div>
@@ -199,7 +199,7 @@ function toProg(null|int $progressDone, null|int $progress): int{
                                       <div class="card">
                                         <a href="#" class="btn btn-primary">Datails</a>
                                         <div class="card-body">
-
+                                       <p> First project added unisel pms <p>
 
 
                                         </div>
@@ -210,7 +210,8 @@ function toProg(null|int $progressDone, null|int $progress): int{
                                       <div class="card">
                                         <a href="#" class="btn btn-primary">Project Managers</a>
                                         <div class="card-body">
-
+                                       <p> shamim bin (samim@gmail.com) </p>
+                                       <p> zihad (zihad@gmail.com) </p>
 
                                         </div>
                                       </div>
@@ -220,7 +221,8 @@ function toProg(null|int $progressDone, null|int $progress): int{
                                         <div class="card">
                                           <a href="#" class="btn btn-primary">Dates</a>
                                           <div class="card-body">
-
+                                           <p> Start 1/6/2021 (4 weeks ago) </p>
+                                           <p> End  20/6/ 2021 (3 days ago) </p>
 
                                           </div>
                                         </div>
@@ -230,7 +232,7 @@ function toProg(null|int $progressDone, null|int $progress): int{
                                         <div class="card">
                                           <a href="#" class="btn btn-primary">Total Milestone & Task Count</a>
                                           <div class="card-body">
-
+                                         <p> 3 </p>
 
                                           </div>
                                         </div>
@@ -238,23 +240,25 @@ function toProg(null|int $progressDone, null|int $progress): int{
 
 
                                   <br>
-                                 <p> Milestone x-xxxxxxxxxxx xxxxxxxxxx </p>
+                                  <div class="d-flex flex-column">
+                                   
+                                    <p> Milestone 1-First Milestone  (Start 1/7/2021 End: 14/7 2021) </p>
                                  <br>
                                  <ul class="list-group">
                                     <li class="list-group-item">
 
                                       <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                                     Task 1 -First Task
+                                     Task 1 -First Task  (Finish at 14/7/21)   
                                     </li>
                                     <li class="list-group-item">
 
                                       <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                                      Task 2-xxxxxxxxxxxxx
+                                      Task 2-xxxxx(created at 1/7/21)
                                     </li>
 
                                <br>
 
-                                 <p> Milestone x-xxxxxxxxxxx xxxxxxxxxx </p>
+                                 <p> Milestone x-xx (Start 3/7/2021 End: 18/7/2021) </p>
                                  <br>
                                  <ul class="list-group">
                                     <li class="list-group-item">
@@ -294,8 +298,8 @@ function toProg(null|int $progressDone, null|int $progress): int{
                                     <div class="card">
                                       <a href="#" class="btn btn-primary">Datails</a>
                                       <div class="card-body">
-
-
+                                     <p> This is xsxxxbn  bbdjsd bsjsb </p>
+                                     <p> This is xsxxxbn  bbdjsd bsjsb </p>
 
                                       </div>
                                     </div>
@@ -304,21 +308,22 @@ function toProg(null|int $progressDone, null|int $progress): int{
                                         <div class="card">
                                           <a href="#" class="btn btn-primary">Project Manager</a>
                                           <div class="card-body">
-
+                                          <p> thissjsj jbmbj  </p>
                                           </div>
                                         </div>
                                         <div class="row-sm-6">
                                             <div class="card">
                                               <a href="#" class="btn btn-primary">Dates</a>
                                               <div class="card-body">
-
+                                                <p> Start 1/6/2021 </p>
+                                                <p> End 2/7 2021 </p>
                                               </div>
                                             </div>
                                             <div class="row-sm-6">
                                                 <div class="card">
                                                   <a href="#" class="btn btn-primary">Total Milestones & Tasks Counts</a>
                                                   <div class="card-body">
-
+                                                  <p> 10 </p>
                                                   </div>
                                                 </div>
 

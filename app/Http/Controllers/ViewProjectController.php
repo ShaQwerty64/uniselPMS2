@@ -25,19 +25,30 @@ class ViewProjectController extends Controller
 
         // $users= User::get();
         // $bigProjects = BigProject::get();
-        $SubProjects = SubProject::withCount(['tasks',
-        'tasks as done_tasks_count' => function ($query){
-            $query->where('done', true);
-        }])->get();
+
+        // $SubProjects = SubProject::withCount(['tasks',
+        // 'tasks as done_tasks_count' => function ($query){
+        //     $query->where('done', true);
+        // }])->get();
+
+        $PTJs = BigProject::
+        with(['sub_projects', 'sub_projects.users:id,name,email','milestones','milestones.tasks'])
+        ->withCount(['milestones'])
+        ->where('default',true)
+        ->get(['id','name','PTJ','details']);
+        foreach ($PTJs as $PTJ){
+            $PTJ->PTJactive(true);
+        }
+
         return view('projects.view',[
-        'SubProjects' => $SubProjects,
+        'PTJs' => $PTJs,
         ]);
     }
 
-    public function something()
-    {
-        $admin->removeRole('topMan');
-        $request->banner('"' . $admin->name . '" not a viewer now.');
-        return redirect()->route('addadmin');
-    }
+    // public function something()
+    // {
+    //     $admin->removeRole('topMan');
+    //     $request->banner('"' . $admin->name . '" not a viewer now.');
+    //     return redirect()->route('addadmin');
+    // }
 }

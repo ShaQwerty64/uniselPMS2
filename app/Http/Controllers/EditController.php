@@ -74,8 +74,8 @@ class EditController extends Controller
         $newBig->details = $allReq['details'];
         $newBig->start_date = $allReq['start_date'];
         $newBig->end_date = $allReq['end_date'];
-        
-        if ()
+
+        // if ()
 
         return redirect()->route('edit.sub',$big->refresh());
     }

@@ -7,16 +7,10 @@
 @stop
 
 @section('content')
+<div class="card" style="width: 78rem;">
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body">
-
-
-
-                                    <body>
-
-                                    <div class="container">
 
 
                                       <form>
@@ -51,10 +45,24 @@
 
 
                                         </div>
+                                        <div class="card" style="width: 78rem;">
+                                            <div class="form-group">
 
+                                              <div class="p-1 mb-2 bg-info text-white">Project Details</div>
+                                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                              <label class="control-label" for="date">Start Date</label>
+                                              <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                            </div>
+                                            <div class="form-group">
+                                              <label class="control-label" for="date">End Date</label>
+                                              <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+
+                                            </div>
+                                      </div>
+                                  </div>
 
                                             <div class="input-group">
-                                                <div class="card" style="width: 70rem;">
+                                                <div class="card" style="width: 78rem;">
                                                     <div class="form-group">
                                                         <div class="p-1 mb-2 bg-info text-white">Milestone</div>
 
@@ -88,7 +96,7 @@
                                                   fgroup-class="col-md-6" disable-feedback/>
                                               </ul>
                                         </div>
-                                        <div class="card" style="width: 70rem;">
+                                        <div class="card" style="width: 78rem;">
                                             <div class="card-body">
 
 
@@ -100,28 +108,6 @@
                                               <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
                                             </div>
                                      </div>
-                                    <div class="card" style="width: 70rem;">
-                                              <div class="form-group">
-
-                                                <div class="p-1 mb-2 bg-info text-white">Project Details</div>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                              </div>
-                                        </div>
-                                    </div>
-
-                              <div class="container-fluid">
-                                <div class="row">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                  <form method="post">
-                                    <div class="form-group">
-                                      <label class="control-label" for="date">Start Date</label>
-                                      <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
-                                    </div>
-                                    <div class="form-group">
-                                      <label class="control-label" for="date">End Date</label>
-                                      <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
-
-                                    </div>
                                   </form>
                                   </div>
                                 </div>

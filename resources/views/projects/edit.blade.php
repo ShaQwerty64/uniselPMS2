@@ -56,7 +56,7 @@
                                             <div class="form-group">
                                               <label class="control-label" for="date">End Date</label>
                                               <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
-
+                                              <x-adminlte-button class="btn-flat" type="submit" label="Save" theme="success" icon="fas fa-lg fa-save"/>
                                             </div>
                                       </div>
                                   </div>
@@ -106,6 +106,7 @@
                                               <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
                                               <label class="control-label" for="date">End Date</label>
                                               <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                              <x-adminlte-button class="btn-lg" type="reset" label="Delete" theme="outline-danger" icon="fas fa-lg fa-trash"/>
                                             </div>
                                      </div>
                                   </form>

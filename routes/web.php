@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddAdminController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EditController;
 use App\Http\Controllers\ViewProjectController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +38,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
 
 
     //Project managers only
-    Route::view('/projects','projects.edit')->middleware('permission:edit projects')->name('edit');
+    Route::middleware(['permission:edit projects'])->group(function (){
+        Route::get('/projects', [EditController::class,'index'])->name('edit');
+        Route::post('/projects', [EditController::class,'goto']);
+        Route::get('/projects/sub/{sub}', [EditController::class,'indexSub'])->name('edit.sub');
+        Route::post('/projects/sub/{sub}', [EditController::class,'modifySub']);
+        Route::get('/projects/big/{big:name}', [EditController::class,'indexBig'])->name('edit.big');
+        Route::post('/projects/big/{big:name}', [EditController::class,'modifyBig']);
+    });
+
+
 
     //Top-management only
     Route::get('/view', [ViewProjectController::class,'index'])->middleware('permission:view projects')->name('view');

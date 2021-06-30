@@ -54,11 +54,20 @@
 
 
                                             <div class="input-group">
-                                                <span class="input-group-addon">Milestone </span>
+                                                <div class="card" style="width: 70rem;">
+                                                    <div class="form-group">
+                                                        <div class="p-1 mb-2 bg-info text-white">Milestone</div>
 
-                                                <input id="msg" type="text" class="form-control" name="msg" placeholder="Something">
+                                                           <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                            <p class="text-primary">Start Date </p>
+                                                           <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                                            <p class="text-danger">End Date</p>
+                                                           <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                                    </div>
                                               </div>
-                                             <div>
+                                           </div>
+
+                                          <div>
                                               <ul class="list-group">
                                                 <li class="list-group-item">
 
@@ -79,12 +88,25 @@
                                                   fgroup-class="col-md-6" disable-feedback/>
                                               </ul>
                                         </div>
-                                                   <span class="input-group-addon"> Add Milestone</span>
-                                                   <input id="msg" type="text" class="form-control" name="msg" placeholder="">
-                                             </div>
+                                        <div class="card" style="width: 70rem;">
+                                            <div class="card-body">
 
+
+                                              <span class="input-group-addon"> Add Milestone</span>
+                                              <input id="msg" type="text" class="form-control" name="msg" placeholder="">
+                                              <label class="control-label" for="date">Start Date</label>
+                                              <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                              <label class="control-label" for="date">End Date</label>
+                                              <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                            </div>
+                                     </div>
+                                    <div class="card" style="width: 70rem;">
+                                              <div class="form-group">
+
+                                                <div class="p-1 mb-2 bg-info text-white">Project Details</div>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                              </div>
                                         </div>
-
                                     </div>
 
                               <div class="container-fluid">
@@ -98,7 +120,7 @@
                                     <div class="form-group">
                                       <label class="control-label" for="date">End Date</label>
                                       <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
-                                    
+
                                     </div>
                                   </form>
                                   </div>

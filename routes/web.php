@@ -43,6 +43,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
         Route::post('/projects', [EditController::class,'goto']);
         Route::get('/projects/sub/{sub}', [EditController::class,'indexSub'])->name('edit.sub');
         Route::post('/projects/sub/{sub}', [EditController::class,'modifySub']);
+        Route::post('/projects/sub/{sub}/modify_tasks', [EditController::class,'modifySubTasks'])->name('edit.sub.tasks');
         Route::get('/projects/big/{big:name}', [EditController::class,'indexBig'])->name('edit.big');
         Route::post('/projects/big/{big:name}', [EditController::class,'modifyBig']);
     });

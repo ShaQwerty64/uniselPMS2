@@ -9,7 +9,7 @@ class Task extends Model
 {
     use HasFactory;
 
-    public function milestones(){
+    public function milestone(){
         return $this->belongsTo(Milestone::class);
     }
 }

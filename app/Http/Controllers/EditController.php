@@ -7,7 +7,6 @@ use App\Models\Milestone;
 use App\Models\SubProject;
 use App\Models\Task;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class EditController extends Controller
 {
@@ -19,17 +18,19 @@ class EditController extends Controller
     {
         $this->user = auth()->user();
         foreach ($this->user->sub_projects as $sub){
-            $projList[] = [
+            $this->projList['sub'][] = [
                 'name'  => $sub->name,
-                'x'     =>['isBig' => false, 'id'=>$sub->id]
+                // 'isBig' => false,
+                'id'=>$sub->id
             ];
             $this->bigOnly = false;
 
         }
         foreach ($this->user->big_projects as $big){
-            $projList[] = [
+            $this->projList['big'][] = [
                 'name'  => $big->name,
-                'x'     => ['isBig' => true, 'id'=>$big->id]
+                // 'isBig' => true,
+                'id'=>$big->id
             ];
         }
     }
@@ -45,8 +46,9 @@ class EditController extends Controller
 
     public function goto(Request $request)//projects (post)
     {
-        $x = $request->all()['x'];
-        if ($x['isBig']){
+        $x = $request->all();
+        // dd($x);
+        if (array_key_exists('isBig',$x)){
             return redirect()->route('edit.big', BigProject::where('id',$x['id'])->first());
         }
         return redirect()->route('edit.sub', SubProject::where('id',$x['id'])->first());
@@ -120,7 +122,7 @@ class EditController extends Controller
 
     public function modifySub(SubProject $sub, Request $request)//projects/sub/{sub} (post)
     {
-        $message = "Manager '" + Auth()->user()->name + "' change some details of sub project '" . $sub->name . "' to: ";
+        $message = "Manager '" . Auth()->user()->name . "' change some details of sub project '" . $sub->name . "' to: ";
         $allReq = $request->all();
         $changes = false;
         if ($sub->details != $allReq['details']){
@@ -146,8 +148,48 @@ class EditController extends Controller
         return redirect()->route('edit.sub',$sub->refresh());
     }
 
+    public function modifySubAddMile(SubProject $sub, Request $request)
+    {
+        // dd($request->all());
+        $allReq = $request->all();
+        $mile = new Milestone;
+        $mile->sub_project_id = $sub->id;
+        $mile->name = $allReq['name'];
+        $mile->start_date = $allReq['start_date'];
+        $mile->end_date = $allReq['end_date'];
+        $mile->save();
+        return redirect()->route('edit.sub',$sub);
+    }
+
+    public function modifySubAddTask(Milestone $mile, Request $request)
+    {
+        $task = new Task;
+        $task->milestone_id = $mile->id;
+        $task->name = $request->all()['name'];
+        $task->done = false;
+        $task->save();
+        return redirect()->route('edit.sub',$mile->sub_project);
+    }
+
+    public function modifySubDelMile(Milestone $mile)
+    {
+        $mile->delete();
+        return redirect()->route('edit.sub',$mile->sub_project);
+    }
+
+    public function modifySubDelTask(Task $task)
+    {
+        $task->delete();
+        return redirect()->route('edit.sub',$task->milestone->sub_project);
+    }
+
     public function modifySubTasks(SubProject $sub, Request $request)
     {
+        dd($request->all());
+        return $this->saveTasks($sub,$request);
+    }
+
+    private function saveTasks(SubProject $sub, Request $request){
         $miles = $sub->milestones->load('tasks');
         $allReq = $request->all();
         //find milestones first
@@ -255,7 +297,6 @@ class EditController extends Controller
             $request->banner("Manager '" + Auth()->user()->name + "' change something (milesones & tasks) in sub project '" . $sub->name . "'",'s'
             ,null,Auth()->user()->id,$sub->big_project->id,$sub->id,$sub->big_project->PTJ);
         }
-
         return redirect()->route('edit.sub',$sub);
     }
 

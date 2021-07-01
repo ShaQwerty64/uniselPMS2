@@ -71,6 +71,7 @@
                                                            <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
                                                             <p class="text-danger">End Date</p>
                                                            <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                                           <x-adminlte-button class="btn-lg" type="reset" label="Delete" theme="outline-danger" icon="fas fa-lg fa-trash"/>
                                                     </div>
                                               </div>
                                            </div>
@@ -91,9 +92,14 @@
 
                                                   <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
                                                   Task 3
+                                                </li>
+                                                <div>
+                                                <x-adminlte-button class="btn-lg" type="reset" label="Delete" theme="outline-danger" icon="fas fa-lg fa-trash"/>
+                                                </div>
                                                   <li class="list-group-item">
                                                   <x-adminlte-input name="iLabel" label="" placeholder="Add Task"
                                                   fgroup-class="col-md-6" disable-feedback/>
+                                                  <x-adminlte-button class="btn-flat" type="submit" label="Save" theme="success" icon="fas fa-lg fa-save"/>
                                               </ul>
                                         </div>
                                         <div class="card" style="width: 78rem;">
@@ -106,6 +112,7 @@
                                               <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
                                               <label class="control-label" for="date">End Date</label>
                                               <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                              <x-adminlte-button class="btn-flat" type="submit" label="Save" theme="success" icon="fas fa-lg fa-save"/>
                                               <x-adminlte-button class="btn-lg" type="reset" label="Delete" theme="outline-danger" icon="fas fa-lg fa-trash"/>
                                             </div>
                                      </div>

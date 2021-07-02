@@ -42,12 +42,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
         Route::get('/projects', [EditController::class,'index'])->name('edit');
         Route::post('/projects', [EditController::class,'goto']);
         Route::get('/projects/sub/{sub}', [EditController::class,'indexSub'])->name('edit.sub');
-        Route::post('/projects/sub/{sub}', [EditController::class,'modifySub']);
-        Route::post('/projects/sub/{sub}/add_milestone'    ,[EditController::class,'modifySubAddMile'])->name('edit.sub.add_mile');
-        Route::post('/projects/sub/add_task/{mile}'        ,[EditController::class,'modifySubAddTask'])->name('edit.sub.add_task');
-        Route::post('/projects/sub/delete_milestone/{mile}',[EditController::class,'modifySubDelMile'])->name('edit.sub.del_mile');
-        Route::post('/projects/sub/delete_tasks/{task}'    ,[EditController::class,'modifySubDelTask'])->name('edit.sub.del_task');
-        Route::post('/projects/sub/{sub}/modify_tasks'     ,[EditController::class,'modifySubTasks'])->name('edit.sub.tasks');
+        Route::post('/projects/sub/{sub}',[EditController::class,'modifySubTasks']);
         Route::get('/projects/big/{big:name}', [EditController::class,'indexBig'])->name('edit.big');
         Route::post('/projects/big/{big:name}', [EditController::class,'modifyBig']);
     });

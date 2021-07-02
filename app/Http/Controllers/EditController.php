@@ -6,6 +6,7 @@ use App\Models\BigProject;
 use App\Models\Milestone;
 use App\Models\SubProject;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EditController extends Controller
@@ -17,21 +18,34 @@ class EditController extends Controller
     public function construct()
     {
         $this->user = auth()->user();
+        $index = 0;
         foreach ($this->user->sub_projects as $sub){
-            $this->projList['sub'][] = [
+            $this->projList[] = [
+                'index' => $index,
                 'name'  => $sub->name,
-                // 'isBig' => false,
+                'isBig' => false,
                 'id'=>$sub->id
             ];
             $this->bigOnly = false;
-
+            $index++;
         }
         foreach ($this->user->big_projects as $big){
-            $this->projList['big'][] = [
+            $this->projList[] = [
+                'index' => $index,
                 'name'  => $big->name,
-                // 'isBig' => true,
+                'isBig' => true,
                 'id'=>$big->id
             ];
+            $index++;
+            foreach ($big->sub_projects as $sub) {
+                $this->projList[] = [
+                    'index' => $index,
+                    'name'  => $sub->name,
+                    'isBig' => false,
+                    'id'=>$sub->id
+                ];
+                $index++;
+            }
         }
     }
 
@@ -46,61 +60,89 @@ class EditController extends Controller
 
     public function goto(Request $request)//projects (post)
     {
-        $x = $request->all();
-        // dd($x);
-        if (array_key_exists('isBig',$x)){
+        $this->construct();
+        $x = $this->projList[$request->all()['index']];
+        if ($x['isBig']){
             return redirect()->route('edit.big', BigProject::where('id',$x['id'])->first());
         }
         return redirect()->route('edit.sub', SubProject::where('id',$x['id'])->first());
     }
 
+    private function userIsPermited(BigProject|SubProject $proj): bool{
+        //must run after $this->construct();
+        foreach ($this->projList as $projL) {
+            if ($proj->id == $projL['id'] && ($proj instanceof BigProject) == $projL['isBig'])
+            return true;
+        }
+        return false;
+    }
+
     public function indexBig(BigProject $big)//projects/big/{big:name}
     {
         $this->construct();
-        return view('projects.edit',[
-            'big' => $big,
-            'projList' => $this->projList,
-        ]);
+        if ($this->userIsPermited($big)){
+            $big->sub_projects->loadCount([
+                'tasks',
+                'tasks as done_tasks_count' => function ($query){
+                    $query->where('done', true);
+                },
+                'milestones',
+            ]);
+            foreach ($big->sub_projects as $sub){
+                $big->tasks_count += $sub->tasks_count;
+                $big->done_tasks_count += $sub->done_tasks_count;
+            }
+            return view('projects.edit',[
+                'proj' => $big,
+                'projList' => $this->projList,
+                'permit' => $this->userIsPermited($big),
+            ]);
+        }
+        else return view('projects.edit',['permit' => false]);
     }
 
     public function indexSub(SubProject $sub)//projects/sub/{sub}
     {
         $this->construct();
-        $sub->load(['milestones','milestones.tasks']);
-        $sub->loadCount([
-            'tasks',
-            'tasks as done_tasks_count' => function ($query){
-                $query->where('done', true);
-            },
-        ]);
-            $idArray = [];
-            $mileNo = 1;
-        foreach ($sub->milestones as $mile){
-            $idA = [];
-            $idA[0] = $this->threeDigit('m',$mileNo);
-                $idA[1] = [];
-                $taskNo = 1;
-            foreach ($mile->tasks as $task){
-                $idA[1][] = $this->threeDigit('t',$mileNo,$taskNo);
-                $taskNo ++;
+        if ($this->userIsPermited($sub)){
+            $sub->load(['milestones','milestones.tasks']);
+            $sub->loadCount([
+                'tasks',
+                'tasks as done_tasks_count' => function ($query){
+                    $query->where('done', true);
+                },
+            ]);
+                $idArray = [];
+                $mileNo = 1;
+            foreach ($sub->milestones as $mile){
+                $idA = [];
+                $idA[0] = $this->threeDigit('m',$mileNo);
+                    $idA[1] = [];
+                    $taskNo = 1;
+                foreach ($mile->tasks as $task){
+                    $idA[1][] = $this->threeDigit('t',$mileNo,$taskNo);
+                    $taskNo ++;
+                }
+                $idArray[] = $idA;
+                $mileNo ++;
             }
-            $idArray[] = $idA;
-            $mileNo ++;
+            // $idArray = [
+                // ['m001',['t001001','t001002']],
+                // ['m002',['t002001','t002002']]
+            // ]
+            return view('projects.edit',[
+                'proj' => $sub,
+                'projList' => $this->projList,
+                'idArray' => $idArray,
+                'permit' => true,
+            ]);
         }
-        // $idArray = [
-            // ['m001',['t001001','t001002']],
-            // ['m002',['t002001','t002002']]
-        // ]
-        return view('projects.edit',[
-            'sub' => $sub,
-            'projList' => $this->projList,
-            'idArray' => $idArray,
-        ]);
+        else return view('projects.edit',['permit' => false]);
     }
 
     public function modifyBig(BigProject $big, Request $request)//projects/big/{big:name} (post)
     {
-        $message = "Manager '" + Auth()->user()->name + "' change some details of big project '" . $big->name . "' to: ";
+        $message = "Manager '" . Auth()->user()->name . "' change some details of big project '" . $big->name . "' to: ";
         $allReq = $request->all();
         $changes = false;
         if ($big->details != $allReq['details']){
@@ -123,13 +165,12 @@ class EditController extends Controller
             $big->save();
             $request->banner($message,'s',null,Auth()->user()->id,$big->id, null,$big->PTJ);
         }
-        return redirect()->route('edit.big',$big->refresh());
+        return redirect()->route('edit.big', $big);
     }
 
-    public function modifySub(SubProject $sub, Request $request)//projects/sub/{sub} (post)
+    private function modifySub(SubProject $sub, Request $request, array $allReq)
     {
         $message = "Manager '" . Auth()->user()->name . "' change some details of sub project '" . $sub->name . "' to: ";
-        $allReq = $request->all();
         $changes = false;
         if ($sub->details != $allReq['details']){
             $changes = true;
@@ -151,53 +192,18 @@ class EditController extends Controller
             $sub->save();
             $request->banner($message,'s',null,Auth()->user()->id,$sub->big_project->id,$sub->id,$sub->big_project->PTJ);
         }
-        return redirect()->route('edit.sub',$sub->refresh());
     }
-
-    // public function modifySubAddMile(SubProject $sub, Request $request)
-    // {
-    //     $allReq = $request->all();
-    //     $mile = new Milestone;
-    //     $mile->sub_project_id = $sub->id;
-    //     $mile->name = $allReq['name'];
-    //     $mile->start_date = $allReq['start_date'];
-    //     $mile->end_date = $allReq['end_date'];
-    //     $mile->save();
-    //     return redirect()->route('edit.sub',$sub);
-    // }
-
-    // public function modifySubAddTask(Milestone $mile, Request $request)
-    // {
-    //     $task = new Task;
-    //     $task->milestone_id = $mile->id;
-    //     $task->name = $request->all()['name'];
-    //     $task->done = false;
-    //     $task->save();
-    //     return redirect()->route('edit.sub',$mile->sub_project);
-    // }
-
-    // public function modifySubDelMile(Milestone $mile)
-    // {
-    //     $mile->delete();
-    //     return redirect()->route('edit.sub',$mile->sub_project);
-    // }
-
-    // public function modifySubDelTask(Task $task)
-    // {
-    //     $task->delete();
-    //     return redirect()->route('edit.sub',$task->milestone->sub_project);
-    // }
 
     public function modifySubTasks(SubProject $sub, Request $request)
     {
-        return $this->saveTasks($sub,$request);
-    }
-
-    private function saveTasks(SubProject $sub, Request $request){
-        $miles = $sub->milestones->load('tasks');
         $allReq = $request->all();
-            // $oldReq = $allReq;
+        // $oldReq = $allReq;
         unset($allReq['_token']);
+
+        $this->modifySub($sub,$request,$allReq);
+        $sub->refresh();
+
+        $miles = $sub->milestones->load('tasks');
         //find milestones first
         $aMiles = []; $c0 = 1;
         foreach ($allReq as $key => $req){

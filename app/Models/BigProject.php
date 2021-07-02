@@ -100,7 +100,7 @@ class BigProject extends Model
         $this->sub_projects->loadCount([
             'tasks',
             'tasks as done_tasks_count' => function ($query){
-                $query->where('done', false);
+                $query->where('done', true);
             },
             'milestones',
         ]);//->with(['tasks']) ?
@@ -116,7 +116,7 @@ class BigProject extends Model
             $big->sub_projects->loadCount([
                 'tasks',
                 'tasks as done_tasks_count' => function ($query){
-                    $query->where('done', false);
+                    $query->where('done', true);
                 },
                 'milestones',
             ]);

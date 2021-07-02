@@ -67,6 +67,12 @@ class EditController extends Controller
     {
         $this->construct();
         $sub->load(['milestones','milestones.tasks']);
+        $sub->loadCount([
+            'tasks',
+            'tasks as done_tasks_count' => function ($query){
+                $query->where('done', true);
+            },
+        ]);
             $idArray = [];
             $mileNo = 1;
         foreach ($sub->milestones as $mile){
@@ -148,94 +154,113 @@ class EditController extends Controller
         return redirect()->route('edit.sub',$sub->refresh());
     }
 
-    public function modifySubAddMile(SubProject $sub, Request $request)
-    {
-        // dd($request->all());
-        $allReq = $request->all();
-        $mile = new Milestone;
-        $mile->sub_project_id = $sub->id;
-        $mile->name = $allReq['name'];
-        $mile->start_date = $allReq['start_date'];
-        $mile->end_date = $allReq['end_date'];
-        $mile->save();
-        return redirect()->route('edit.sub',$sub);
-    }
+    // public function modifySubAddMile(SubProject $sub, Request $request)
+    // {
+    //     $allReq = $request->all();
+    //     $mile = new Milestone;
+    //     $mile->sub_project_id = $sub->id;
+    //     $mile->name = $allReq['name'];
+    //     $mile->start_date = $allReq['start_date'];
+    //     $mile->end_date = $allReq['end_date'];
+    //     $mile->save();
+    //     return redirect()->route('edit.sub',$sub);
+    // }
 
-    public function modifySubAddTask(Milestone $mile, Request $request)
-    {
-        $task = new Task;
-        $task->milestone_id = $mile->id;
-        $task->name = $request->all()['name'];
-        $task->done = false;
-        $task->save();
-        return redirect()->route('edit.sub',$mile->sub_project);
-    }
+    // public function modifySubAddTask(Milestone $mile, Request $request)
+    // {
+    //     $task = new Task;
+    //     $task->milestone_id = $mile->id;
+    //     $task->name = $request->all()['name'];
+    //     $task->done = false;
+    //     $task->save();
+    //     return redirect()->route('edit.sub',$mile->sub_project);
+    // }
 
-    public function modifySubDelMile(Milestone $mile)
-    {
-        $mile->delete();
-        return redirect()->route('edit.sub',$mile->sub_project);
-    }
+    // public function modifySubDelMile(Milestone $mile)
+    // {
+    //     $mile->delete();
+    //     return redirect()->route('edit.sub',$mile->sub_project);
+    // }
 
-    public function modifySubDelTask(Task $task)
-    {
-        $task->delete();
-        return redirect()->route('edit.sub',$task->milestone->sub_project);
-    }
+    // public function modifySubDelTask(Task $task)
+    // {
+    //     $task->delete();
+    //     return redirect()->route('edit.sub',$task->milestone->sub_project);
+    // }
 
     public function modifySubTasks(SubProject $sub, Request $request)
     {
-        dd($request->all());
         return $this->saveTasks($sub,$request);
     }
 
     private function saveTasks(SubProject $sub, Request $request){
         $miles = $sub->milestones->load('tasks');
         $allReq = $request->all();
+            // $oldReq = $allReq;
+        unset($allReq['_token']);
         //find milestones first
         $aMiles = []; $c0 = 1;
         foreach ($allReq as $key => $req){
             if ($this->isExist($key,$c0)){
                 $aMile = [];
+                $aMile['key'] = $key;
                 $aMile['name'] = $req;
-                $s = $key . 's'; $aMile['start_date'] = $allReq[$s];
-                $e = $key . 'e'; $aMile['end_date'] = $allReq[$e];
-                unset($allReq[$key]); unset($allReq[$s]); unset($allReq[$e]);
+                $s  = $key . 's'  ;$aMile['start_date'] = $allReq[$s];
+                $e  = $key . 'e'  ;$aMile['end_date'  ] = $allReq[$e];
+                $del= $key . 'del';$aMile['delete'    ] = $allReq[$del] == 1;
+                unset($allReq[$key]); unset($allReq[$s]); unset($allReq[$e]);unset($allReq[$del]);
                 $aMiles[] = $aMile;
+                $c0++;
+            }
+            elseif ($this->isExist($key,$c0,null, 'del') && !$this->isExist($key,$c0)){
+                $aMiles[] = ['delete' => $allReq[$key] == 1];
+                unset($allReq[$key]);
                 $c0++;
             }
         }
 
         //find tasks for milestones
         $c0 = 1;
-        foreach ($aMiles as $key => $aMile) {
+        foreach ($aMiles as $aMile) {
             $c1 = 1;
             $aTasks = [];
             foreach ($allReq as $key => $req) {
                 if ($this->isExist($key,$c0,$c1)){
                     $aTask =[];
                     $aTask['name'] = $req;
-                    $d = $key . 'd'; $aTask['done'] = $allReq[$d];
-                    unset($allReq[$key]);unset($allReq[$d]);
+                    unset($allReq[$key]);
+
+                    $d = $key . 'd';
+                    if (array_key_exists($d,$allReq)){
+                        $aTask['done'] = true;
+                        unset($allReq[$d]);
+                    }
+                    else {$aTask['done'] = false;}
+
+                    $del = $key . 'del';
+                    $aTask['delete'] = $allReq[$del] == 1;
+                    unset($allReq[$del]);
+
                     $aTasks[] = $aTask;
                     $c1++;
                 }
-                else{
-                    break;
+                elseif ($this->isExist($key,$c0,$c1, 'del') && !$this->isExist($key,$c0,$c1)){
+                    $aTasks[] = ['delete' => $allReq[$key] == 1];
+                    unset($allReq[$key]);
+                    $c1++;
                 }
+                // else{break;}
             }
             $aMiles[$c0 - 1]['tasks'] = $aTasks;
             $c0++;
         }
+        // dd(['old request' => $oldReq ,'request' => $allReq, 'array miles' => $aMiles]);
 
         //compare with database and save
-        $aMilesCount = count($aMiles);// 10 - 9
-        $milesDiffNo = $aMilesCount - $miles->count();
-        $changes = $milesDiffNo != 0;
+        $changes = false;
         $c0 = 0;
         foreach ($miles as $mile) {
-            $aMileNotToDelete = $c0 < $aMilesCount;
-            if ($aMileNotToDelete
+            if (!$aMiles[$c0]['delete']
             && ($mile->name     != $aMiles[$c0]['name']
             || $mile->start_date!= $aMiles[$c0]['start_date']
             || $mile->end_date  != $aMiles[$c0]['end_date'])){
@@ -246,68 +271,67 @@ class EditController extends Controller
                 $changes = true;
             }
             //Delete if the new are more that old
-            elseif (!$aMileNotToDelete){
-                $aMile->delete();
+            elseif ($aMiles[$c0]['delete']){
+                $mile->delete();
+                $changes = true;
             }
 
-            if ($aMileNotToDelete){
+            if (!$aMiles[$c0]['delete']){
                 //compare tasks with database and save
-                $aMileTasksCount = count($aMiles[$c0]['tasks']);
-                $diffNo = $aMileTasksCount - $mile->tasks->count();//10 - 9 = -1, 0..9
-                $changes = $diffNo != 0 || $changes;
                 $c1 = 0;
                 foreach ($mile->tasks as $task) {
-                    if ($c1 < $aMileTasksCount
+                    if (!$aMiles[$c0]['tasks'][$c1]['delete']//problem: undefined array key 0
                     && ($task->name != $aMiles[$c0]['tasks'][$c1]['name'] || $task->done != $aMiles[$c0]['tasks'][$c1]['done'])){
                         $task->name = $aMiles[$c0]['tasks'][$c1]['name'];
                         $task->done = $aMiles[$c0]['tasks'][$c1]['done'];
                         $task->save();
                         $changes = true;
                     }
-                    elseif ($c1 >= $aMileTasksCount){
+                    elseif ($aMiles[$c0]['tasks'][$c1]['delete']){
                         $task->delete();
+                        $changes = true;
                     }
                     $c1++;
                 }
-                if ($diffNo > 0){
-                    for ($x = $c1;$x < $c1 - 1 + $diffNo;$x++){
-                        $task = new Task;
-                        $task->milestone_id = $mile->id;
-                        $task->name = $aMiles[$c0]['tasks'][$x]['name'];
-                        $task->done = $aMiles[$c0]['tasks'][$x]['done'];
-                        $task->save();
-                    }
+                $key = $aMiles[$c0]['key'] . 'nt';
+                if (array_key_exists($key,$allReq) && $allReq[$key] != null){
+                    $task = new Task;
+                    $task->milestone_id = $mile->id;
+                    $task->name = $allReq[$key];
+                    $task->done = false;
+                    $task->save();
                 }
             }
             $c0++;
         }
         //Add new milestones
-        if ($milesDiffNo > 0){
-            for ($x = $c0;$x < $c0 - 1 + $milesDiffNo;$x++){
-                $mile = new Milestone;
-                $mile->sub_project_id= $sub->id;
-                $mile->name         = $aMiles[$x]['name'];
-                $mile->start_date   = $aMiles[$x]['start_date'];
-                $mile->end_date     = $aMiles[$x]['end_date'];
-                $mile->save();
-            }
+        if ($allReq['new_mile'] != null){
+            $mile = new Milestone;
+            $mile->sub_project_id = $sub->id;
+            $mile->name = $allReq['new_mile'];
+            $mile->start_date = $allReq['new_mile_start'];
+            $mile->end_date = $allReq['new_mile_end'];
+            $mile->save();
         }
 
         if ($changes){
-            $request->banner("Manager '" + Auth()->user()->name + "' change something (milesones & tasks) in sub project '" . $sub->name . "'",'s'
+            $request->banner("Manager '" . Auth()->user()->name . "' change something (milesones & tasks) in sub project '" . $sub->name . "'",'s'
             ,null,Auth()->user()->id,$sub->big_project->id,$sub->id,$sub->big_project->PTJ);
         }
         return redirect()->route('edit.sub',$sub);
     }
 
-    private $lastExist;
-    private function isExist(string $name,int $mileId, int $taskId = null): bool
+    private function isExist(string $name,int $mileId, int $taskId = null, string $extra = null): bool
     {
-        if ($taskId != null){
-            return $this->threeDigit('t',$mileId,$taskId);
-        }
-        $this->lastExist = $this->threeDigit('m',$mileId);
-        return $this->lastExist == $name;
+        $toCompare = '';
+        if ($taskId != null)
+            $toCompare = $this->threeDigit('t',$mileId,$taskId);
+        else
+            $toCompare = $this->threeDigit('m',$mileId);
+
+        if ($extra != null)
+            $toCompare .= $extra;
+        return $name == $toCompare;
     }
 
     private function threeDigit(string $name, int $id, int $id2 = null): string

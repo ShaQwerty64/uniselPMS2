@@ -197,6 +197,7 @@ class EditController extends Controller
     public function modifySubTasks(SubProject $sub, Request $request)
     {
         $allReq = $request->all();
+        // dd($allReq);
         // $oldReq = $allReq;
         unset($allReq['_token']);
 
@@ -300,12 +301,15 @@ class EditController extends Controller
                     $c1++;
                 }
                 $key = $aMiles[$c0]['key'] . 'nt';
-                if (array_key_exists($key,$allReq) && $allReq[$key] != null){
-                    $task = new Task;
-                    $task->milestone_id = $mile->id;
-                    $task->name = $allReq[$key];
-                    $task->done = false;
-                    $task->save();
+                for ($i = 1; $i <= 5;$i++){
+                    $newTaskKey = $key . $i;
+                    if (array_key_exists($newTaskKey,$allReq) && $allReq[$newTaskKey] != null){
+                        $task = new Task;
+                        $task->milestone_id = $mile->id;
+                        $task->name = $allReq[$newTaskKey];
+                        $task->done = false;
+                        $task->save();
+                    }
                 }
             }
             $c0++;

@@ -29,6 +29,10 @@ function prog($proj): int{
     //     };
     //     setInterval(() => pBar.setValue(inc(1)), 100);
     // })
+    let save = document.getElementById("save");
+    let save_delete = document.getElementById("save&delete");
+    let deleteCount = 0;
+
     function del(id){
         let x     = document.getElementById(id + 1);
         let btn   = document.getElementById(id    );
@@ -42,8 +46,8 @@ function prog($proj): int{
             name.disabled = true;
             if (start != null) start.disabled = true;
             if (end   != null) end.disabled   = true;
-
             alert.hidden = false;
+            deleteCount++;
         }
         else{
             x.value = 0;
@@ -52,7 +56,11 @@ function prog($proj): int{
             if (start != null) start.disabled = false;
             if (end   != null) end.disabled   = false;
             alert.hidden = true;
+            deleteCount--;
         }
+        let delete_show = deleteCount != 0;
+        save.hidden = delete_show;
+        save_delete.hidden = ! delete_show;
         // console.log(y.id + " X " + x.value);
     }
     let progress = document.getElementById('progress').value;
@@ -63,6 +71,17 @@ function prog($proj): int{
         if (checkbox.checked) done++;
         else done--;
         if (progress != 0) pBar.setValue(done / progress * 100);
+    }
+
+    function moreTask(id){
+        let idx = id * 10;
+        showMoreTasks = ! document.getElementById(idx + 2).disabled;
+        document.getElementById(idx).innerHTML = showMoreTasks ? 'Add More Tasks' : 'Undo Add More Tasks';
+        for (let c = 2; c <= 5; c++) {
+            input = document.getElementById(idx + c);
+            input.disabled = showMoreTasks;
+            input.hidden = showMoreTasks;
+        }
     }
 </script>
 @endpush
@@ -78,6 +97,26 @@ function prog($proj): int{
         background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
         --tw-divide-opacity: 0;
         border-color: rgba(255, 255, 255, var(--tw-divide-opacity));
+    }
+    .progress{
+        height: 1.5rem;
+        /* relative */
+        position: relative;
+        /* flex-grow */
+        flex-grow: 1;
+        /* overflow-hidden */
+        overflow: hidden;
+        /* rounded-md */
+        border-radius: 0.375rem/* 6px */;
+        /* bg-gradient-to-b */
+        background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+        /* from-gray-400 */
+        --tw-gradient-from: #9ca3af;
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(156, 163, 175, 0));
+        /* to-gray-500 */
+        --tw-gradient-to: #6b7280;
+        /* bg-clip-border */
+        background-clip: border-box;
     }
 </style>
 
@@ -172,9 +211,12 @@ function prog($proj): int{
                             @endforeach
                         </ul>
 
-                        <div class="d-flex m-3">
-                            <input id="{{$idArray[$mileIX][0]}}nt" name="{{$idArray[$mileIX][0]}}nt" class="w-75 ml-5 mr-3" type="text" placeholder="Add Task"/>
-                        </div>
+                        @foreach ([1,2,3,4,5] as $index)
+                            <input id={{($mileIX + 1) * 100000 + $index}} name="{{$idArray[$mileIX][0]}}nt{{$index}}" class="w-75 ml-5 mb-3 mr-3" type="text" placeholder="Add Task"  @if(!$loop->first) hidden disabled @endif>
+                        @endforeach
+
+                        <button type="button" class="btn btn-default w-75 ml-5 mb-3 mr-3" id={{($mileIX + 1) * 100000}} form="no"
+                         onclick="moreTask({{($mileIX + 1) * 10000}})">Add More Tasks</button>
                     </div>
                 </div>
             @endforeach
@@ -195,14 +237,15 @@ function prog($proj): int{
                 </div>
             </div></div>
         @endif
-        <x-adminlte-button class="btn-flat" type="submit" form="save_tasks" label="Submit" theme="success" icon="fas fa-lg fa-save"/>
+        <x-adminlte-button id="save" class="btn-flat" type="submit" form="save_tasks" label="Save" theme="success" icon="fas fa-lg fa-save"/>
+        <x-adminlte-button id="save&delete" class="btn-flat" type="submit" form="save_tasks" label="Save & Delete"
+         onclick="return confirm('Delete all tasks & milestones that mark as (Will be deleted) and save?')" theme="success" icon="fas fa-lg fa-save" hidden/>
+
+        <a href="{{$projIsBig ? route('edit.big',$proj) : route('edit.sub',$proj)}}" class="btn btn-outline-danger btn-flat ml-4" onclick="return confirm('Reload this page and reset all input?')">
+            <i class="fas fa-lg fa-trash"></i>
+            Reset
+        </a>
     </form>
-
-    <a href="{{$projIsBig ? route('edit.big',$proj) : route('edit.sub',$proj)}}" class="btn btn-outline-danger btn-flat mt-4" onclick="return confirm('Reload this page and reset all input?')">
-        <i class="fas fa-lg fa-trash"></i>
-        Reset
-    </a>
-
 
 </div></div></div></div>
 @else

@@ -70,7 +70,7 @@ function prog($proj): int{
         let pBar = new _AdminLTE_Progress('pbDinamic');
         if (checkbox.checked) done++;
         else done--;
-        if (progress != 0) pBar.setValue(done / progress * 100);
+        if (progress != 0) pBar.setValue(parseInt(done / progress * 100));
     }
 
     function moreTask(id){

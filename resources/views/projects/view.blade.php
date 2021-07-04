@@ -144,9 +144,9 @@
                                 <div class="card-body">
 
                                     @forelse ($sub->users as $user)
-                                        <div>{{$user->name}} ({{$user->email}})</div>
+                                        <div class=" text-center w-100">{{$user->name}} ({{$user->email}})</div>
                                     @empty
-                                        - Nobody -
+                                        <div class=" text-center">- Nobody -</div>
                                     @endforelse
                                 </div>
                             </div>
@@ -224,10 +224,10 @@
                             <div class="card">
                                 <div class="btn btn-primary">Project Manager</div>
                                 @forelse ($big->users as $user)
-                        	        <div>{{$user->name}} ({{$user->email}})</div>
-                    	        @empty
-                        	        - Nobody -
-                    	        @endforelse
+                                <div class=" text-center w-100">{{$user->name}} ({{$user->email}})</div>
+                            @empty
+                                <div class=" text-center">- Nobody -</div>
+                            @endforelse
                             </div>
                         </div>
 
@@ -267,19 +267,17 @@
                                 <div class="card">
                                     <div class="btn btn-primary">Datails</div>
                                     <p class="text-center">{{ $sub->details != null ? $sub->details : '- None -' }}</p>
-                                    
+
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="card">
                                     <div class="btn btn-primary">Project Managers</div>
-                                    <div class="card-body">
-                                        @forelse ($sub->users as $user)
-                                            <div>{{$user->name}} ({{$user->email}})</div>
-                                        @empty
-                                            - Nobody -
-                                        @endforelse
-                                    </div>
+                                    @forelse ($sub->users as $user)
+                                        <div class=" text-center w-100">{{$user->name}} ({{$user->email}})</div>
+                                    @empty
+                                        <div class=" text-center">- Nobody -</div>
+                                    @endforelse
                                 </div>
                             </div>
                             <div class="col-sm-6">

@@ -26,7 +26,7 @@
     <div class="d-flex">
         <h2 class="big-title">Project Managers list</h2>
         <div class="flex-grow-1"></div>
-        <form action="{{ route('addadmin.rerole') }}" method="post">
+        <form action="{{ route('addadmin.rerole') }}" method="get">
             @csrf
             <button onclick="return confirm('Remove users with project manager roles that do not have project under them if exist. The system should prevent this...')"
             type="submit" class="remove">Role check?</button>

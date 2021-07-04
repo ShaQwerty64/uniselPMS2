@@ -33,7 +33,6 @@ class DatabaseSeeder extends Seeder
         $role1->givePermissionTo('modify admin');
         $role1->givePermissionTo('modify viewer');
         $role1->givePermissionTo('modify projects');
-        $role1->givePermissionTo('view projects');
 
         $role2 = Role::create(['name' => 'projMan']);
         $role2->givePermissionTo('edit projects');

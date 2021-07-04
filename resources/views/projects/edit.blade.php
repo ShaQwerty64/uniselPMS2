@@ -136,8 +136,8 @@ function prog($proj): int{
         <div class="ml-3 pt-2">Now: {{$proj->name}} @if ($projIsBig) (Big) @else () (Sub) @endif</div>
     </div></form>
 
-    <div class="d-flex sticky-top bg-white">
-        <label for="sel1" class="mr-3">Completion:</label>
+    <div class="d-flex sticky-top">
+        <label for="sel1" class="pr-3 rounded-left bg-white">Completion:</label>
         <x-adminlte-progress id="pbDinamic" value="{{prog($proj)}}" theme="lighblue" class="w-100 mr-5" style="height: 25px" animated with-label/>
         <input type="number" id="progress" value={{$proj->tasks_count}} hidden>
         <input type="number" id="done" value={{$proj->done_tasks_count}} hidden>

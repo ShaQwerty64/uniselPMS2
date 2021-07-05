@@ -132,8 +132,11 @@
                 </div>
             </div>
 
+            @php $collapse = true; @endphp
+
             @foreach ($PTJ->sub_projects as $sub)
-                <x-adminlte-card title="{{$sub->name}} (sub)" theme="green" icon="fas fa-tasks" collapsible="collapsed">
+                <x-adminlte-card title="{{$sub->name}} (sub)" theme="green" icon="fas fa-tasks" collapsible="{{$collapse ? '' : 'collapsed'}}">
+                    @php $collapse = false; @endphp
                     <div class="progress mb-2">
                         <div class="progress-done" style="width: {{ toProg($sub->done_tasks_count,$sub->tasks_count) }}%"></div>
                         <div class="progress-text">{{ $GLOBALS['toProgS'] }}%</div>
@@ -225,7 +228,12 @@
             @endforeach
 
             @foreach ($PTJ->PTJbigProjects as $big)
-                <x-adminlte-card title="{{$big->name}} (Big)" theme="green" icon="fas fa-tasks" collapsible="collapsed">
+                <x-adminlte-card title="{{$big->name}} (Big)" theme="green" icon="fas fa-tasks" collapsible="{{$collapse ? '' : 'collapsed'}}">
+                    @php $collapse = false; @endphp
+                    <div class="progress mb-2">
+                        <div class="progress-done" style="width: {{ toProg($big->done_tasks_count,$big->tasks_count) }}%"></div>
+                        <div class="progress-text">{{ $GLOBALS['toProgS'] }}%</div>
+                    </div>
                     <div class="row">
                         <div class="col-sm-6 mb-2">
                             <div class="card h-100 mb-0">
@@ -279,7 +287,7 @@
                     </div>
 
                     @foreach ($big->sub_projects as $sub)
-                    <x-adminlte-card title="{{$sub->name}} (sub)" theme="green" icon="fas fa-tasks" collapsible="collapsed">
+                    <x-adminlte-card title="{{$sub->name}} (sub)" theme="green" icon="fas fa-tasks" collapsible="@if ($loop->first) collapsed @endif">
                         <div class="progress mb-2">
                             <div class="progress-done" style="width: {{ toProg($sub->done_tasks_count,$sub->tasks_count) }}%"></div>
                             <div class="progress-text">{{ $GLOBALS['toProgS'] }}%</div>
@@ -339,7 +347,7 @@
                                 <h4 class="mr-2 font-weight-bold">{{$milestone->name}}</h4>
                                 <p class="mr-2"> Milestone {{$loop->iteration}} - Start: {{toMyDate($milestone->start_date)}} End: {{toMyDate($milestone->end_date)}}</p>
                             </div>
-
+                            {{-- @if ($task->done) bg-success @endif --}}
                             <ul class="list-group">
                                 @forelse ($milestone->tasks as $task)
                                     <li class="list-group-item">

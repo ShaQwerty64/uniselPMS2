@@ -16,7 +16,7 @@
     <style>
         body {
             font-family: 'Nunito';
-            background: #a1b3bd;
+            background: #ffffff;
         }
     </style>
 </head>
@@ -27,12 +27,12 @@
                 @if (Route::has('login'))
                     <div class="">
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="text-muted"><h3 class="text"><p><strong>Dashboard </strong></p></h3></a>
+                            <a href="{{ url('/dashboard') }}" class="text-muted"><h2 class="text"><p><strong>Dashboard </strong></p></h2></a>
                         @else
-                            <a href="{{ route('login') }}" class="text-muted">Log in</a>
+                            <a href="{{ route('login') }}" class="text-muted"><h2 class="text-info"><p><strong>Login </strong></p></h2></a>
 
                             @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="ml-4 text-muted">Register</a>
+                                <a href="{{ route('register') }}" class="ml-4 text-muted"><h2 class="text-danger"><p><strong>Register </strong></p></h2></a>
                             @endif
                         @endif
                     </div>
@@ -42,13 +42,13 @@
     </div>
 
 <div>
-    <h1 class="text-center"><p><strong>WELL COME TO UNISEL PROJECT MANAGEMENT SYSTEM</strong></p></h1>
+    <h1 class="text-center"><p><strong>WELLCOME TO UNISEL PROJECT MANAGEMENT SYSTEM</strong></p></h1>
 </div>
 <div>
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-          <img src="https://www.unisel.edu.my/wp-content/uploads/2020/11/1.jpg" class="d-block w-100" alt="...">
+          <img src="https://www.unisel.edu.my/wp-content/uploads/2020/11/1-1024x576.jpg" class="d-block w-100" alt="...">
       </div>
       <div class="carousel-item">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ytI8UmfvuN-9uYL4R84kw-TNm_pocJY19K9wu_yo3G-3ZAWrtM6lsxGslTAiEI90gX4&usqp=CAU" class="d-block w-100" alt="...">

@@ -15,7 +15,7 @@
                 return 0;
             }
             $tem = $progressDone / $progress * 100;
-            $GLOBALS['toProgS'] = $tem;
+            $GLOBALS['toProgS'] = intval($tem);
             return $tem;
         }
     @endphp

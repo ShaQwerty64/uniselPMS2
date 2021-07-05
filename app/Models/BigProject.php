@@ -78,6 +78,7 @@ class BigProject extends Model
 
     public function PTJmilestonesCount(): int{
         $count = 0;
+        $count += $this->milestones_count;
         foreach ($this->PTJbigProjects as $big){
             $count += $big->milestones_count;
         }

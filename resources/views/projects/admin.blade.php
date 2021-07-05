@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Add Projects')
+@section('title', 'UniselPMS Projects Adder')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Add Projects</h1>
+    <h1 class="m-0 text-dark">Projects Adder</h1>
 @stop
 
 @section('content')

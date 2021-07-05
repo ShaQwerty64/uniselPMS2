@@ -68,21 +68,14 @@ class ProjectsHistory extends Component
 
     private function query(User|BigProject|SubProject|string|array $subject): Builder
     {
-        $q = ModelsProjectsHistory::where('id',0);
         if ($subject instanceof User){
-            if ($subject->hasRole('admin')){
-                $q = $q->orWhere('admin_id',$subject->id);
-            }
-            if ($subject->hasRole('topMan')){
-                $q = $q->orWhere('user_id',$subject->id);
-            }
-            return $q;
+            return ModelsProjectsHistory::Where('admin_id',$subject->id)->orWhere('user_id',$subject->id);
         }
         elseif ($subject instanceof BigProject){
-            return $q->orWhere('big_project_id',$subject->id);
+            return ModelsProjectsHistory::Where('big_project_id',$subject->id);
         }
         elseif ($subject instanceof SubProject){
-            return $q->orWhere('sub_project_id',$subject->id);
+            return ModelsProjectsHistory::Where('sub_project_id',$subject->id);
         }
         elseif (is_array($subject)){
             return $this->query_array($subject);
@@ -91,29 +84,22 @@ class ProjectsHistory extends Component
             return $this->query_allProject();
         }
         else{
-            return $q->orWhere('PTJ',$subject);
+            return ModelsProjectsHistory::orWhere('PTJ',$subject);
         }
     }
 
     //quick fix, for some reason, Models in an array will turn into arrays after some time...
     private function query_array(array $subject): Builder
     {
-        $q = ModelsProjectsHistory::where('id',0);
         if (array_key_exists("email",$subject)){
-            if ($this->user->hasRole('admin')){
-                $q = $q->orWhere('admin_id',$subject['id']);
-            }
-            if ($this->user->hasRole('topMan')){
-                $q = $q->orWhere('user_id',$subject['id']);
-            }
+            return ModelsProjectsHistory::Where('admin_id',$subject['id'])->orWhere('user_id',$subject['id']);
         }
         elseif (array_key_exists("PTJ",$subject)){
-            $q = $q->orWhere('big_project_id',$subject['id']);
+            return ModelsProjectsHistory::Where('big_project_id',$subject['id']);
         }
         elseif (array_key_exists("big_project_id",$subject)){
-            $q = $q->orWhere('sub_project_id',$subject['id']);
+            return ModelsProjectsHistory::Where('sub_project_id',$subject['id']);
         }
-        return $q;
     }
 
     private function query_allProject(): Builder

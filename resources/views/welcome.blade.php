@@ -21,22 +21,11 @@
     </style>
 </head>
 <body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     <div class="container-fluid fixed-top p-4">
         <div class="col-12">
             <div class="d-flex justify-content-end">
-                @if (Route::has('login'))
-                    <div class="">
-                        @auth
-                            <a href="{{ url('/dashboard') }}" class="text-muted"><h2 class="text"><p><strong>Dashboard </strong></p></h2></a>
-                        @else
-                            <a href="{{ route('login') }}" class="text-muted"><h2 class="text-info"><p><strong>Login </strong></p></h2></a>
-
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="ml-4 text-muted"><h2 class="text-danger"><p><strong>Register </strong></p></h2></a>
-                            @endif
-                        @endif
-                    </div>
-                @endif
             </div>
         </div>
     </div>
@@ -44,20 +33,46 @@
 <div>
     <h1 class="text-center"><p><strong>WELLCOME TO UNISEL PROJECT MANAGEMENT SYSTEM</strong></p></h1>
 </div>
-<div>
-<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-          <img src="https://www.unisel.edu.my/wp-content/uploads/2020/11/1-1024x576.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ytI8UmfvuN-9uYL4R84kw-TNm_pocJY19K9wu_yo3G-3ZAWrtM6lsxGslTAiEI90gX4&usqp=CAU" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="https://kualaselangor.selangor.gov.my/kualaselangor/resources/File%20upload/umum/unisel-chancellery-building-photo-friday.jpg" class="d-block w-100" alt="...">
-      </div>
+<div class="position-relative">
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="https://www.unisel.edu.my/wp-content/uploads/2020/11/1-1024x576.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="https://www.unisel.edu.my/wp-content/uploads/2019/09/canseleri2.png" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="https://www.unisel.edu.my/wp-content/uploads/2019/09/mosque.png" class="d-block w-100" alt="...">
+        </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
-  </div>
+
+
+
+      <div class="position-absolute w-100 d-flex" style="top: 48%;">
+        <div class="w-50"></div>
+        @if (Route::has('login'))
+            @auth
+                <a href="{{ url('/dashboard') }}" class="btn btn-success btn-lg mr-3"><h1 class="m-1 font-weight-bolder">Dashboard</h1></a>
+            @else
+                <a href="{{ route('login') }}" class="btn btn-primary btn-lg mr-3"> <h1 class="m-1 font-weight-bolder">Login</h1></a>
+
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="btn btn-warning btn-lg mr-3"><h1 class="m-1 font-weight-bolder">Register</h1></a>
+                @endif
+            @endif
+        @endif
+        <div class="w-50"></div>
+    </div>
 </div>
 
 </body>

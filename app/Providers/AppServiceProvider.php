@@ -34,5 +34,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(125);
 
         Blade::component('livewire.project-table', ProjectTable::class);
+
+        date_default_timezone_set('Asia/Singapore');
     }
 }

@@ -1,9 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Your projects')
+@section('title', ($permit ? $proj->name . ' - ' : '') . 'UniselPMS Editor' )
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Your Projects</h1>
+    @php if ($permit) $projIsBig = $proj instanceof App\Models\BigProject; @endphp
+    <h1 class="m-0 text-dark">Projects Editor @if ($permit) | {{$proj->name}} @if ($projIsBig) (Big) @else () (Sub) @endif @endif</h1>
 @stop
 
 @section('content')@if ($permit)
@@ -17,18 +18,9 @@ function prog($proj): int{
     }
     return $done / $progress * 100;
 }
-    $projIsBig = $proj instanceof App\Models\BigProject;
 @endphp
 @push('js')
 <script>
-    // $(document).ready(function() {
-    //     let pBar = new _AdminLTE_Progress('pbDinamic');
-    //     let inc = (val) => {
-    //         let v = pBar.getValue() + val;
-    //         return v > 100 ? 0 : v;
-    //     };
-    //     setInterval(() => pBar.setValue(inc(1)), 100);
-    // })
     let save = document.getElementById("save");
     let save_delete = document.getElementById("save&delete");
     let deleteCount = 0;
@@ -133,7 +125,6 @@ function prog($proj): int{
             @endforeach
         </select>
         <x-adminlte-button class="ml-3" type="submit" label="Go" theme="info"/>
-        <div class="ml-3 pt-2">Now: {{$proj->name}} @if ($projIsBig) (Big) @else () (Sub) @endif</div>
     </div></form>
 
     <div class="d-flex sticky-top">

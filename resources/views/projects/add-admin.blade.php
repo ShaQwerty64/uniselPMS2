@@ -8,7 +8,7 @@
     <div class="py-12"> --}}
 @extends('adminlte::page')
 
-@section('title', 'Roles Manager')
+@section('title', 'UniselPMS Roles Manager')
 
 @section('content_header')
     <h1 class="m-0 text-dark">Roles Manager</h1>

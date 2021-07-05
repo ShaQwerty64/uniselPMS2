@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'View Projects')
+@section('title', 'UniselPMS Projects Viewer')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">View Projects</h1>
+    <h1 class="m-0 text-dark">Projects Viewer</h1>
 @stop
 
 @section('content')
@@ -82,20 +82,27 @@
             return $c->format('j/m/Y') . ' (' . $c->diffForHumans() . ')';
         }
     }
+    function toMyDateCarbon(null|Carbon\Carbon $date): string{
+        if ($date == null){
+            return '[Unset]';
+        }else {
+            return $date->format('j/m/Y g:ia');
+        }
+    }
     function toProg(null|int $progressDone, null|int $progress): int{
         if ($progress == null || $progress == 0){
             $GLOBALS['toProgS'] = '- ';
             return 0;
         }
         $tem = $progressDone / $progress * 100;
-        $GLOBALS['toProgS'] = $tem;
+        $GLOBALS['toProgS'] = intval($tem);
         return $tem;
     }
 @endphp
 
     <div class="row"><div class="col-12"><div class="card"><div class="card-body">
 
-        @foreach ($PTJs as $PTJ) <x-adminlte-card title="{{$PTJ->PTJ}}" theme="purple" icon="fab fa-accusoft" collapsible="collapsed">
+        @foreach ($PTJs as $PTJ) <x-adminlte-card title="{{$PTJ->PTJ}}" theme="purple" icon="fab fa-accusoft" collapsible="{{$loop->first ? '' : 'collapsed'}}">
 
             <div class="progress mb-2">
                 <div class="progress-done" style="width: {{ toProg($PTJ->done_tasks_count,$PTJ->tasks_count) }}%"></div>
@@ -132,17 +139,18 @@
                         <div class="progress-text">{{ $GLOBALS['toProgS'] }}%</div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div class="card">
+                        <div class="col-sm-6 mb-2">
+                            <div class="card h-100 mb-0">
                                 <div class="btn btn-primary">Datails</div>
-                                <p class="text-center"> {{ $sub->details != null ? $sub->details : '- None -' }}</p>
+                                <div class=" card-body">
+                                    <div class="text-center"> {{ $sub->details != null ? $sub->details : '- None -' }}</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="card">
+                        <div class="col-sm-6 mb-2">
+                            <div class="card h-100 mb-0">
                                 <div class="btn btn-primary">Project Managers</div>
                                 <div class="card-body">
-
                                     @forelse ($sub->users as $user)
                                         <div class=" text-center w-100">{{$user->name}} ({{$user->email}})</div>
                                     @empty
@@ -151,58 +159,67 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="card">
+                        <div class="col-sm-6 mb-2">
+                            <div class="card h-100 mb-0">
                                 <div class="btn btn-primary">Dates</div>
                                 <div class="card-body">
-                                    <p class="text-center">Start: {{toMyDate($sub->start_date)}}</p>
-                                    <p class="text-center">End: {{toMyDate($sub->end_date)}}</p>
+                                    <div class="text-center">Start: {{toMyDate($sub->start_date)}}</div>
+                                    <div class="text-center">End: {{toMyDate($sub->end_date)}}</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="card">
+                        <div class="col-sm-6 mb-2">
+                            <div class="card h-100 mb-0">
                                 <div class="btn btn-primary">Total Milestone & Task Count</div>
-                                <div class="card-body d-flex">
-                                    <h4 class="mx-auto">{{ $sub->milestones_count }}</h4>
-                                    <div class="mx-auto d-flex">
-                                        <h4>{{ $sub->tasks_count }}</h4>
-                                        <div class="ml-2">{{ $sub->done_tasks_count }} completed</div>
+                                <div class="card-body">
+                                    <div class="h-25"></div>
+                                    <div class="d-flex">
+                                        <h4 class="mx-auto">{{ $sub->milestones_count }}</h4>
+                                        <div class="mx-auto d-flex">
+                                            <h4>{{ $sub->tasks_count }}</h4>
+                                            <div class="ml-2">{{ $sub->done_tasks_count }} completed</div>
+                                        </div>
                                     </div>
+                                    <div class="h-25"></div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <br>
+                    <div class="d-flex flex-column">
+                        @forelse ($sub->milestones as $milestone)
+                        <div class="d-flex">
+                            <h4 class="mr-2 font-weight-bold">{{$milestone->name}}</h4>
+                            <p class="mr-2"> Milestone {{$loop->iteration}} - Start: {{toMyDate($milestone->start_date)}} End: {{toMyDate($milestone->end_date)}}</p>
+                        </div>
+
+                        <ul class="list-group">
+                            @forelse ($milestone->tasks as $task)
+                                <li class="list-group-item">
+                                    <div class="d-flex">
+                                        <div class="font-weight-bold">{{$loop->iteration}} -  {{$task->name}}</div>
+                                        @if ($task->done)
+                                            <div class="text-primary ml-2 font-weight-bold bg-primary rounded px-1"> Done! </div>
+                                        @endif
+                                        <div class="ml-2 text-black-50">
+                                            @if ($task->updated_at == null)
+                                                Created at: {{toMyDateCarbon($task->created_at)}}
+                                            @else
+                                                Modified at: {{toMyDateCarbon($task->updated_at)}}
+                                            @endif
+                                        </div>
+                                    </div>
+                                </li>
+                            @empty
+                                - No task yet -
+                            @endforelse
+                        </ul>
 
                         <br>
-                        <div class="d-flex flex-column">
-
-                            @forelse ($sub->milestones as $milestone)
-                            <p> Milestone {{$loop->iteration}} - {{$milestone->name}}  Start: {{toMyDate($milestone->start_date)}} End: {{toMyDate($milestone->end_date)}}</p>
-                            <ul class="list-group">
-                                @forelse ($milestone->tasks as $task)
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." @if ($task->done) checked @endif>
-                                        <div class="d-flex">
-                                            <div>Task {{$loop->iteration}} - {{$task->name}}</div>
-                                            <div class="ml-2">
-                                                @if ($task->updated_at == null)
-                                                    Created at: {{$task->created_at}}
-                                                @else
-                                                    Modified at: {{$task->updated_at}}
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </li>
-                                @empty
-                                    - No task yet -
-                                @endforelse
-                            </ul>
-
-                            <br>
-                            @empty
-					            - No task yet -
-				            @endforelse
-                        </div>
+                        @empty
+                            - No task yet -
+                        @endforelse
                     </div>
                 </x-adminlte-card>
             @endforeach
@@ -210,47 +227,52 @@
             @foreach ($PTJ->PTJbigProjects as $big)
                 <x-adminlte-card title="{{$big->name}} (Big)" theme="green" icon="fas fa-tasks" collapsible="collapsed">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div class="card">
+                        <div class="col-sm-6 mb-2">
+                            <div class="card h-100 mb-0">
                                 <div class="btn btn-primary">Datails</div>
                                 <div class="card-body">
-                                    <p class="text-center"> {{ $big->details != null ? $big->details : '- None -' }}</p>
-
+                                    <div class="text-center"> {{ $big->details != null ? $big->details : '- None -' }}</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-sm-6">
-                            <div class="card">
+                        <div class="col-sm-6 mb-2">
+                            <div class="card h-100 mb-0">
                                 <div class="btn btn-primary">Project Manager</div>
-                                @forelse ($big->users as $user)
-                                <div class=" text-center w-100">{{$user->name}} ({{$user->email}})</div>
-                            @empty
-                                <div class=" text-center">- Nobody -</div>
-                            @endforelse
+                                <div class=" card-body">
+                                    @forelse ($big->users as $user)
+                                        <div class=" text-center w-100">{{$user->name}} ({{$user->email}})</div>
+                                    @empty
+                                        <div class=" text-center">- Nobody -</div>
+                                    @endforelse
+                                </div>
                             </div>
                         </div>
 
-                        <div class="col-sm-6">
-                            <div class="card">
+                        <div class="col-sm-6 mb-2">
+                            <div class="card h-100 mb-0">
                                 <div class="btn btn-primary">Dates</div>
                                 <div class="card-body">
-                                    <p class="text-center"> Start: {{toMyDate($big->start_date)}}</p>
-                                    <p class="text-center">End: {{toMyDate($big->end_date)}}</p>
+                                    <div class="text-center"> Start: {{toMyDate($big->start_date)}}</div>
+                                    <div class="text-center">End: {{toMyDate($big->end_date)}}</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-sm-6">
-                            <div class="card">
+                        <div class="col-sm-6 mb-2">
+                            <div class="card h-100 mb-0">
                                 <div class="btn btn-primary">Total Sub Projects, Milestones & Tasks Counts</div>
-                                <div class="card-body d-flex">
-                                    <h4 class="mx-auto">{{$big->sub_projects->count()}}</h4>
-                                    <h4 class="mx-auto">{{ $big->milestones_count }}</h4>
-                                    <div class="mx-auto d-flex">
-                                        <h4>{{ $big->tasks_count }}</h4>
-                                        <div class="ml-2">{{ $big->done_tasks_count }} completed</div>
+                                <div class="card-body">
+                                    <div class="h-25"></div>
+                                    <div class="d-flex">
+                                        <h4 class="mx-auto">{{$big->sub_projects->count()}}</h4>
+                                        <h4 class="mx-auto">{{ $big->milestones_count }}</h4>
+                                        <div class="mx-auto d-flex">
+                                            <h4>{{ $big->tasks_count }}</h4>
+                                            <div class="ml-2">{{ $big->done_tasks_count }} completed</div>
+                                        </div>
                                     </div>
+                                    <div class="h-25"></div>
                                 </div>
                             </div>
                         </div>
@@ -263,76 +285,87 @@
                             <div class="progress-text">{{ $GLOBALS['toProgS'] }}%</div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
-                                <div class="card">
+                            <div class="col-sm-6 mb-2">
+                                <div class="card h-100 mb-0">
                                     <div class="btn btn-primary">Datails</div>
-                                    <p class="text-center">{{ $sub->details != null ? $sub->details : '- None -' }}</p>
-
+                                    <div class=" card-body">
+                                        <div class="text-center">{{ $sub->details != null ? $sub->details : '- None -' }}</div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="card">
+                            <div class="col-sm-6 mb-2">
+                                <div class="card h-100 mb-0">
                                     <div class="btn btn-primary">Project Managers</div>
-                                    @forelse ($sub->users as $user)
-                                        <div class=" text-center w-100">{{$user->name}} ({{$user->email}})</div>
-                                    @empty
-                                        <div class=" text-center">- Nobody -</div>
-                                    @endforelse
+                                    <div class=" card-body">
+                                        @forelse ($sub->users as $user)
+                                            <div class=" text-center w-100">{{$user->name}} ({{$user->email}})</div>
+                                        @empty
+                                            <div class=" text-center">- Nobody -</div>
+                                        @endforelse
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="card">
+                            <div class="col-sm-6 mb-2">
+                                <div class="card h-100 mb-0">
                                     <div class="btn btn-primary">Dates</div>
                                     <div class="card-body">
-                                        <p class="text-center">Start: {{toMyDate($sub->start_date)}} </p>
-                                        <p class="text-center">End: {{toMyDate($sub->end_date)}}</p>
-
+                                        <div class="text-center">Start: {{toMyDate($sub->start_date)}} </div>
+                                        <div class="text-center">End: {{toMyDate($sub->end_date)}}</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="card">
+                            <div class="col-sm-6 mb-2">
+                                <div class="card h-100 mb-0">
                                     <div class="btn btn-primary">Total Milestone & Task Count</div>
-                                    <div class="card-body d-flex">
-                                        <h4 class="mx-auto">{{ $sub->milestones_count }}</h4>
-                                        <div class="mx-auto d-flex">
-                                            <h4>{{ $sub->tasks_count }}</h4>
-                                            <div class="ml-2">{{ $sub->done_tasks_count }} completed</div>
+                                    <div class="card-body">
+                                        <div class="h-25"></div>
+                                        <div class=" d-flex">
+                                            <h4 class="mx-auto">{{ $sub->milestones_count }}</h4>
+                                            <div class="mx-auto d-flex">
+                                                <h4>{{ $sub->tasks_count }}</h4>
+                                                <div class="ml-2">{{ $sub->done_tasks_count }} completed</div>
+                                            </div>
                                         </div>
+                                        <div class="h-25"></div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <br>
-                            <div class="d-flex flex-column">
+                        <br>
+                        <div class="d-flex flex-column">
+                            @forelse ($sub->milestones as $milestone)
+                            <div class="d-flex">
+                                <h4 class="mr-2 font-weight-bold">{{$milestone->name}}</h4>
+                                <p class="mr-2"> Milestone {{$loop->iteration}} - Start: {{toMyDate($milestone->start_date)}} End: {{toMyDate($milestone->end_date)}}</p>
+                            </div>
 
-                                @forelse ($sub->milestones as $milestone)
-                                <p> Milestone {{$loop->iteration}} - {{$milestone->name}}  Start: {{toMyDate($milestone->start_date)}} End: {{toMyDate($milestone->end_date)}}</p>
-                                <ul class="list-group">
-                                    @forelse ($milestone->tasks as $task)
-                                        <li class="list-group-item">
-                                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." @if ($task->done) checked @endif>
-                                            <div class="d-flex">
-                                                <div>Task {{$loop->iteration}} - {{$task->name}}</div>
-                                                <div class="ml-2">
-                                                    @if ($task->updated_at == null)
-                                                        Created at: {{$task->created_at}}
-                                                    @else
-                                                        Modified at: {{$task->updated_at}}
-                                                    @endif
-                                                </div>
+                            <ul class="list-group">
+                                @forelse ($milestone->tasks as $task)
+                                    <li class="list-group-item">
+                                        <div class="d-flex">
+                                            <div class="font-weight-bold">{{$loop->iteration}} - {{$task->name}}</div>
+                                            @if ($task->done)
+                                                <div class="text-primary ml-2 font-weight-bold bg-primary rounded px-1"> Done! </div>
+                                            @endif
+                                            <div class="ml-2 text-black-50">
+                                                @if ($task->updated_at == null)
+                                                    Created at: {{toMyDateCarbon($task->created_at)}}
+                                                @else
+                                                    Modified at: {{toMyDateCarbon($task->updated_at)}}
+                                                @endif
                                             </div>
-                                        </li>
-                                    @empty
-                                        - No task yet -
-                                    @endforelse
-                                </ul>
-
-                                <br>
+                                        </div>
+                                    </li>
                                 @empty
                                     - No task yet -
                                 @endforelse
-                            </div>
+                            </ul>
+
+                            <br>
+                            @empty
+                                - No task yet -
+                            @endforelse
                         </div>
                     </x-adminlte-card>
                 @endforeach

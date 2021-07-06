@@ -31,7 +31,7 @@
     </div>
 
 <div>
-    <h1 class="text-center"><p><strong>WELLCOME TO UNISEL PROJECT MANAGEMENT SYSTEM</strong></p></h1>
+    <h1 class="text-center"><p><strong>WELCOME TO UNISEL PROJECT MANAGEMENT SYSTEM</strong></p></h1>
 </div>
 <div class="position-relative">
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
@@ -74,6 +74,8 @@
         <div class="w-50"></div>
     </div>
 </div>
+
+<img src="{{asset('pic/a.bmp')}}" class="d-block w-100" alt="...">
 
 </body>
 </html>

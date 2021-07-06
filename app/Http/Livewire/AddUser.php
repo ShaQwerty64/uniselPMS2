@@ -259,11 +259,25 @@ class AddUser extends Component
             return;// redirect()->route('admin')
         }
         else if ($this->isProject){
-            $old = $this->proj->big_project();
+            $old = $this->proj->big_project;
             $this->proj->big_project_id = $this->theUser->id;
             $this->proj->save();
-            $message = "Admin '" . auth()->user()->name .  "' move sub project '" .$this->proj->name . "' from big project '" . $old->name . "' (" . $old->PTJ . ") into big project '" . $this->theUser->name . "' (" . $this->theUser->PTJ . ")";
-            $request->banner($message, '', auth()->user()->id,null,$this->theUser->id,$this->proj->id,$this->theUser->PTJ,$old->id,$old->PTJ);
+            $message = "Admin '"
+            . auth()->user()->name
+            .  "' move sub project '"
+            . $this->proj->name . "' from big project '"
+            . $old->name
+            . "' (" . $old->PTJ . ") into big project '"
+            . $this->theUser->name . "' ("
+            . $this->theUser->PTJ . ")";
+            $request->banner($message, ''
+            , auth()->user()->id
+            ,null
+            ,$this->theUser->id
+            ,$this->proj->id
+            ,$this->theUser->PTJ
+            ,$old->id
+            ,$old->PTJ);
             return redirect()->route('admin');
         }
         $this->theUser->assignRole($this->roleName);

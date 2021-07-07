@@ -145,7 +145,7 @@ return [
     |
     */
 
-    'sidebar_mini' => true,
+    'sidebar_mini' => 'md',
     'sidebar_collapse' => false,
     'sidebar_collapse_auto_size' => false,
     'sidebar_collapse_remember' => true,
@@ -153,7 +153,7 @@ return [
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
     'sidebar_nav_accordion' => true,
-    'sidebar_nav_animation_speed' => 300,
+    'sidebar_nav_animation_speed' => 450,
 
     /*
     |--------------------------------------------------------------------------
@@ -242,6 +242,8 @@ return [
             'can'  => ['modify projects','modify admin','modify viewer'],
             'icon'       => 'fas fa-fw fa-user',
             'icon_color' => 'red',
+            'label'       => 'Admin',
+            'label_color' => 'warning',
         ],
         [
             'text' => 'Projects Adder',
@@ -249,6 +251,8 @@ return [
             'can'  => 'modify projects',
             'icon'       => 'fas fa-plus',
             'icon_color' => 'light',
+            'label'       => 'Admin',
+            'label_color' => 'warning',
         ],
         [
             'text' => 'Projects Editor',
@@ -256,6 +260,8 @@ return [
             'can'  => 'edit projects',
             'icon'       => 'fas fa-edit',
             'icon_color' => 'indigo',
+            'label'       => 'Manager',
+            'label_color' => 'primary',
         ],
         [
             'text' => 'Projects Viewer',
@@ -263,6 +269,8 @@ return [
             'can'  => 'view projects',
             'icon'       => 'fas fa-eye',
             'icon_color' => 'lime',
+            'label'       => 'Viewer',
+            'label_color' => 'info',
         ],
         // Sidebar items:
         // [

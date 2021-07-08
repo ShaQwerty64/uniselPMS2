@@ -37,13 +37,13 @@
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="https://www.unisel.edu.my/wp-content/uploads/2020/11/1-1024x576.jpg" class="d-block w-100" alt="...">
+            <img src="{{asset('pic/1-1024x576 - Copy.png')}}" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
-            <img src="https://www.unisel.edu.my/wp-content/uploads/2019/09/canseleri2.png" class="d-block w-100" alt="...">
+            <img src="{{asset('pic/bcNew.png')}}" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
-            <img src="https://www.unisel.edu.my/wp-content/uploads/2019/09/mosque.png" class="d-block w-100" alt="...">
+            <img src="{{asset('pic/canseleri2.png')}}" class="d-block w-100" alt="...">
         </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -75,7 +75,8 @@
     </div>
 </div>
 
-<img src="{{asset('pic/a.bmp')}}" class="d-block w-100" alt="...">
+
+
 
 </body>
 </html>

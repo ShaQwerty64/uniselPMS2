@@ -34,7 +34,7 @@
     <h1 class="text-center"><p><strong>WELCOME TO UNISEL PROJECT MANAGEMENT SYSTEM</strong></p></h1>
 </div>
 <div class="position-relative">
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+    <div id="carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
         <div class="carousel-item active">
             <img src="{{asset('pic/1-1024x576 - Copy.png')}}" class="d-block w-100" alt="...">
@@ -46,11 +46,11 @@
             <img src="{{asset('pic/canseleri2.png')}}" class="d-block w-100" alt="...">
         </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>

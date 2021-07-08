@@ -112,18 +112,23 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="card">
-                        <div class="btn btn-primary">Total Projects Counts</div>
+                        <div class="btn btn-primary">Total Projects Counts (Sub + Big)</div>
                         <div class="card-body text-center font-weight-bolder"><h4>
-                            {{ $PTJ->projectsCount + $PTJ->bigCount }} ({{ $PTJ->projectsCount }} + {{ $PTJ->bigCount }})
+                            {{ $PTJ->sub_projects->count() + $PTJ->bigCount }} ({{ $PTJ->sub_projects->count() }} + {{ $PTJ->bigCount }})
                         </h4></div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="btn btn-primary">Total Milestones & Tasks Counts</div>
-                        <div class="card-body d-flex">
-                            <h4 class="mx-auto">{{ $PTJ->PTJmilestonesCount() }}</h4>
-                            <div class="mx-auto d-flex">
+                <div class="col-sm-6 d-flex">
+                    <div class="card flex-grow-1">
+                        <div class="btn btn-primary">Total Milestones</div>
+                        <div class="card-body mx-auto">
+                            <h4>{{ $PTJ->PTJmilestonesCount() }}</h4>
+                        </div>
+                    </div>
+                    <div class="card flex-grow-1">
+                        <div class="btn btn-primary">Total Tasks</div>
+                        <div class="card-body mx-auto">
+                            <div class=" d-flex">
                                 <h4>{{ $PTJ->tasks_count }}</h4>
                                 <div class="ml-2">{{ $PTJ->done_tasks_count }} completed</div>
                             </div>
@@ -171,17 +176,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 mb-2">
-                            <div class="card h-100 mb-0">
-                                <div class="btn btn-primary">Total Milestone & Task Count</div>
-                                <div class="card-body">
+                        <div class="col-sm-6 mb-2 d-flex">
+                            <div class="card h-100 mb-0 flex-grow-1">
+                                <div class="btn btn-primary">Total Milestones</div>
+                                <div class="h-25"></div>
+                                <div class="card-body mx-auto">
+                                    <h4>{{ $sub->milestones_count }}</h4>
+                                </div>
+                                <div class="h-25"></div>
+                            </div>
+                            <div class="card h-100 mb-0 flex-grow-1">
+                                <div class="btn btn-primary">Total Tasks</div>
+                                <div class="card-body mx-auto">
                                     <div class="h-25"></div>
-                                    <div class="d-flex">
-                                        <h4 class="mx-auto">{{ $sub->milestones_count }}</h4>
-                                        <div class="mx-auto d-flex">
-                                            <h4>{{ $sub->tasks_count }}</h4>
-                                            <div class="ml-2">{{ $sub->done_tasks_count }} completed</div>
-                                        </div>
+                                    <div class=" d-flex">
+                                        <h4>{{ $sub->tasks_count }}</h4>
+                                        <div class="ml-2">{{ $sub->done_tasks_count }} completed</div>
                                     </div>
                                     <div class="h-25"></div>
                                 </div>
@@ -267,18 +277,30 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6 mb-2">
-                            <div class="card h-100 mb-0">
-                                <div class="btn btn-primary">Total Sub Projects, Milestones & Tasks Counts</div>
-                                <div class="card-body">
+                        <div class="col-sm-6 mb-2 d-flex">
+                            <div class="card h-100 mb-0 flex-grow-1">
+                                <div class="btn btn-primary">Total Projects</div>
+                                <div class="h-25"></div>
+                                <div class="card-body mx-auto">
+                                    <h4>{{ $big->sub_projects->count() }}</h4>
+                                </div>
+                                <div class="h-25"></div>
+                            </div>
+                            <div class="card h-100 mb-0 flex-grow-1">
+                                <div class="btn btn-primary">Total Milestones</div>
+                                <div class="h-25"></div>
+                                <div class="card-body mx-auto">
+                                    <h4>{{ $big->milestones_count }}</h4>
+                                </div>
+                                <div class="h-25"></div>
+                            </div>
+                            <div class="card h-100 mb-0 flex-grow-1">
+                                <div class="btn btn-primary">Total Tasks</div>
+                                <div class="card-body mx-auto">
                                     <div class="h-25"></div>
-                                    <div class="d-flex">
-                                        <h4 class="mx-auto">{{$big->sub_projects->count()}}</h4>
-                                        <h4 class="mx-auto">{{ $big->milestones_count }}</h4>
-                                        <div class="mx-auto d-flex">
-                                            <h4>{{ $big->tasks_count }}</h4>
-                                            <div class="ml-2">{{ $big->done_tasks_count }} completed</div>
-                                        </div>
+                                    <div class=" d-flex">
+                                        <h4>{{ $big->tasks_count }}</h4>
+                                        <div class="ml-2">{{ $big->done_tasks_count }} completed</div>
                                     </div>
                                     <div class="h-25"></div>
                                 </div>
@@ -322,17 +344,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6 mb-2">
-                                <div class="card h-100 mb-0">
-                                    <div class="btn btn-primary">Total Milestone & Task Count</div>
-                                    <div class="card-body">
+                            <div class="col-sm-6 mb-2 d-flex">
+                                <div class="card h-100 mb-0 flex-grow-1">
+                                    <div class="btn btn-primary">Total Milestones</div>
+                                    <div class="h-25"></div>
+                                    <div class="card-body mx-auto">
+                                        <h4>{{ $sub->milestones_count }}</h4>
+                                    </div>
+                                    <div class="h-25"></div>
+                                </div>
+                                <div class="card h-100 mb-0 flex-grow-1">
+                                    <div class="btn btn-primary">Total Tasks</div>
+                                    <div class="card-body mx-auto">
                                         <div class="h-25"></div>
                                         <div class=" d-flex">
-                                            <h4 class="mx-auto">{{ $sub->milestones_count }}</h4>
-                                            <div class="mx-auto d-flex">
-                                                <h4>{{ $sub->tasks_count }}</h4>
-                                                <div class="ml-2">{{ $sub->done_tasks_count }} completed</div>
-                                            </div>
+                                            <h4>{{ $sub->tasks_count }}</h4>
+                                            <div class="ml-2">{{ $sub->done_tasks_count }} completed</div>
                                         </div>
                                         <div class="h-25"></div>
                                     </div>

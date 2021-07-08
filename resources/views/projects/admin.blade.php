@@ -26,6 +26,7 @@
     <div class="inside inside1">
         @livewire('asign-project')
     </div>
+        <div>The assigned user will have "Project Manager" role and can access "Projects Editor" page to edit projects that assigned to them.</div>
     </div>
     </div>
 

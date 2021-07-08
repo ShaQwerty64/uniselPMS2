@@ -137,7 +137,7 @@ function prog($proj): int{
     <br>
 
     <form action="{{$projIsBig ? route('edit.big',$proj) : route('edit.sub',$proj) }}" method="post" id="save_tasks">@csrf
-        <div class="card" style="">
+        <div class="card bg-light">
             <div class="p-1 mb-2 bg-info pl-2 text-white text-bold">Project Details & Dates</div>
             <textarea class="m-2" id="details" name="details" rows="2">{{$proj->details}}</textarea>
 
@@ -179,7 +179,7 @@ function prog($proj): int{
                         <ul class="list-group m-3">
                             @foreach ($mile->tasks as $task)
                                 @php $taskIX = $loop->index @endphp
-                                <li class="list-group-item d-flex">
+                                <li class="list-group-item d-flex bg-light">
                                     <div id={{($mileIX + 1) * 10000 + ($taskIX + 1) * 10 + 5}} hidden>Will Be Deleted</div>
 
                                     <input id={{($mileIX + 1) * 10000 + ($taskIX + 1) * 10 + 3}} name="{{$idArray[$mileIX][1][$taskIX]}}d" class="mr-3 mt-2" type="checkbox" value="1"
@@ -212,7 +212,7 @@ function prog($proj): int{
                 </div>
             @endforeach
 
-            <div class="card"><div class="card-body">
+            <div class="card"><div class="card-body bg-light">
                 <span class="input-group-addon"> Add Milestone</span>
                 <input id="new_mile" name="new_mile" type="text" class="form-control" placeholder="Milestone Name">
                 <div class="d-flex">

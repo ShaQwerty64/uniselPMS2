@@ -23,9 +23,9 @@
 
     @can('modify projects')
     <div class="py-4">
-    <div class="d-flex">
-        <h2 class="big-title">Project Managers list</h2>
-        <div class="flex-grow-1"></div>
+    <div class="d-flex align-items-end">
+        <h2 class="big-title mb-0">Project Managers list</h2>
+        <div class="flex-grow-1 ml-2">Users that are assigned to any project will automatically get this Project Manager role</div>
         <form action="{{ route('addadmin.rerole') }}" method="get">
             @csrf
             <button onclick="return confirm('Remove users with project manager roles that do not have project under them if exist. The system should prevent this...')"
@@ -121,7 +121,10 @@
 
     @can('modify admin')
     <div class="py-4">
-    <h2 class="big-title">Admins list</h2>
+    <div class="d-flex align-items-end">
+        <h2 class="big-title mb-0">Admins list</h2>
+    </div>
+
     <div class="inside">
 
         <table class="mytable">
@@ -204,7 +207,10 @@
 
     @can('modify viewer')
     <div class="py-4">
-    <h2 class="big-title">Viewers list</h2>
+    <div class="d-flex align-items-end">
+        <h2 class="big-title mb-0">Viewers list</h2>
+        <div class="ml-2">Viewers can visit "Projects Viewer" page</div>
+    </div>
     <div class="inside">
 
         <table class="mytable">

@@ -18,6 +18,30 @@ function prog($proj): int{
     }
     return $done / $progress * 100;
 }
+function toMyDate(null|string $date): string{
+    if ($date == null){
+        return '[Unset]';
+    }else {
+        $c = Carbon\Carbon::parse($date);
+        return $c->format('j/m/Y') . ' (' . $c->diffForHumans() . ')';
+    }
+}
+function toMyDateCarbon(null|Carbon\Carbon $date): string{
+    if ($date == null){
+        return '[Unset]';
+    }else {
+        return $date->format('j/m/Y g:ia');
+    }
+}
+function toProg(null|int $progressDone, null|int $progress): int{
+    if ($progress == null || $progress == 0){
+        $GLOBALS['toProgS'] = '- ';
+        return 0;
+    }
+    $tem = $progressDone / $progress * 100;
+    $GLOBALS['toProgS'] = intval($tem);
+    return $tem;
+}
 @endphp
 @push('js')
 <script>
@@ -109,6 +133,48 @@ function prog($proj): int{
         --tw-gradient-to: #6b7280;
         /* bg-clip-border */
         background-clip: border-box;
+    }
+    .progress-done{
+        /* absolute */
+        position: absolute;
+        /* inset-0 */
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        /* transition */
+        transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+        /* rounded-md */
+        border-radius: 0.375rem/* 6px */;
+        /* bg-gradient-to-b */
+        background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+        /* from-green-600 */
+        --tw-gradient-from: #059669;
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(5, 150, 105, 0));
+        /* to-green-400 */
+        --tw-gradient-to: #34d399;
+    }
+    .progress-text{
+        font-size: 1.1rem;
+        line-height: .45rem;
+        /* relative */
+        position: relative;
+        /* font-sans */
+        font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        /* font-bold */
+        font-weight: 700;
+        /* text-center */
+        text-align: center;
+        /* text-white */
+        --tw-text-opacity: 1;
+        color: rgba(255, 255, 255, var(--tw-text-opacity));
+        /* h-6 */
+        height: 1.5rem/* 24px */;
+        padding: 0.5rem;
+        /* flex-grow */
+        flex-grow: 1;
     }
 </style>
 
@@ -237,6 +303,17 @@ function prog($proj): int{
             Reset
         </a>
     </form>
+
+
+    <h2 class="mt-5">Sub Projects</h2>
+    @if ($projIsBig)
+        @foreach ($proj->sub_projects as $sub)
+            <a href="{{route('edit.sub',$sub)}}">Go edit this project</a>
+            <x-adminlte-card title="{{$sub->name}}" theme="dark" icon="fas fa-tasks" collapsible="{{$loop->first ? '' : 'collapsed'}}">
+                <x-viewer-sub-project :sub="$sub"/>
+            </x-adminlte-card>
+        @endforeach
+    @endif
 
 </div></div></div></div>
 @else

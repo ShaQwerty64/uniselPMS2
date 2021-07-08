@@ -81,6 +81,8 @@ class EditController extends Controller
     {
         $this->construct();
         if ($this->userIsPermited($big)){
+            $big->load('sub_projects');
+            $big->loadCount('milestones');
             $big->sub_projects->loadCount([
                 'tasks',
                 'tasks as done_tasks_count' => function ($query){

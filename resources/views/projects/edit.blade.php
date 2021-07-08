@@ -304,9 +304,10 @@ function toProg(null|int $progressDone, null|int $progress): int{
         </a>
     </form>
 
-
-    <h2 class="mt-5">Sub Projects</h2>
     @if ($projIsBig)
+        <h2 class="mt-5 m-0">Sub Projects ({{$proj->sub_projects->count()}})</h2>
+        <p class="m-0">Milestones: {{$proj->milestones_count}}</p>
+        <p class="m-0">Tasks: {{$proj->done_tasks_count}}/{{$proj->tasks_count}}</p>
         @foreach ($proj->sub_projects as $sub)
             <a href="{{route('edit.sub',$sub)}}">Go edit this project</a>
             <x-adminlte-card title="{{$sub->name}}" theme="dark" icon="fas fa-tasks" collapsible="{{$loop->first ? '' : 'collapsed'}}">

@@ -4,7 +4,16 @@
 
 @section('content_header')
     @php if ($permit) $projIsBig = $proj instanceof App\Models\BigProject; @endphp
-    <h1 class="m-0 text-dark">Projects Editor @if ($permit) | {{$proj->name}} @if ($projIsBig) (Big) @else () (Sub) @endif @endif</h1>
+    <h1 class="m-0 text-dark">
+        Projects Editor
+        @if ($permit)
+         | {{$proj->name}}
+            @if ($projIsBig) (Big)
+            @else () (Sub)
+            @endif
+         - {{$proj->PTJ != '' ? $proj->PTJ : $proj->big_project->name . ' - ' . $proj->big_project->PTJ }}
+        @endif
+    </h1>
 @stop
 
 @section('content')@if ($permit)

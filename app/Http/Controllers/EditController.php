@@ -18,35 +18,37 @@ class EditController extends Controller
     public function construct()
     {
         $this->user = auth()->user();
-        $index = 0;
-        foreach ($this->user->sub_projects as $sub){
-            $this->projList[] = [
-                'index' => $index,
-                'name'  => $sub->name,
-                'isBig' => false,
-                'id'=>$sub->id
-            ];
-            $this->bigOnly = false;
-            $index++;
-        }
+        $bigTem = [];//$subTem = [];
         foreach ($this->user->big_projects as $big){
-            $this->projList[] = [
-                'index' => $index,
+            $bigTem[] = [
+                'index' => 'B ' . $big->id,
                 'name'  => $big->name,
                 'isBig' => true,
-                'id'=>$big->id
+                'id'    =>  $big->id
             ];
-            $index++;
             foreach ($big->sub_projects as $sub) {
-                $this->projList[] = [
-                    'index' => $index,
+                $tem = [
+                    'index' => 'S ' . $sub->id,
                     'name'  => $sub->name,
                     'isBig' => false,
-                    'id'=>$sub->id
+                    'id'    =>  $sub->id
                 ];
-                $index++;
+                $bigTem[] = $tem;
+                // $subTem[] = $tem;
             }
         }
+        $subDtem = [];
+        foreach ($this->user->sub_projects as $sub){
+            $tem = [
+                'index' => 'S ' . $sub->id,
+                'name'  => $sub->name,
+                'isBig' => false,
+                'id'    => $sub->id
+            ];
+            $subDtem[] = $tem;
+            $this->bigOnly = false;
+        }
+        $this->projList = array_merge($subDtem,$bigTem);
     }
 
     public function index()//projects
@@ -60,12 +62,10 @@ class EditController extends Controller
 
     public function goto(Request $request)//projects (post)
     {
-        $this->construct();
-        $x = $this->projList[$request->all()['index']];
-        if ($x['isBig']){
-            return redirect()->route('edit.big', BigProject::where('id',$x['id'])->first());
-        }
-        return redirect()->route('edit.sub', SubProject::where('id',$x['id'])->first());
+        $x = explode(' ',$request->all()['index']);
+        if ($x[0] == 'B') return redirect()->route('edit.big', BigProject::where('id',$x[1])->first());
+        return redirect()->route('edit.sub', SubProject::where('id',$x[1])->first());//intval()
+        // return abort(403,'Oh no... Go back and reload. That should fix it. The Database is not in Sync with the page.');
     }
 
     private function userIsPermited(BigProject|SubProject $proj): bool{

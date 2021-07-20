@@ -13,7 +13,7 @@
     <label for="user"><b>User Email (can search using user name)</b></label>
     <div class="search-lw-out">
 
-        <input wire:model="search" list="search-user-list" type="text"
+        <input wire:model="search" list="search-user-list" type="text" id="Unisel-TCMS2-PMS1-Adder-user"
         placeholder="Enter Registered User Email or Name" class="search-lw2" required>
 
         <datalist id="search-user-list">
@@ -26,7 +26,7 @@
             @if ($ifRegistered && $search !== '')
                 <div>Found "{{ $theUser->email }}", user name: "{{ $theUser->name }}"</div>
             @elseif ($search !== '')
-                <div class="search-lw2-text-r">User "{{ $search }}" did not found in the database.</div>
+                <div class="search-lw2-text-r">"{{ $search }}" did not found in the database.</div>
             @endif
         </div>
     </div>
@@ -55,7 +55,7 @@
 
     <div class="search-lw-out">
 
-        <input wire:model="searchP" list="search-proj-list" type="text"
+        <input wire:model="searchP" list="search-proj-list" type="text" id="Unisel-TCMS2-PMS1-Adder-project"
         placeholder="Enter @if ($theBigProject == '[Make New Big Project]')Big @endif Project Name"
         class="search-lw2" required>
 

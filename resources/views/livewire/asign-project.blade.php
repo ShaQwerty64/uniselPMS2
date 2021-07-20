@@ -10,38 +10,21 @@
     </div>
     <hr class="hr">
 
-    <label for="user"><b>User Name</b></label>
+    <label for="user"><b>User Email (can search using user name)</b></label>
     <div class="search-lw-out">
 
-        @if ($search !== '' && $active)
-            <div class="search-lw-reset" wire:click="resetX"></div>
-        @endif
+        <input wire:model="search" list="search-user-list" type="text"
+        placeholder="Enter Registered User Email or Name" class="search-lw2" required>
 
-        <input wire:model="search" wire:click="click" wire:keydown.escape="resetX" wire:keydown.tab="resetX"
-        wire:keydown.arrow-up="highlightUp" wire:keydown.arrow-down="highlightDown" wire:keydown.enter="selectEnter"
-        type="text" placeholder="Enter Registered User"
-        class="search-lw2" required>
-
-        @if ($search !== '' && $active)
-
-            <div class="search-lw2-lists1">
-
-                @forelse ($users as $i => $user)
-                    <div class="search-lw-list {{ $highlightIndex == $i ? 'search-lw-list-h' : '' }}"
-                    wire:click="select('{{ $user->name }}')">
-                    <div class="search-lw-list-name">{{ $user->name }}</div>
-                    <div class="search-lw-list-email">{{ $user->email }}</div>
-                    </div>
-                @empty
-                    <div class="search-lw-list-none">None</div>
-                @endforelse
-
-            </div>
-        @endif
+        <datalist id="search-user-list">
+            @foreach ($users as $user)
+                <option value="{{ $user->email }}"><div>{{ $user->name }}</div></option>
+            @endforeach
+        </datalist>
 
         <div class="search-lw2-text">
             @if ($ifRegistered && $search !== '')
-                <div>User "{{ $search }}" found, email: {{ $theUser->email }}</div>
+                <div>Found "{{ $theUser->email }}", user name: "{{ $theUser->name }}"</div>
             @elseif ($search !== '')
                 <div class="search-lw2-text-r">User "{{ $search }}" did not found in the database.</div>
             @endif
@@ -70,28 +53,17 @@
     @if ($theBigProject == '[Make New Big Project]') Big @endif
     Project Name </b></label>
 
-    <div @if ($searchP !== '' && $activeP) class="search-lw-reset" @endif wire:click="resetP"></div>
-
     <div class="search-lw-out">
 
-        <input wire:model="searchP" wire:click="clickP" wire:keydown.escape="resetP" wire:keydown.tab="resetP"
-        wire:keydown.arrow-up="highlightUpP" wire:keydown.arrow-down="highlightDownP" wire:keydown.enter="selectEnterP"
-        type="text" placeholder="Enter @if ($theBigProject == '[Make New Big Project]')Big @endif Project Name"
+        <input wire:model="searchP" list="search-proj-list" type="text"
+        placeholder="Enter @if ($theBigProject == '[Make New Big Project]')Big @endif Project Name"
         class="search-lw2" required>
 
-        @if ($searchP !== '' && $activeP)
-
-            <div class="search-lw2-lists1">
-
-                @foreach ($projects as $i => $project)
-                    <div class=" search-lw2-list2
-                    {{ $highlightIndexP == $i ? 'search-lw-list-h' : '' }}"
-                    wire:click="selectP('{{ $project->name }}')"
-                    >{{ $project->name }}</div>
-                @endforeach
-
-            </div>
-        @endif
+        <datalist id="search-proj-list">
+            @foreach ($projects as $project)
+                <option value="{{ $project->name }}">
+            @endforeach
+        </datalist>
 
         <div class="search-lw2-text">
             @if ($searchP == '')

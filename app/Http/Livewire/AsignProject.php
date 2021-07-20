@@ -14,66 +14,28 @@ class AsignProject extends Component
 {
     public string $PTJ = 'CICT';
 
-    // from FindUser
     public string $search = '';
     public array|Collection $users = [];
-    public int $highlightIndex = 0;
-    public bool $active = false;
-
     public bool $ifRegistered = false;
     public User $theUser;
-    // more in middle
 
-    public function click(){
-        $this->active = true;
-    }
-
-    public function resetX()
+    private function getUsersList()
     {
-        $this->ifRegistered();
-
-        $this->highlightIndex = 0;
-        $this->active = false;
-    }
-
-    public function highlightDown()
-    {
-        if ($this->highlightIndex + 1 < count($this->users))
+        if ($this->search != '')
         {
-            $this->highlightIndex++;
-            return;
+            $this->users =
+            User::where('name', 'like', '%'.$this->search.'%')
+            ->orWhere('email', 'like', '%'.$this->search.'%')
+            ->take(15)
+            ->get(['id','name','email']);
         }
-        $this->highlightIndex = 0;
     }
 
-    public function highlightUp()
-    {
-        if ($this->highlightIndex != 0)
-        {
-            $this->highlightIndex--;
-            return;
-        }
-        $this->highlightIndex = count($this->users) - 1;
-    }
-
-    public function selectEnter()
-    {
-        if ($this->users->count() == 0){return;}
-        $this->search = $this->users[$this->highlightIndex]->name;
-        $this->resetX();
-    }
-
-    public function select(string $name)
-    {
-        $this->search = $name;
-        $this->resetX();
-    }
-
-    public function ifRegistered()
+    private function ifRegistered()
     {
         $this->ifRegistered = false;
         foreach ($this->users as $user) {
-            if ($user->name == $this->search)
+            if ($user->email == $this->search || $user->name == $this->search)
             {
                 $this->ifRegistered = true;
                 $this->theUser = $user;
@@ -82,12 +44,9 @@ class AsignProject extends Component
         }
     }
 
-    //from FindOrMakeProject
     public string $searchP = '';
     public Collection $bigProjects;
     public array|Collection $projects = [];
-    public int $highlightIndexP = 0;
-    public bool $activeP = false;
     public bool $ifExist = false;
 
     public int $usersCount = 0;
@@ -96,59 +55,11 @@ class AsignProject extends Component
     public SubProject|BigProject $theProject;
     public bool $bigSameName;
 
-    public function clickP(){
-        $this->activeP = true;
-    }
-
-    public function resetP()
-    {
-        $this->ifExist();
-
-        $this->highlightIndexP = 0;
-        $this->activeP = false;
-    }
-
-    public function highlightDownP()
-    {
-        if ($this->highlightIndexP + 1 < count($this->projects))
-        {
-            $this->highlightIndexP++;
-            return;
-        }
-        $this->highlightIndexP = 0;
-    }
-
-    public function highlightUpP()
-    {
-        if ($this->highlightIndexP != 0)
-        {
-            $this->highlightIndexP--;
-            return;
-        }
-        $this->highlightIndexP = count($this->projects) - 1;
-    }
-
-    public function selectEnterP()
-    {
-        if (!$this->projects === [])
-        {
-            $this->searchP = $this->projects[$this->highlightIndexP]->name;
-        }
-        $this->resetP();
-    }
-
-    public function selectP(string $name)
-    {
-        $this->searchP = $name;
-        $this->resetP();
-    }
-
     private function ifExist()
     {
-        if (!$this->projects === [])
-        {
+        if (count($this->projects) != 0)
             $this->closestLike = $this->projects[0]->name;
-        }
+        else $this->closestLike = '';
 
         $this->ifExist = false;
         foreach ($this->projects as $project) {
@@ -260,30 +171,22 @@ class AsignProject extends Component
 
     public function render()
     {
-        if ($this->search != '' && $this->active)
-        {
-            $this->users =
-            User::where('name', 'like', '%'.$this->search.'%')
-            ->orWhere('email', 'like', '%'.$this->search.'%')
-            ->take(10)
-            ->get(['id','name','email']);
-            // $this->usersLike($this->search);
-        }
-
-        if (!$this->users === [] && $this->users[0]->name == $this->search)
-        {
-            $this->resetX();
-        }
-
+        $this->getUsersList();
         $this->ifRegistered();
 
-        if ($this->searchP != '' && $this->activeP)
+        //get projects list
+        if ($this->searchP != '')
         {
             $this->bigSameName = true;
             if ($this->theBigProject == '[Make New Big Project]')
             {
                 $this->projects = BigProject::where('name', 'like', '%'.$this->searchP.'%')->where('default',false)->where('PTJ',$this->PTJ)->take(15)->get();
                 $this->bigSameName = BigProject::select('name')->where('name', $this->searchP)->where('default' ,false)->where('PTJ' , '!=', $this->PTJ)->first() === null;
+
+                $big = BigProject::where('name', $this->searchP)->first();
+                if ($big != null){
+                    $this->usersCount = $big->users()->count();
+                }
             }
             else
             {
@@ -296,17 +199,11 @@ class AsignProject extends Component
                 if (count($bigProject) != 0){
                     $this->projects = $bigProject[0]->sub_projects()->where('name', 'like', '%'.$this->searchP.'%')->take(15)->get();
                 }
-            }
 
-            $project = SubProject::where('name', $this->searchP)->first();
-            if ($project != null){
-                $this->usersCount = $project->users()->count();
-            }
-        }
-
-        if (count($this->projects) != 0){
-            if ($this->projects[0]->name == $this->searchP){
-                $this->resetP();
+                $sub = SubProject::where('name', $this->searchP)->first();
+                if ($sub != null){
+                    $this->usersCount = $sub->users()->count();
+                }
             }
         }
 

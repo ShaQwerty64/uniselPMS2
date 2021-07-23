@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -49,5 +50,13 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         // $user->assignRole($role1);
+
+        // create first admin
+        $admin = new User;
+        $admin->name = 'admin';
+        $admin->email = 'admin@admin.pms';
+        $admin->password = '$2y$10$VH97ztJZF7DOR.Gy62ot/u4AOxRGtAEPoX8o9Ingy7Vur10.MQSqi';//12345678
+        $admin->save(); $admin->refresh();
+        $admin->assignRole($role1);
     }
 }

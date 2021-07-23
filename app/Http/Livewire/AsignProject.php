@@ -146,7 +146,7 @@ class AsignProject extends Component
             $request->banner($message, 's', auth()->user()->id,$this->theUser->id,$bigID,$subID,$this->PTJ);
             if (!$this->theUser->hasAnyRole('projMan')){
                 $this->theUser->assignRole('projMan');
-                $request->banner("User '" . $this->theUser->id . "' now a project manager!", '.',auth()->user()->id,$this->theUser->id);
+                $request->banner("User '" . $this->theUser->name . "' now a project manager!", '.',auth()->user()->id,$this->theUser->id);
             }
 
             $this->search = '';

@@ -48,10 +48,14 @@
             <p class="ml-4 mb-0 font-weight-bold"> can add access "Projects Viewer" page to view all the projects.</p>
         </div>
         <div class="d-flex align-items-center">
-            <div class="manager">Project Manager</div>
+            <div class="manager text-center">Project Manager</div>
             <p class="mb-0 font-weight-bold"> will only be assigned to user that have project assigned to them, and can access "Projects Editor" to edit projects that assigned to them.</p>
         </div>
     </div></div></div>
+
+    @role('admin') <div class="col-12"><div class="card"><div class="card-body">
+        @livewire('delete-history')
+    </div></div></div> @endrole
 
     {{-- <div class="col-12"><div class="card"><div class="card-body">
         @livewire('super-admin-access')
